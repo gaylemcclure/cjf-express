@@ -1,5 +1,5 @@
 
-const HeroSection = ({ url }) => {
+const HeroVideoSection = ({ url }) => {
 
   return (
     <>
@@ -28,4 +28,4 @@ const HeroSection = ({ url }) => {
   )
 };
 
-export default HeroSection;
+export default HeroVideoSection;

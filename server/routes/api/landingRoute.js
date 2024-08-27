@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const client = require('../../client');
 
-//Contentful API call to get header data
+//Contentful API call to get landing page data
 router.get("/", async (req, res) => {
   try {
-    client.getEntries({content_type: "cjfLandingPage"}, { include: 3 })
+    client.getEntries({content_type: "cjfLandingPage"}, { include: 100 })
     .then((entry) => {
-      console.log(entry)
+      console.log(entry.items[0].fields.sections[3].fields.majorSponsors)
       res.json(entry)
     })
     .catch((err) => console.log(err))
@@ -16,8 +16,3 @@ router.get("/", async (req, res) => {
 });
 
 module.exports = router;
-
-// client.getEntries({
-//   content_type: '<content_type_id>',
-//   'fields.<field_id>[match]': '<value>'
-// })
