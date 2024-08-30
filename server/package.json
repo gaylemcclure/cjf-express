@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "@apollo/server": "^4.7.1",
+    "@contentful/rich-text-html-renderer": "^16.6.9",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.19.0",
     "contentful": "^10.13.2",

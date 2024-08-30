@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -24,8 +23,12 @@
   --main-gray: #625f5f;
   --light-gray: #f3f4f9;
   --grid-border: rgba(224, 224, 224, 1);
-  --input-border-light:   rgb(0 0 0 / 23%);
-  --yellow: #E6AF2E;
+  --input-border-light: rgb(0 0 0 / 23%);
+  --yellow: #e6af2e;
+  --min-width: 1090px;
+}
+#root {
+  background-color: #f2f2f2;
 }
 
 a {
@@ -34,7 +37,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: #E6AF2E;
+  color: #e6af2e;
 }
 
 body {
@@ -48,6 +51,9 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+p {
+  padding: 0.25rem 0;
 }
 
 button {

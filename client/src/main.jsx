@@ -1,26 +1,22 @@
 // import { StrictMode } from 'react'
 // import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import React from 'react';
+import App from "./App.jsx";
+import "./index.css";
+import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import LandingPage from './pages/landingPage.jsx';
-import VolunteerPage from './pages/volunteerPage.jsx';
-import ErrorPage from './pages/errorPage.jsx'
-
-
-
-// createRoot(document.getElementById('root')).render(
-//   <StrictMode>
-//     <App />
-//   </StrictMode>,
-// )
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LandingPage from "./pages/landingPage.jsx";
+import VolunteerPage from "./pages/volunteerPage.jsx";
+import BandApplications from "./pages/bandApplications.jsx";
+import SupportPage from "./pages/supportPage.jsx";
+import GeneralPage from "./pages/generalPage.jsx";
+import ContactPage from "./pages/contactPage.jsx";
+import ErrorPage from "./pages/errorPage.jsx";
 
 // Define the accessible routes, and which components respond to which URL
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
@@ -29,21 +25,21 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-        path: 'volunteer',
-        element: <VolunteerPage />,
+        path: "volunteer",
+        element: <GeneralPage />,
       },
-      // {
-      //   path: 'solutions',
-      //   element: <SolutionsPage />,
-      // },
-      // {
-      //   path: 'pricing',
-      //   element: <PricingPage />,
-      // },
-      // {
-      //   path: 'login',
-      //   element: <LoginPage />,
-      // },
+      {
+        path: "band-applications",
+        element: <BandApplications />,
+      },
+      {
+        path: "contact",
+        element: <ContactPage />,
+      },
+      {
+        path: "support",
+        element: <GeneralPage />,
+      },
       // {
       //   path: 'signup',
       //   element: <SignupPage />,
@@ -88,14 +84,10 @@ const router = createBrowserRouter([
       //   path: 'home/theme',
       //   element: <ThemePage />
       // },
-
-
     ],
   },
 ]);
 
-
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <RouterProvider router={router} />
-)
-
+);
