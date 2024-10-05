@@ -101,7 +101,6 @@ const BandApplicationModal = () => {
       try {
         const res = await axios.get("/api/page/band-application-questions");
         const data = res;
-        console.log(data);
         setQuestionData(data.data.items);
       } catch (error) {
         console.error(error);
