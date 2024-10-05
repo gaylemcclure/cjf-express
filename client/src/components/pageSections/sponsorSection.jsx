@@ -6,12 +6,16 @@ const SponsorSection = ({ data }) => {
   };
 
   return (
-    <SponsorWrapper className="bg-gray">
+    <SponsorWrapper className="bg-gray pt-12">
       <div className="justify-center">
-        <h1 className="title">{data.headingText}</h1>
+        <h1 className="title text-5xl font-extrabold leading-none tracking-tight text-black flex uppercase ">
+          {data.headingText}
+        </h1>
 
         {/*Major Sponsor section */}
-        <h2 className="subtitle">{data.majorSponsorText}</h2>
+        <h2 className="subtitle text-black font-bold text-4xl pt-4">
+          {data.majorSponsorText}
+        </h2>
         <div className="major-wrapper">
           {data.majorSponsors.map((ms) => {
             const msData = ms.fields.sponsorImage.fields.file;
@@ -27,10 +31,12 @@ const SponsorSection = ({ data }) => {
             );
           })}
         </div>
-
-        <div className="separator justify-center flex m-auto"></div>
-        <h2 className="subtitle">{data.sponsorHeading}</h2>
-        <div className="sponsor-wrapper logo-grid grid grid-cols-2 gap-4 justify-center place-center items-center md:grid-cols-3 tablet:grid-cols-4 xl:grid-cols-5">
+        {/* Sponsor section */}
+        <div className="separator justify-center flex m-auto mb-4"></div>
+        <h2 className="subtitle text-black font-bold text-4xl pt-8 pb-12">
+          {data.sponsorHeading}
+        </h2>
+        <div className="sponsor-wrapper logo-grid grid gap-8 justify-center place-center items-center md:grid-cols-3 tablet:grid-cols-4 xl:grid-cols-5 pb-12">
           {data &&
             data.sponsors.map((sponsor, i) => {
               const sponsorData = sponsor.fields.sponsorImage.fields.file;
@@ -53,18 +59,18 @@ const ImageContainer = styled.img``;
 const SponsorWrapper = styled.div`
   .major-wrapper {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(1, 1fr);
     grid-column-gap: 20px;
     grid-row-gap: 0px;
-    max-width: 1090px;
+    max-width: 1200px;
     margin: 0 auto;
   }
 
   .sponsor-wrapper {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
+    ${"" /* grid-template-rows: repeat(4, 1fr); */}
     grid-column-gap: 40px;
     grid-row-gap: 0px;
     max-width: 1090px;
@@ -72,9 +78,9 @@ const SponsorWrapper = styled.div`
   }
 
   .separator {
-    max-width: 1090px;
+    max-width: 1200px;
     width: 100%;
-    height: 3px;
+    height: 1px;
     background: black;
     border-radius: 4px;
     margin-bottom: 2rem;
@@ -98,19 +104,11 @@ const SponsorWrapper = styled.div`
   }
 
   .title {
-    font-weight: 800;
-    font-size: 4em;
-    color: black;
-    text-transform: uppercase;
     display: flex;
     justify-content: center;
-    padding-top: 2rem;
   }
 
   .subtitle {
-    color: black;
-    font-size: 3em;
-    font-weight: 700;
     display: flex;
     justify-content: center;
   }

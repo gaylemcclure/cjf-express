@@ -37,9 +37,22 @@ const router = createBrowserRouter([
         element: <ContactPage />,
       },
       {
+        path: "about-cjf",
+        element: <GeneralPage />,
+      },
+      {
+        path: "history",
+        element: <GeneralPage />,
+      },
+      {
         path: "support",
         element: <GeneralPage />,
       },
+      {
+        path: "membership",
+        element: <GeneralPage />,
+      },
+
       // {
       //   path: 'signup',
       //   element: <SignupPage />,

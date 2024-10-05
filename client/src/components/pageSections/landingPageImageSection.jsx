@@ -27,7 +27,7 @@ const LandingPageImageSection = ({ data }) => {
   return (
     <>
       {/* Browser view */}
-      <div className="hidden place-content-center tablet:flex bg-gray">
+      <div className="hidden place-content-center tablet:flex bg-ltGray">
         <ImageSection>
           <div className="gallery">
             {imageArr.length !== 0 && (
@@ -47,10 +47,10 @@ const LandingPageImageSection = ({ data }) => {
           </div>
         </ImageSection>
         <div className="band-wrapper flex flex-col justify-center content-center">
-          <h1 className="text-6xl font-extrabold leading-none tracking-tight text-black flex uppercase">
+          <h1 className="text-5xl font-extrabold leading-none tracking-tight text-black flex uppercase">
             {data.headingText}
           </h1>
-          <h3 className="mt-4 text-black text-4xl">{data.subText}</h3>
+          <h3 className="mt-4 text-black text-2xl">{data.subText}</h3>
           <div className="button-container mt-8">
             <Button.LinkButton
               text={data.buttonText}

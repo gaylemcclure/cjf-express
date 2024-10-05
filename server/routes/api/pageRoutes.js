@@ -49,4 +49,22 @@ router.get("/volunteer-applications", async (req, res) => {
   }
 });
 
+//Contentful API call to get band application form questions
+router.get("/band-application-questions", async (req, res) => {
+  try {
+    client
+      .getEntries({
+        content_type: "referenceSection",
+        "fields.title[match]": "Band Application Form",
+        include: 4,
+      })
+      .then((entry) => {
+        res.json(entry);
+      })
+      .catch((err) => console.log(err));
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

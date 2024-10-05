@@ -11,6 +11,7 @@ export default {
       smoke: "#0C0A09",
       ltBlue: "#077eb7",
       gray: "#F2F2F2",
+      ltGray: "#e5e5e9",
     },
     screens: {
       fold: "280px",

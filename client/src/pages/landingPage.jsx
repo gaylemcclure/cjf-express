@@ -5,6 +5,7 @@ import SponsorSection from "../components/pageSections/sponsorSection";
 import { useLandingContext } from "../utils/landingContext";
 import LandingPageImageSection from "../components/pageSections/landingPageImageSection";
 import SingleImageTextSection from "../components/pageSections/singleImageTextSection";
+import SingleImageHeadlineSection from "../components/pageSections/singleImageHeadlineSection";
 
 const LandingPage = () => {
   const { allLanding } = useLandingContext();
@@ -26,7 +27,7 @@ const LandingPage = () => {
       const data = section.fields;
       return <LandingPageImageSection data={data} key={section.sys.id} />;
     }
-    if (contentType === "singleImageTextSection") {
+    if (contentType === "singleImageTextSections") {
       return (
         <SingleImageTextSection
           key={section.sys.id}
@@ -37,6 +38,22 @@ const LandingPage = () => {
           textId={section.sys.id}
           buttonText={section.fields.buttonText}
           buttonLink={section.fields.buttonLink}
+        />
+      );
+    }
+    if (contentType === "singleImageHeadlineSection") {
+      console.log(section);
+      return (
+        <SingleImageHeadlineSection
+          key={section.sys.id}
+          url={section.fields.image.fields.file.url}
+          filename={section.fields.image.fields.file.filename}
+          heading={section.fields.headingText}
+          subtext={section.fields.subText}
+          textId={section.sys.id}
+          buttonText={section.fields.buttonText}
+          buttonLink={section.fields.buttonLink}
+          imageside={section.fields.imageside}
         />
       );
     }

@@ -7,7 +7,9 @@ const PageTextSection = ({
   buttonText,
   buttonLink,
   textId,
+  showCtaButton,
 }) => {
+  console.log(showCtaButton);
   return (
     <>
       <div className="band-wrapper flex flex-col justify-center content-center max-w-screenMax ml-auto mr-auto">
@@ -16,13 +18,15 @@ const PageTextSection = ({
         </h2>
         <h3 className={` justify-center flex text-4xl`}>{subtitle}</h3>
         <SingleTextSection textId={textId} />
-        <div className="button-container mb-16 flex justify-center">
-          <Button.ClickButton
-            text={buttonText}
-            // link="../applications"
-            classNme="flex mt-4 pt-4 pb-4 pl-8 pr-8 uppercase font-semibold"
-          />
-        </div>
+        {showCtaButton && (
+          <div className="button-container mb-16 flex justify-center">
+            <Button.ClickButton
+              text={buttonText}
+              // link="../applications"
+              classNme="flex mt-4 pt-4 pb-4 pl-8 pr-8 uppercase font-semibold"
+            />
+          </div>
+        )}
       </div>
     </>
   );

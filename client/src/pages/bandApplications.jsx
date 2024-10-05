@@ -6,6 +6,7 @@ import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import AccordionComponent from "../components/accordion";
 import BannerHeader from "../components/pageSections/bannerHeader";
 import PageTextSection from "../components/pageSections/pageTextSection";
+import BandApplicationModal from "../components/applications/bandApplicationModal";
 
 const BandApplications = () => {
   const [bandData, setBandData] = useState([]);
@@ -23,27 +24,7 @@ const BandApplications = () => {
     getData();
   }, []);
 
-  // console.log(bandData);
-
-  // const handleParagraphText = (textId) => {
-  //   const client = contentful.createClient({
-  //     space: "b10z0f9dnsdt",
-  //     accessToken: "bYqdQnmfDAq3pW7IRc34GawRTXvvxSUcRiB6pUSpCTg",
-  //   });
-
-  //   client
-  //     .getEntry(textId)
-  //     .then((entry) => {
-  //       const rawRichTextField = entry.fields.pageText;
-  //       return documentToHtmlString(rawRichTextField);
-  //     })
-  //     .then((renderedHtml) => {
-  //       // do something with html, like write to a file
-  //       console.log(renderedHtml);
-  //       document.getElementById("rich-text-body").innerHTML = renderedHtml;
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
+  console.log(bandData);
 
   return (
     <>
@@ -63,13 +44,8 @@ const BandApplications = () => {
                   />
                 );
               }
-              {
-                /*Page info */
-              }
+
               if (data.sys.contentType.sys.id === "pageTextSection") {
-                {
-                  /* handleParagraphText(data.sys.id); */
-                }
                 return (
                   <PageTextSection
                     key={i}
@@ -78,10 +54,16 @@ const BandApplications = () => {
                     textId={data.sys.id}
                     buttonText={data.fields.buttonText}
                     buttonLink={data.fields.buttonLink}
+                    showCtaButton={data.fields.showCtaButton}
                   />
                 );
               }
-              if (data.sys.contentType.sys.id === "accordionSection") {
+
+              if (data.sys.contentType.sys.id === "buttonSection") {
+                return <BandApplicationModal key={i} />;
+              }
+
+              if (data.sys.contentType.sys.id === "referenceSection") {
                 return (
                   <div
                     className="max-w-screenMax mr-auto ml-auto w-full"
@@ -89,7 +71,7 @@ const BandApplications = () => {
                   >
                     <AccordionComponent
                       heading={data.fields.heading}
-                      items={data.fields.accordionItems}
+                      items={data.fields.referenceItems}
                     />
                   </div>
                 );
