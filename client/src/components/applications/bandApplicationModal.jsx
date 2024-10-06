@@ -1,101 +1,70 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-// import { Modal as BaseModal, FormControlLabel } from "@mui/material";
-import clsx from "clsx";
-import { styled, css } from "@mui/system";
-// import { getBands } from "../api/airtable/bandTable/index";
-// import { pagesArr } from "../data/questionPages";
-// import { SendWelcome } from "./serverData";
-// import FormControl from "@mui/joy/FormControl";
-// import FormLabel from "@mui/joy/FormLabel";
-// import Switch from "@mui/joy/Switch";
-// import Modal from "@mui/joy/Modal";
-// import ModalClose from "@mui/joy/ModalClose";
-// import ModalDialog, { ModalDialogProps } from "@mui/joy/ModalDialog";
-// import ModalOverflow from "@mui/joy/ModalOverflow";
-// import Select from "react-select";
-// import makeAnimated from "react-select/animated";
-// import { quatrocento } from "@/app/fonts";
-import { ClickButton, SmallButton, SmallBackButton } from "../buttons";
-// import styles from "@/styles/modalApplication.module.css";
-// import * as Input from "@/app/components/inputs";
-// import * as AppQ from "@/app/components/modalQuestion";
-// import Image from "next/image";
-// import checkIcon from "@/public/tick-icon.png";
-
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-
-// function Example() {
-// const [show, setShow] = useState(false);
-
-// const handleClose = () => setShow(false);
-// const handleShow = () => setShow(true);
-
-//   return (
-//     <>
-// <Button variant="primary" onClick={handleShow}>
-//   Launch demo modal
-// </Button>
-
-// <Modal show={show} onHide={handleClose}>
-//   <Modal.Header closeButton>
-//     <Modal.Title>Modal heading</Modal.Title>
-//   </Modal.Header>
-//   <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
-//   <Modal.Footer>
-//     <Button variant="secondary" onClick={handleClose}>
-//       Close
-//     </Button>
-//     <Button variant="primary" onClick={handleClose}>
-//       Save Changes
-//     </Button>
-//   </Modal.Footer>
-// </Modal>
-//     </>
-//   );
-// }
-
-// export default Example;
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import Feedback from "react-bootstrap/Feedback";
+import { ClickButton } from "../buttons";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import styled from "styled-components";
 
 const BandApplicationModal = () => {
-  const [open, setOpen] = useState(true);
-  const [pages, setPages] = useState("start");
+  const [show, setShow] = useState(false);
+  const [questionData, setQuestionData] = useState([]);
+  const [pages, setPages] = useState(12);
   //Button disabled bools
+  const [applicationDisabled, setApplicationDisabled] = useState(true);
+  const [detailsDisabled, setDetailsDisabled] = useState(true);
   const [contactDisabled, setContactDisabled] = useState(true);
+  const [memberDisabled, setMemberDisabled] = useState(true);
   const [datesDisabled, setdatesDisabled] = useState(true);
-  const [availabilityDisabled, setavailabilityDisabled] = useState(true);
-  const [feesDisabled, setfeesDisabled] = useState(true);
-  const [scheduleDisabled, setscheduleDisabled] = useState(true);
+  const [availabilityDisabled, setAvailabilityDisabled] = useState(true);
+  const [feesDisabled, setFeesDisabled] = useState(true);
+  const [marketingeDisabled, setMarketingDisabled] = useState(true);
+  //Band Details
+  const [bandName, setBandName] = useState("");
+  const [bandStyle, setBandStyle] = useState("");
+  const [bandLink, setBandLink] = useState("");
+  const [aboutBand, setAboutBand] = useState("");
+  //Contact details
+  const [leaderName, setLeaderName] = useState("");
+  const [leaderEmail, setLeaderEmail] = useState("");
+  const [leaderPhone, setLeaderPhone] = useState("");
+  //Member details
+  const [numberMembers, setNumberMembers] = useState();
+  const [membersArr, setMembersArr] = useState([]);
+  const [showNoMembers, setShowNoMembers] = useState(false);
+  const [instrument, setInstrument] = useState({ id: 0, inst: "" });
+  const [musicians, setMusicians] = useState({ id: 0, muso: "" });
+  const [musicianArr, setMusicianArr] = useState([]);
+  //Availability details
+  const [availability, setAvailability] = useState([]);
+  //Fee details
+  const [firstFee, setFirstFee] = useState(0);
+  const [secondFee, setSecondFee] = useState(0);
+  //Marketing details
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [bio, setBio] = useState("");
+  const [upload, setUpload] = useState("");
+
+  //Unused
+  const [allBandData, setAllBandData] = useState();
+  const [bandId, setBandId] = useState();
   //Verification bools
   const [playedBefore, setPlayedBefore] = useState(false);
   const [dataRetrieved, setDataRetrieved] = useState(false);
   const [inputId, setInputId] = useState();
   const [verified, setVerified] = useState(false);
-  //Band data
-  const [allBandData, setAllBandData] = useState();
-  const [bandName, setBandName] = useState("");
-  const [leaderName, setLeaderName] = useState("");
-  const [leaderEmail, setLeaderEmail] = useState("");
-  const [leaderPhone, setLeaderPhone] = useState();
-  const [bandId, setBandId] = useState();
-  const [bandStyle, setBandStyle] = useState();
-  const [availability, setAvailability] = useState();
-  const [websiteUrl, setWebsiteUrl] = useState();
-  const [leaderInstrument, setLeaderInstrument] = useState();
-  const [musicians, setMusicians] = useState();
-  const [bio, setBio] = useState();
-  const [firstFee, setFirstFee] = useState();
-  const [secondFee, setSecondFee] = useState();
-  const [numberMembers, setNumberMembers] = useState();
-  const [upload, setUpload] = useState();
-  const [show, setShow] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [bandValidated, setBandValidated] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const [questionData, setQuestionData] = useState([]);
-
+  //Get data from Contentful
   useEffect(() => {
     const getData = async () => {
       try {
@@ -109,27 +78,356 @@ const BandApplicationModal = () => {
     getData();
   }, []);
 
-  console.log(questionData);
+  //----- DISABLE CHECKS -------
+  //Disable details questions button
+  useEffect(() => {
+    if (bandName !== "" && bandStyle !== "" && bandLink !== "") {
+      setDetailsDisabled(false);
+    }
+  }, [bandName, bandStyle, bandLink]);
 
-  let bandInputData;
+  //Disable contact questions button
+  useEffect(() => {
+    if (leaderEmail !== "" && leaderName !== "" && leaderPhone !== "") {
+      setContactDisabled(false);
+    }
+  }, [leaderEmail, leaderName, leaderPhone]);
 
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
+  //Disable member questions button
+  useEffect(() => {
+    if (numberMembers > 0) {
+      if (Number(numberMembers) === musicianArr.length) {
+        setMemberDisabled(false);
+      }
+    }
+  }, [musicianArr, numberMembers]);
 
-  const handlePage = () => {
-    pagesArr.map((page) => {
-      if (page.current === pages) {
-        setPages(page.next);
+  //Disable availability questions button
+  useEffect(() => {
+    if (availability.length > 0) {
+      setAvailabilityDisabled(false);
+    }
+  }, [availability]);
+
+  //Disable fees questions button
+  useEffect(() => {
+    if (firstFee !== 0 && secondFee !== 0) {
+      setFeesDisabled(false);
+    }
+  }, [firstFee, secondFee]);
+
+  //Disable marketing questions button
+  useEffect(() => {
+    if (bio !== "" && websiteUrl !== "" && upload !== "") {
+      setMarketingDisabled(false);
+    }
+  }, [bio, websiteUrl, upload]);
+
+  //----- INPUT VERIFICATION CHECKS -------
+  //Detail input verifications
+  const handleDetailsPage = (e) => {
+    const bn = document.getElementById("Band Name").querySelector("div");
+    const bs = document.getElementById("Band Style").querySelector("div");
+    const lnk = document.getElementById("Links to band music").querySelector("div");
+
+    if (bandName === "") {
+      bn.style.display = "flex";
+    }
+    if (bandName !== "") {
+      bn.style.display = "none";
+    }
+    if (bandStyle === "") {
+      bs.style.display = "flex";
+    }
+    if (bandStyle !== "") {
+      bs.style.display = "none";
+    }
+    if (bandLink === "") {
+      lnk.style.display = "flex";
+    }
+    if (bandLink !== "") {
+      lnk.style.display = "none";
+    }
+
+    setPages(pages + 1);
+  };
+
+  //Contact input verifications
+  const handleContactPage = (e) => {
+    const bln = document.getElementById("Band Leader Name").querySelector("div");
+    const ble = document.getElementById("Band Leader Email").querySelector("div");
+    const blp = document.getElementById("Band Leader Phone").querySelector("div");
+
+    if (leaderName === "") {
+      bln.style.display = "flex";
+    }
+    if (leaderName !== "") {
+      bln.style.display = "none";
+    }
+    if (leaderEmail === "") {
+      ble.style.display = "flex";
+    }
+    if (leaderEmail !== "") {
+      ble.style.display = "none";
+    }
+    if (leaderPhone === "") {
+      blp.style.display = "flex";
+    }
+    if (leaderPhone !== "") {
+      blp.style.display = "none";
+    }
+
+    setPages(pages + 1);
+  };
+
+  //Member input verifications
+  const handleMemberPage = (e) => {
+    const bn = document.getElementById("Band Name").querySelector("div");
+    const bs = document.getElementById("Band Style").querySelector("div");
+    const lnk = document.getElementById("Links to band music").querySelector("div");
+
+    if (bandName === "") {
+      bn.style.display = "flex";
+    }
+    if (bandName !== "") {
+      bn.style.display = "none";
+    }
+    if (bandStyle === "") {
+      bs.style.display = "flex";
+    }
+    if (bandStyle !== "") {
+      bs.style.display = "none";
+    }
+    if (bandLink === "") {
+      lnk.style.display = "flex";
+    }
+    if (bandLink !== "") {
+      lnk.style.display = "none";
+    }
+
+    setPages(pages + 1);
+  };
+
+  //Availability input verifications
+  const handleAvailabilityPage = (e) => {
+    const bn = document.getElementById("Band Name").querySelector("div");
+    const bs = document.getElementById("Band Style").querySelector("div");
+    const lnk = document.getElementById("Links to band music").querySelector("div");
+
+    if (bandName === "") {
+      bn.style.display = "flex";
+    }
+    if (bandName !== "") {
+      bn.style.display = "none";
+    }
+    if (bandStyle === "") {
+      bs.style.display = "flex";
+    }
+    if (bandStyle !== "") {
+      bs.style.display = "none";
+    }
+    if (bandLink === "") {
+      lnk.style.display = "flex";
+    }
+    if (bandLink !== "") {
+      lnk.style.display = "none";
+    }
+
+    setPages(pages + 1);
+  };
+
+  //Fees input verifications
+  const handleFeesPage = (e) => {
+    const bn = document.getElementById("Band Name").querySelector("div");
+    const bs = document.getElementById("Band Style").querySelector("div");
+    const lnk = document.getElementById("Links to band music").querySelector("div");
+
+    if (bandName === "") {
+      bn.style.display = "flex";
+    }
+    if (bandName !== "") {
+      bn.style.display = "none";
+    }
+    if (bandStyle === "") {
+      bs.style.display = "flex";
+    }
+    if (bandStyle !== "") {
+      bs.style.display = "none";
+    }
+    if (bandLink === "") {
+      lnk.style.display = "flex";
+    }
+    if (bandLink !== "") {
+      lnk.style.display = "none";
+    }
+
+    setPages(pages + 1);
+  };
+
+  //Marketing input verifications
+  const handleMarketingPage = (e) => {
+    const bn = document.getElementById("Band Name").querySelector("div");
+    const bs = document.getElementById("Band Style").querySelector("div");
+    const lnk = document.getElementById("Links to band music").querySelector("div");
+
+    if (bandName === "") {
+      bn.style.display = "flex";
+    }
+    if (bandName !== "") {
+      bn.style.display = "none";
+    }
+    if (bandStyle === "") {
+      bs.style.display = "flex";
+    }
+    if (bandStyle !== "") {
+      bs.style.display = "none";
+    }
+    if (bandLink === "") {
+      lnk.style.display = "flex";
+    }
+    if (bandLink !== "") {
+      lnk.style.display = "none";
+    }
+
+    setPages(pages + 1);
+  };
+
+  // ------- PAGE NAVIGATION --------
+  const handlePageForward = () => {
+    setPages(pages + 1);
+  };
+
+  const handlePageBack = () => {
+    setPages(pages - 1);
+  };
+
+  const handlePreQPage = () => {
+    setPages(pages + 1);
+    setApplicationDisabled(!applicationDisabled);
+  };
+
+  //Create number of required fields for member input
+  const createNumberMembers = (number) => {
+    const numberArr = [];
+    for (let i = 0; i < number; i++) {
+      numberArr.push(i + 1);
+    }
+    setMembersArr(numberArr);
+    setShowNoMembers(true);
+    setMusicians({ id: 0, muso: "" });
+    setInstrument({ id: 0, inst: "" });
+    setMusicianArr([]);
+    const mem = document.getElementById(`member-1`);
+    if (mem) {
+      numberArr.map((num) => {
+        document.getElementById(`member-${num}`).value = "";
+        document.getElementById(`inst-${num}`).value = "";
+      });
+    }
+  };
+
+  const handleMultipleMembers = (mem) => {
+    if (musicians.id > 0 && instrument.id > 0) {
+      //Update the save button
+      const button = document.getElementById(`member-save-${mem}`);
+      button.classList.remove("bg-black");
+      button.classList.add("bg-success");
+      button.innerHTML = "saved";
+      //Show the next option
+      const nextRow = mem + 1;
+
+      const nextMem = document.getElementById(`member-group-${nextRow}`);
+      const nextInst = document.getElementById(`inst-group-${nextRow}`);
+      if (nextMem) {
+        console.log(nextMem);
+        nextMem.classList.remove("hidden");
+        nextInst.classList.remove("hidden");
+      }
+
+      if (musicianArr.length > 0) {
+        const newData = musicianArr.map((m) => {
+          if (mem !== m.id) {
+            return m;
+          } else {
+            if (musicians.id === mem && instrument.id === mem) {
+              console.log("no change");
+              return m;
+            } else if (musicians.id !== mem && instrument.id === mem) {
+              console.log("change musician only");
+              return {
+                ...m,
+                musician: musicians.muso,
+              };
+            } else if (musicians.id === mem && instrument.id !== mem) {
+              console.log("change instrument only");
+              return {
+                ...m,
+                instrument: instrument.inst,
+              };
+            } else if (musicians.id !== mem && instrument.id !== mem) {
+              console.log("change musician & instrument");
+              return {
+                ...m,
+                musician: musicians.muso,
+                instrument: instrument.inst,
+              };
+            }
+
+            // return setMusicianArr({ ...musicianArr, musician: musicians, instrument: instrument });
+            //   return setMusicianArr([...musicianArr, { id: mem, musician: musicians, instrument: instrument }]);
+            // } else {
+            // return {
+            //   ...musicianArr,
+            //   id: mem,
+            //   musician: musicians,
+            //   instrument: instrument,
+            // };
+          }
+          //New arr changes go here
+          setMusicianArr(newData);
+        });
+        //Adding new obj goes here
+        setMusicianArr([...musicianArr, { id: mem, musician: musicians.muso, instrument: instrument.inst }]);
+      } else {
+        setMusicianArr([{ id: mem, musician: musicians.muso, instrument: instrument.inst }]);
+      }
+    }
+  };
+
+  const handleAvailability = (opts) => {
+    setAvailability((prevAvailability) => {
+      // If the array is empty, save the data in the array
+      if (prevAvailability.length === 0) {
+        return [opts];
+      }
+      // Check if the data already exists in the array
+      const index = prevAvailability.indexOf(opts);
+      if (index !== -1) {
+        // If new data matches old data, remove it from the array
+        return prevAvailability.filter((item) => item !== opts);
+      } else {
+        // If data doesn't exist, add it to the array
+        return [...prevAvailability, opts];
       }
     });
   };
 
-  const handlePageBack = () => {
-    pagesArr.map((page) => {
-      if (page.current === pages) {
-        setPages(page.previous);
-      }
-    });
+  const handleSubmit = () => {
+    console.log(bandName);
+    console.log(bandStyle);
+    console.log(bandLink);
+    console.log(aboutBand);
+    console.log(leaderName);
+    console.log(leaderEmail);
+    console.log(leaderPhone);
+    console.log(numberMembers);
+    console.log(musicianArr);
+    console.log(availability);
+    console.log(firstFee);
+    console.log(secondFee);
+    console.log(bio);
+    console.log(websiteUrl);
+    console.log(upload);
   };
 
   // const TestSend = () => {
@@ -143,377 +441,472 @@ const BandApplicationModal = () => {
   //   );
   // };
 
-  // const retrieveBandData = async () => {
-  //   bandInputData = await getBands(bandName);
-  //   if (bandInputData) {
-  //     setBandId(bandInputData[0].id);
-  //     setAllBandData(bandInputData[0].fields);
-  //     setDataRetrieved(true);
-  //     // TestSend();
-  //   }
-  // };
-
-  const setContactButton = () => {
-    setContactDisabled(false);
-  };
-  const setDateButton = () => {
-    setdatesDisabled(false);
-  };
-  const setAvailabilityButton = () => {
-    setavailabilityDisabled(false);
-  };
-  const setFeesButton = () => {
-    setfeesDisabled(false);
-  };
-
-  const setScheduleButton = () => {
-    setscheduleDisabled(false);
-  };
-
-  const updateBandData = () => {
-    if (bandId === inputId) {
-      setVerified(true);
-    }
-    setPlayedBefore(false);
-    setDataRetrieved(false);
-  };
-
   return (
-    <div>
-      {/* <div className="button-container pb-8">
-        <ClickButton click={handleOpen} text="Apply Now" />
-      </div> */}
+    <>
+      {questionData.length !== 0 && (
+        <>
+          <ClickButton text="Apply now" click={handleShow} classNme="" />
 
-      <Button variant="primary" onClick={handleShow}>
-        Launch demo modal
-      </Button>
+          <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[38rem] pl-8 pr-8">
+            <>
+              {questionData[0].fields.referenceItems.map((question) => {
+                if (question.fields.pageNumber === pages) {
+                  return (
+                    <>
+                      <Modal.Header closeButton>
+                        <Modal.Title>{question.fields.title}</Modal.Title>
+                      </Modal.Header>
+                      {question.sys.contentType.sys.id === "applicationQuestion" && (
+                        <>
+                          <Modal.Body>
+                            <div>{documentToReactComponents(question.fields.preQuestionText)}</div>
+                            <ModalWrapper>
+                              <Form.Group className="mb-3 pt-8">
+                                {/* <Form.Control size="lg"> */}
+                                <Form.Check
+                                  required
+                                  label={question.fields.checkboxLabel}
+                                  feedback="You must agree before continuing."
+                                  feedbackType="invalid"
+                                  onChange={(e) => setApplicationDisabled(!applicationDisabled)}
+                                />
+                                {/* </Form.Control> */}
+                              </Form.Group>
+                            </ModalWrapper>
+                          </Modal.Body>
 
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* <Modal
-        aria-labelledby="unstyled-modal-title"
-        aria-describedby="unstyled-modal-description"
-        open={open}
-        onClose={handleClose}
-        // slots={{ backdrop: StyledBackdrop}}
-      > */}
-      {/* <ModalOverflow>
-          <ModalDialog sx={{ width: 800 }}>
-            {pages === "start" && (
-              <>
-                <AppQ.FirstQuestion
-                  title="Band Application:"
-                  subtitle="Castlemaine Jazz Festival"
-                  year="2024"
-                  text="Please read and accept all the guidelines in the form before submitting your application. Only one application is required per band, to be completed by the Band Leader. This application registers your interest in playing at the Castlemaine Jazz Festival and does not guarantee any performances."
-                  click={handlePage}
-                />
-                <button onClick={() => setPages("questions")}>
-                  Skip Question Hack
-                </button>
-              </>
-            )}
-            {pages === "contact" && (
-              <AppQ.Questions
-                title="Terms & Conditions"
-                text="Please complete all form fields in full. Correct contact details are important to ensure that any festival matters can be dealt with promptly. Please ensure you provide full names and instruments for all band members."
-                check={() => setContactButton()}
-                label="I agree to provide correct details for all band members"
-                back={handlePageBack}
-                forward={handlePage}
-                disabled={contactDisabled}
-              />
-            )}
-            {pages === "dates" && (
-              <AppQ.Questions
-                title="Festival Dates & Performance Times"
-                text="The festival will run from Friday 7th June to Sunday 9th June 2024. The target of the Festival Committee is to allocate two performance slots to each band in consultation with the band. The Committee reserves the right to allocate band performance times and locations according to venue and time limitations."
-                check={() => setDateButton()}
-                label="I agree to the dates and performance allocations"
-                back={handlePageBack}
-                forward={handlePage}
-                disabled={datesDisabled}
-              />
-            )}
-            {pages === "availability" && (
-              <AppQ.Questions
-                title="Availability"
-                text="The information on your band's availability is necessary to ensure that scheduling conflicts do notoccur. It is proposed that each band will play up to two performances of 60 minutes each."
-                check={() => setAvailabilityButton()}
-                label="I agree to provide my correct availability"
-                back={handlePageBack}
-                forward={handlePage}
-                disabled={availabilityDisabled}
-              />
-            )}
-            {pages === "fees" && (
-              <AppQ.Questions
-                title="Fees"
-                text="Please nominate a fee you wish to be paid for a single one-hour performance and a fee for a secondone-hour performance at the festival. While we have a very restricted budget we will include as manybands as possible. However not all applications can be accepted."
-                check={() => setFeesButton()}
-                label="I agree to the dates and performance allocations"
-                back={handlePageBack}
-                forward={handlePage}
-                disabled={feesDisabled}
-              />
-            )}
-            {pages === "scheduling" && (
-              <AppQ.Questions
-                title="Scheduling"
-                text="We will let you know if your application has been successful before 31st January 2024. Band Leaders
-                        should take note that no musician can apply to perform in more than three bands. We acknowledge that
-                        changes are inevitable; and if there is any variation in the band's line-up and/or band availability,
-                        the Band Leader should advise the Committee as soon as possible. If for any reason you are unable to
-                        attend your session, please notify the Committee as soon as possible. Any request to change performance
-                        times within 60 days of the festival may be refused due to print and programming requirements.."
-                check={() => setScheduleButton()}
-                label="I agree to the dates and performance allocations"
-                back={handlePageBack}
-                forward={handlePage}
-                disabled={scheduleDisabled}
-              />
-            )}
-            {pages === "questions" && (
-              <>
-                <h1 className="justify-center flex uppercase text-black text-4xl font-extrabold pb-8">
-                  Band Details
-                </h1>
-
-                <Input.TextInput
-                  label="Band Name"
-                  id="band-name"
-                  txtname="band-name"
-                  change={(e) => setBandName(e.target.value)}
-                />
-
-                <Input.EmailInput
-                  label="Band Leader Email"
-                  id="band-email"
-                  emlname="band-email"
-                  change={(e) => setLeaderEmail(e.target.value)}
-                />
-                <div>
-                  <div className="flex">
-                    <p className="mr-4 block text-sm font-medium leading-6 text-gray-900">
-                      Have you applied for a previous festival ?{" "}
-                    </p>
-                    <div className={`${styles.help_tip}`}>
-                      <p className="">
-                        If you have applied previously, we may be able to
-                        retrieve saved information to help complete your
-                        application.
-                      </p>
-                    </div>
-                  </div>
-                  <FormControlLabel
-                    label=""
-                    labelPlacement="start"
-                    control={
-                      <Switch
-                        checked={playedBefore}
-                        onChange={() => setPlayedBefore(!playedBefore)}
-                      />
-                    }
-                  />
-                </div>
-
-                {playedBefore === true && (
-                  <>
-                    <div className="flex ">
-                      <div className="mr-4">
-                        Retrieve previous application data?
-                      </div>
-                      <div className={`${styles.help_tip}`}>
-                        <p>
-                          Please check your email address is correct, and we
-                          will send you a code via email to retrieve your
-                          details.
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex gap-4">
-                      <button
-                        type="button"
-                        onClick={retrieveBandData}
-                        className={`${styles.select_btn} bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}
-                      >
-                        YES
-                      </button>
-                      <button
-                        type="button"
-                        // onClick={}
-                        className={`${styles.select_btn} bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}
-                      >
-                        NO
-                      </button>
-                    </div>
-                  </>
-                )}
-                {dataRetrieved === true && (
-                  <>
-                    <p>
-                      If the Band Name, Band Leader Name and Band Leader Email
-                      match an application in the system, an email has been sent
-                      to your selected email address with a code. Input the code
-                      in the Band Id field and click retrieve to auto populate
-                      your application. You can update the information provided
-                      and this will be saved for your new application
-                    </p>
-                    <Input.TextInput
-                      label="Band Leader Name"
-                      id="band-leader"
-                      txtname="band-leader"
-                      change={(e) => setLeaderName(e.target.value)}
-                    />
-                    <Input.TextInput
-                      label="Band Id"
-                      id="band-id"
-                      txtname="band-id"
-                      change={(e) => setInputId(e.target.value)}
-                    />
-                    <button
-                      type="button"
-                      onClick={updateBandData}
-                      className={`${styles.select_btn} bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded`}
-                    >
-                      Retrieve application data
-                    </button>
-                  </>
-                )}
-                {verified === true && (
-                  <>
-                    <Input.ValueTextInput
-                      label="Band Leader Phone"
-                      id="band-phone"
-                      txtname="band-phone"
-                      change={(e) => setLeaderPhone(e.target.value)}
-                      value={allBandData.Band_Leader_Phone}
-                    />
-                    <Input.ValueTextInput
-                      label="Band Style"
-                      id="band-style"
-                      txtname="band-style"
-                      change={(e) => setBandStyle(e.target.value)}
-                      value={allBandData.Jazz_Style}
-                    />
-                    <Input.ValueTextInput
-                      label="Band Leader Instrument"
-                      id="band-instrument"
-                      txtname="band-instrument"
-                      change={(e) => setLeaderInstrument(e.target.value)}
-                      value={allBandData.Band_Leader_Instrument}
-                    />
-                    <Input.ValueTextInput
-                      label="Availability **TO FILL OUT"
-                      id="band-availability"
-                      txtname="band-availability"
-                      change={(e) => setAvailability(e.target.value)}
-                      value=""
-                    />
-                    <Input.ValueTextInput
-                      label="Band Website"
-                      id="band-url"
-                      txtname="band-url"
-                      change={(e) => setWebsiteUrl(e.target.value)}
-                      value={allBandData.Band_Website}
-                    />
-                    <Input.ValueTextInput
-                      label="Musicians **SORT OUT MULTI SELECT"
-                      id="musicians"
-                      txtname="musicians"
-                      change={(e) => setMusicians(e.target.value)}
-                      value=""
-                    />
-                    <Input.ValueTextInput
-                      label="Band Bio"
-                      id="band-bio"
-                      txtname="band-bio"
-                      change={(e) => setInputId(e.target.value)}
-                      value={allBandData.Other_Info}
-                    />
-                    <Input.ValueTextInput
-                      label="First Fee **TO FILL OUT"
-                      id="first-fee"
-                      txtname="first-fee"
-                      change={(e) => setFirstFee(e.target.value)}
-                      value=""
-                    />
-                    <Input.ValueTextInput
-                      label="Second Fee **TO FILL OUT"
-                      id="second-fee"
-                      txtname="second-fee"
-                      change={(e) => setSecondFee(e.target.value)}
-                      value=""
-                    />
-                    <Input.ValueTextInput
-                      label="Band Image (to be used for marketing purposes) **FIGURE OUT IMAGES"
-                      id="band-img"
-                      txtname="band-img"
-                      change={(e) => setUpload(e.target.value)}
-                      value=""
-                    />
-                  </>
-                )}
-              </>
-            )}
-            {pages === "submit" && (
-              <p>Thank you for submitting your volunteer application.</p>
-            )}
-          </ModalDialog>
-        </ModalOverflow> */}
-      {/* </Modal> */}
-    </div>
+                          <Modal.Footer>
+                            <Button disabled={applicationDisabled} onClick={handlePreQPage}>
+                              Next
+                            </Button>
+                          </Modal.Footer>
+                        </>
+                      )}
+                      {/* Application form question section */}
+                      <>
+                        {question.sys.contentType.sys.id === "referenceSection" && (
+                          <>
+                            {question.fields.title === "Band Application: Band Details" && (
+                              <>
+                                <Modal.Body>
+                                  {question.fields.referenceItems.map((q) => (
+                                    <>
+                                      {q.fields.isInput && q.fields.inputType === "text" && (
+                                        <Form.Group md="6" className="mb-8" id={q.fields.inputLabel}>
+                                          <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                          <Form.Control
+                                            type="text"
+                                            placeholder="A Band Name"
+                                            required
+                                            onChange={(e) => setBandName(e.target.value)}
+                                            value={bandName}
+                                          />
+                                          <Form.Control.Feedback type="invalid">Please provide a band name.</Form.Control.Feedback>
+                                        </Form.Group>
+                                      )}
+                                      {q.fields.isInput && q.fields.inputType === "dropdown" && (
+                                        <Form.Group className="mb-8" id={q.fields.inputLabel}>
+                                          <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                          <Form.Select
+                                            aria-label="band style"
+                                            value={bandStyle}
+                                            required
+                                            onChange={(e) => setBandStyle(e.currentTarget.value)}
+                                            feedback="You must agree before submitting."
+                                            feedbackType="invalid"
+                                          >
+                                            <option value="" className="opacity-30">
+                                              Select ...
+                                            </option>
+                                            {q.fields.dropdownOptions.map((opts) => (
+                                              <option value={opts}>{opts}</option>
+                                            ))}
+                                          </Form.Select>
+                                          <Form.Control.Feedback type="invalid">Please select a band style</Form.Control.Feedback>
+                                        </Form.Group>
+                                      )}
+                                      {q.fields.isInput && q.fields.inputType === "url" && (
+                                        <Form.Group className="mb-8" id={q.fields.inputLabel}>
+                                          <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                          <Form.Control
+                                            type="url"
+                                            value={bandLink}
+                                            placeholder="https://www.soundcloud.com"
+                                            onChange={(e) => setBandLink(e.target.value)}
+                                            required
+                                            feedback="You must agree before submitting."
+                                            feedbackType="invalid"
+                                          />
+                                          <Form.Control.Feedback type="invalid">Please provide a link to your band's music.</Form.Control.Feedback>
+                                        </Form.Group>
+                                      )}
+                                      {q.fields.isInput && q.fields.inputType === "Large text area" && (
+                                        <Form.Group className="mb-8" id={q.fields.inputLabel}>
+                                          <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                          <Form.Control
+                                            as="textarea"
+                                            rows={3}
+                                            placeholder="Anything you would like us to know..."
+                                            value={aboutBand}
+                                            onChange={(e) => setAboutBand(e.target.value)}
+                                            // required
+                                            // feedback="You must agree before submitting."
+                                            // feedbackType="invalid"
+                                          />
+                                          {/* <Form.Control.Feedback type="invalid">
+                                            Please provide some information about your band.
+                                          </Form.Control.Feedback> */}
+                                        </Form.Group>
+                                      )}
+                                    </>
+                                  ))}
+                                </Modal.Body>
+                                <Modal.Footer>
+                                  <Button type="submit" disabled={detailsDisabled} onClick={handleDetailsPage}>
+                                    Next
+                                  </Button>
+                                </Modal.Footer>
+                              </>
+                            )}
+                            <>
+                              {question.fields.title === "Band Application: Contact Details" && (
+                                <>
+                                  <Modal.Body>
+                                    {question.fields.referenceItems.map((q) => (
+                                      <>
+                                        {q.fields.isInput && q.fields.inputType === "text" && (
+                                          <Form.Group md="6" className="mb-8" id={q.fields.inputLabel}>
+                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Control
+                                              type="text"
+                                              placeholder="Jane Doe"
+                                              required
+                                              value={leaderName}
+                                              onChange={(e) => setLeaderName(e.target.value)}
+                                            />
+                                            <Form.Control.Feedback type="invalid">Please provide a band leader's name.</Form.Control.Feedback>
+                                          </Form.Group>
+                                        )}
+                                        {q.fields.isInput && q.fields.inputType === "email" && (
+                                          <Form.Group md="6" className="mb-8" id={q.fields.inputLabel}>
+                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Control
+                                              type="email"
+                                              placeholder="j.doe@email.com"
+                                              required
+                                              value={leaderEmail}
+                                              onChange={(e) => setLeaderEmail(e.target.value)}
+                                            />
+                                            <Form.Control.Feedback type="invalid">Please provide a band leader's email.</Form.Control.Feedback>
+                                          </Form.Group>
+                                        )}
+                                        {q.fields.isInput && q.fields.inputType === "tel" && (
+                                          <Form.Group className="mb-8" id={q.fields.inputLabel}>
+                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Control
+                                              type="tel"
+                                              value={leaderPhone}
+                                              placeholder="0444 444 444"
+                                              onChange={(e) => setLeaderPhone(e.target.value)}
+                                              required
+                                            />
+                                            <Form.Control.Feedback type="invalid">Please provide a valid phone number.</Form.Control.Feedback>
+                                          </Form.Group>
+                                        )}
+                                      </>
+                                    ))}
+                                  </Modal.Body>
+                                  <Modal.Footer>
+                                    <Button variant="secondary" onClick={handlePageBack}>
+                                      Back
+                                    </Button>
+                                    <Button disabled={contactDisabled} onClick={handleContactPage} type="submit">
+                                      Next
+                                    </Button>
+                                  </Modal.Footer>
+                                </>
+                              )}
+                            </>
+                            <>
+                              {question.fields.title === "Band Application: Band Members" && (
+                                <>
+                                  <Modal.Body>
+                                    <h3 className="font-lg font-bold mb-8">{question.fields.subtitle}</h3>
+                                    {question.fields.referenceItems.map((q) => (
+                                      <>
+                                        {q.fields.isInput && q.fields.inputType === "number" && (
+                                          <Form.Group md="6" className="mb-8" id={q.fields.inputLabel}>
+                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <InputGroup className="mb-3">
+                                              <Form.Control
+                                                placeholder="1"
+                                                value={numberMembers}
+                                                aria-label="number members"
+                                                type="number"
+                                                onChange={(e) => setNumberMembers(e.target.value)}
+                                              />
+                                              <Button variant="dark" id="number-members" onClick={() => createNumberMembers(numberMembers)}>
+                                                Confirm
+                                              </Button>
+                                            </InputGroup>
+                                          </Form.Group>
+                                        )}
+                                        {q.fields.title === "Member Name" && (
+                                          <Row className="mb-1 member-inputs">
+                                            {showNoMembers && (
+                                              <>
+                                                {/* <div className="members"> */}
+                                                {membersArr.map((mem) => (
+                                                  <>
+                                                    <Form.Group
+                                                      as={Col}
+                                                      md="6"
+                                                      id={`member-group-${mem}`}
+                                                      className={mem === 1 ? "member mb-2" : "member mb-2 hidden"}
+                                                    >
+                                                      <Form.Label>Member {mem}'s full name</Form.Label>
+                                                      <Form.Control
+                                                        type="text"
+                                                        placeholder="Jane Doe"
+                                                        required
+                                                        id={`member-${mem}`}
+                                                        onChange={(e) => setMusicians({ id: mem, muso: e.target.value })}
+                                                      />
+                                                      <Form.Control.Feedback type="invalid">
+                                                        Please provide a band leader's name.
+                                                      </Form.Control.Feedback>
+                                                    </Form.Group>
+                                                    <Form.Group
+                                                      as={Col}
+                                                      md="6"
+                                                      id={`inst-group-${mem}`}
+                                                      className={mem === 1 ? "instrument mb-6" : "instrument mb-6 hidden"}
+                                                    >
+                                                      <Form.Label>Member {mem}'s Instrument</Form.Label>
+                                                      <InputGroup className="mb-3">
+                                                        <Form.Select
+                                                          aria-label="band style"
+                                                          required
+                                                          onChange={(e) => setInstrument({ id: mem, inst: e.target.value })}
+                                                          feedback="You must agree before submitting."
+                                                          feedbackType="invalid"
+                                                          id={`inst-${mem}`}
+                                                        >
+                                                          <option value="">Select ...</option>
+                                                          <option value="Vocals">Vocals</option>
+                                                          <option value="Guitar">Guitar</option>
+                                                          <option value="Bass">Bass</option>
+                                                          <option value="Double Bass">Double Bass</option>
+                                                          <option value="Drums">Drums</option>
+                                                          <option value="Percussion">Percussion</option>
+                                                          <option value="Piano">Piano</option>
+                                                          <option value="Keyboard">Keyboard</option>
+                                                          <option value="Saxophone">Saxophone</option>
+                                                          <option value="Trombone">Trombone</option>
+                                                          <option value="Trumpet">Trumpet</option>
+                                                          <option value="Clarinet">Clarinet</option>
+                                                          <option value="Flute">Flute</option>
+                                                          <option value="Other">Other</option>
+                                                        </Form.Select>
+                                                        <Form.Control.Feedback type="invalid">Please select a band style</Form.Control.Feedback>
+                                                        <Button
+                                                          variant="dark"
+                                                          className="bg-black"
+                                                          id={`member-save-${mem}`}
+                                                          onClick={() => handleMultipleMembers(mem)}
+                                                        >
+                                                          Save
+                                                        </Button>
+                                                      </InputGroup>
+                                                    </Form.Group>
+                                                  </>
+                                                ))}
+                                              </>
+                                            )}
+                                          </Row>
+                                        )}
+                                      </>
+                                    ))}
+                                  </Modal.Body>
+                                  <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleClose}>
+                                      Cancel
+                                    </Button>
+                                    <Button variant="secondary" onClick={handlePageBack}>
+                                      Back
+                                    </Button>
+                                    <Button type="submit" disabled={memberDisabled} onClick={handlePageForward}>
+                                      Next
+                                    </Button>
+                                  </Modal.Footer>
+                                </>
+                              )}
+                            </>
+                            <>
+                              {question.fields.title === "Band Application: Availability" && (
+                                <>
+                                  <Modal.Body>
+                                    <h3 className="font-bold text-lg pb-8">{question.fields.subtitle}</h3>
+                                    {question.fields.referenceItems.map((q) => (
+                                      <>
+                                        {q.fields.isInput && q.fields.inputType === "Multi select" && (
+                                          <Form.Group className="mb-3">
+                                            {q.fields.multiSelectOptions.map((opts) => (
+                                              <Form.Check label={opts} value={opts} onChange={(e) => handleAvailability(e.currentTarget.value)} />
+                                            ))}
+                                          </Form.Group>
+                                        )}
+                                      </>
+                                    ))}
+                                  </Modal.Body>
+                                  <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleClose}>
+                                      Cancel
+                                    </Button>
+                                    <Button variant="secondary" onClick={handlePageBack}>
+                                      Back
+                                    </Button>
+                                    <Button type="submit" disabled={availabilityDisabled} onClick={handlePageForward}>
+                                      Next
+                                    </Button>
+                                  </Modal.Footer>
+                                </>
+                              )}
+                            </>
+                            <>
+                              {question.fields.title === "Band Application: Fees" && (
+                                <>
+                                  <Modal.Body>
+                                    {question.fields.referenceItems.map((q) => (
+                                      <Form.Group className="mb-3">
+                                        <>
+                                          {q.fields.title === "First fee" && (
+                                            <div>
+                                              <label className="block text-sm font-medium leading-6 text-gray-900">{q.fields.inputLabel}</label>
+                                              <InputGroup className="mb-3">
+                                                <InputGroup.Text>$</InputGroup.Text>
+                                                <Form.Control
+                                                  aria-label="Amount (to the nearest dollar)"
+                                                  onChange={(e) => setFirstFee(e.target.value)}
+                                                  value={firstFee}
+                                                />
+                                              </InputGroup>
+                                            </div>
+                                          )}
+                                        </>
+                                        <>
+                                          {q.fields.title === "Second fee" && (
+                                            <div>
+                                              <label className="block text-sm font-medium leading-6 text-gray-900">{q.fields.inputLabel}</label>
+                                              <InputGroup className="mb-3">
+                                                <InputGroup.Text>$</InputGroup.Text>
+                                                <Form.Control
+                                                  aria-label="Amount (to the nearest dollar)"
+                                                  value={secondFee}
+                                                  onChange={(e) => setSecondFee(e.currentTarget.value)}
+                                                />
+                                              </InputGroup>
+                                            </div>
+                                          )}
+                                        </>
+                                      </Form.Group>
+                                    ))}
+                                  </Modal.Body>
+                                  <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleClose}>
+                                      Cancel
+                                    </Button>
+                                    <Button variant="secondary" onClick={handlePageBack}>
+                                      Back
+                                    </Button>
+                                    <Button type="submit" disabled={feesDisabled} onClick={handlePageForward}>
+                                      Next
+                                    </Button>
+                                  </Modal.Footer>
+                                </>
+                              )}
+                            </>
+                            <>
+                              {question.fields.title === "Band Application: Marketing" && (
+                                <>
+                                  <Modal.Body>
+                                    {question.fields.referenceItems.map((q) => (
+                                      <>
+                                        {q.fields.isInput && q.fields.inputType === "Large text area" && (
+                                          <Form.Group className="mb-3" controlId={q.fields.inputLabel}>
+                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Control
+                                              as="textarea"
+                                              rows={3}
+                                              value={bio}
+                                              placeholder="Band bio used for marketing..."
+                                              onChange={(e) => setBio(e.target.value)}
+                                              required
+                                              // feedback="You must agree before submitting."
+                                              // feedbackType="invalid"
+                                            />
+                                          </Form.Group>
+                                        )}
+                                        {q.fields.isInput && q.fields.inputType === "url" && (
+                                          <Form.Group md="6" controlId={q.fields.inputLabel}>
+                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Control
+                                              type="text"
+                                              value={websiteUrl}
+                                              placeholder="Link to your website, facebook etc"
+                                              required
+                                              onChange={(e) => setWebsiteUrl(e.target.value)}
+                                            />
+                                            <Form.Control.Feedback type="invalid">Please provide a band website.</Form.Control.Feedback>
+                                          </Form.Group>
+                                        )}
+                                        {q.fields.isInput && q.fields.inputType === "url" && (
+                                          <Form.Group controlId="formFile" className="mb-3">
+                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Control type="file" value={upload} onChange={(e) => console.log(e)} />
+                                          </Form.Group>
+                                        )}
+                                      </>
+                                    ))}
+                                  </Modal.Body>
+                                  <Modal.Footer>
+                                    <Button variant="secondary" onClick={handleClose}>
+                                      Cancel
+                                    </Button>
+                                    <Button variant="secondary" onClick={handlePageBack}>
+                                      Back
+                                    </Button>
+                                    <Button type="submit" disabled={marketingeDisabled} onClick={handleSubmit}>
+                                      Submit
+                                    </Button>
+                                  </Modal.Footer>
+                                </>
+                              )}
+                            </>
+                          </>
+                        )}
+                      </>
+                    </>
+                  );
+                }
+              })}
+            </>
+          </Modal>
+        </>
+      )}
+    </>
   );
 };
 
+const ModalWrapper = styled.div`
+  margin-top: auto;
+  .form-check-input {
+    height: 22px;
+    width: 22px;
+    margin-right: 1rem;
+  }
+  .form-check-label {
+    font-weight: 600;
+  }
+`;
 export default BandApplicationModal;
-
-// const Backdrop = React.forwardRef<HTMLDivElement, { open?: boolean; className: string }>((props, ref) => {
-//   const { open, className, ...other } = props;
-//   return <div className={clsx({ "base-Backdrop-open": open }, className)} ref={ref} {...other} />;
-// });
-
-// const Modal = styled(BaseModal)`
-//   position: fixed;
-//   z-index: 1300;
-//   inset: 0;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// `;
-
-// const StyledBackdrop = styled(Backdrop)`
-//   z-index: -1;
-//   position: fixed;
-//   inset: 0;
-//   background-color: rgb(0 0 0 / 0.7);
-//   -webkit-tap-highlight-color: transparent;
-// `;
-
-// const ModalContent = styled("div")(
-//   ({ theme }) => css`
-//     position: relative;
-//     display: flex;
-//     flex-direction: column;
-//     gap: 8px;
-//     overflow: hidden;
-//     background-color: ${theme.palette.mode === "dark" ? "#1C2025" : "#fff"};
-//     border-radius: 8px;
-//     border: 1px solid ${theme.palette.mode === "dark" ? "#434D5B" : "#DAE2ED"};
-//     box-shadow: 0 4px 12px ${theme.palette.mode === "dark" ? "rgb(0 0 0 / 0.5)" : "rgb(0 0 0 / 0.2)"};
-//     padding: 24px;
-//   `
-// );

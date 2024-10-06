@@ -24,8 +24,6 @@ const BandApplications = () => {
     getData();
   }, []);
 
-  console.log(bandData);
-
   return (
     <>
       {/* Browser view */}

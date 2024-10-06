@@ -88,3 +88,36 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.btn.btn-primary {
+  background-color: var(--yellow);
+  border: none;
+  padding: 0.5rem 2rem;
+  margin-left: auto;
+}
+
+.btn.btn-primary:disabled {
+  opacity: 0.5;
+}
+/* .btn.btn-secondary {
+  margin-right: auto;
+} */
+
+input::placeholder,
+select::placeholder,
+textarea::placeholder {
+  opacity: 0.3 !important;
+}
+
+input.form-control,
+textarea.form-control,
+select.form-select {
+  border-color: #babbbd;
+}
+
+.member {
+  padding-right: 0;
+}
+.instrument {
+  padding-left: 2px;
+}
