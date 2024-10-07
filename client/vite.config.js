@@ -32,8 +32,8 @@ export default ({ mode }) => {
       "process.env": process.env,
     },
     server: {
-      // port: 3000,
-      // open: true,
+      port: process.env.VITE_CLIENT_PORT,
+      open: true,
       proxy: {
         "/api": {
           target: `http://localhost:${process.env.VITE_SERVER_PORT}`,

@@ -4,13 +4,26 @@ const express = require("express");
 const routes = require("./routes/index.js");
 const db = require("./config/connection");
 const app = express();
+const axios = require("axios");
+const cors = require("cors");
 
 const PORT = process.env.PORT || 3001;
 const cwd = process.cwd();
 
+app.use(cors());
+app.use(function (req, res, next) {
+  res.header(`Access-Control-Allow-Origin", ${process.env.BACKEND_URL}`); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(routes);
+app.use(express.static(path.join(__dirname, "client", "build")));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
+});
 
 db.once("open", () => {
   app.listen(PORT, () => {
