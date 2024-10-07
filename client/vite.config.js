@@ -28,6 +28,7 @@ export default ({ mode }) => {
 
   return defineConfig({
     plugins: [react()],
+    base: "/",
     define: {
       "process.env": process.env,
     },
