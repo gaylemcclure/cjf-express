@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "../client/dist")));
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..client/dist/index.html"));
 });
@@ -29,6 +30,7 @@ app.use(routes);
 
 db.once("open", () => {
   app.listen(PORT, () => {
+    console.log(__dirname);
     console.log(`Server running on port ${PORT}!`);
   });
 });
