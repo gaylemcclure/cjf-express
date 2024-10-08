@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         element: <GeneralPage />,
       },
       {
-        path: "band-applications",
+        path: "/band-applications",
         element: <BandApplications />,
       },
       {
@@ -101,6 +101,4 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router} />
-);
+ReactDOM.createRoot(document.getElementById("root")).render(<RouterProvider router={router} />);

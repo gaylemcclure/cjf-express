@@ -1,7 +1,7 @@
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
-const routes = require("./routes/index.js");
+const routes = require("./routes/api/index.js");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -22,8 +22,8 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 // });
 
 // Routes
-app.use(routes);
-// app.use("/api", userRoutes);
+// app.use(routes);
+app.use("/api", routes);
 // app.use("/signup", signupRoutes);
 
 // Sync database + start server

@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useHeaderContext } from "../utils/headerContext";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const { logo, links } = useHeaderContext();
@@ -14,13 +15,9 @@ const Header = () => {
         </NavButton>
         <div className="dropdown-content">
           {data.childLinks.map((child) => (
-            <NavLinkChild
-              className="p-2"
-              key={child.sys.id}
-              href={`/${child.fields.slug}`}
-            >
+            <Link className="p-2" key={child.sys.id} to={`/${child.fields.slug}`}>
               {child.fields.title}
-            </NavLinkChild>
+            </Link>
           ))}
         </div>
       </div>
@@ -42,9 +39,9 @@ const Header = () => {
             return createParentLink(link.fields, link.sys.id);
           }
           return (
-            <NavLink key={link.sys.id} href={link.fields.slug}>
+            <Link key={link.sys.id} to={link.fields.slug}>
               {link.fields.title}
-            </NavLink>
+            </Link>
           );
         })}
       </div>
