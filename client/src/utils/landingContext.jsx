@@ -12,7 +12,7 @@ export const LandingProvider = ({ children }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get(`${process.env.DOMAIN}/api/landingPage`);
+        const res = await axios.get(`https://www.castlemainefestival.online/api/landingPage`);
         const data = res;
         setAllLanding(data.data.items[0].fields.sections);
       } catch (error) {
