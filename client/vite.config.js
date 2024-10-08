@@ -36,9 +36,9 @@ export default ({ mode }) => {
       chunkSizeWarningLimit: 1600,
     },
     server: {
-      port: process.env.VITE_CLIENT_PORT,
-      open: true,
-      cors: true,
+      // port: process.env.VITE_CLIENT_PORT,
+      // open: true,
+      // cors: true,
       proxy: {
         "/api": {
           target: `http://localhost:${process.env.VITE_SERVER_PORT}`,
