@@ -15,6 +15,7 @@ export const HeaderProvider = ({ children }) => {
     const getData = async () => {
       try {
         const res = await axios.get("/api/header");
+        console.log(res);
         const data = res.data.items[0].fields;
         setLogo(data.logo.fields.file.url);
         setNavLinks(data.navigationElements);
@@ -39,11 +40,5 @@ export const HeaderProvider = ({ children }) => {
     getData();
   }, []);
 
-  return (
-    <HeaderContext.Provider
-      value={{ logo: logo, links: navLinks, footer: footer }}
-    >
-      {children}
-    </HeaderContext.Provider>
-  );
+  return <HeaderContext.Provider value={{ logo: logo, links: navLinks, footer: footer }}>{children}</HeaderContext.Provider>;
 };
