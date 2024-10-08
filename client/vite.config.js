@@ -41,7 +41,7 @@ export default ({ mode }) => {
       // cors: true,
       proxy: {
         "/api": {
-          target: `http://localhost:3001`,
+          target: `https://castlemainejazzfestival.online`,
           changeOrigin: true,
           secure: false,
         },
