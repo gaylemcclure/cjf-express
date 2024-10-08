@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(
-  express.static("public", {
+  express.static("dist", {
     setHeaders: (res, path) => {
       if (path.endsWith(".js")) {
         res.setHeader("Content-Type", "application/javascript");
