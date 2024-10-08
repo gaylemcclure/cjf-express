@@ -41,7 +41,7 @@ export default ({ mode }) => {
       // cors: true,
       proxy: {
         "/api": {
-          target: `http://localhost:${process.env.VITE_SERVER_PORT}`,
+          target: `http://localhost:3001`,
           changeOrigin: true,
           secure: false,
         },
