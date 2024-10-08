@@ -9,15 +9,10 @@ export const LandingProvider = ({ children }) => {
   const [allLanding, setAllLanding] = useState([]);
 
   //Calls the homeRoutes api for /header to get the Contenful data
-
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get("/api/landingPage", {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const res = await axios.get("/api/landingPage");
         const data = res;
         setAllLanding(data.data.items[0].fields.sections);
       } catch (error) {
