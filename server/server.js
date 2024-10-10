@@ -1,7 +1,7 @@
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
-const routes = require("./routes/api/index.js");
+const routes = require("./routes/index.js");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -17,13 +17,21 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
+app.get("/*", function (req, res) {
+  res.sendFile(path.join(__dirname, "../client/dist/index.html"), function (err) {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
+
 // app.get("*", (req, res) => {
 //   res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 // });
 
 // Routes
-// app.use(routes);
-app.use("/api", routes);
+app.use(routes);
+// app.use("/api", routes);
 // app.use("/signup", signupRoutes);
 
 // Sync database + start server

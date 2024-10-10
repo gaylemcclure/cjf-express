@@ -12,7 +12,11 @@ export const LandingProvider = ({ children }) => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.get("/api/landingPage");
+        const res = await axios.get("/api/landingPage", {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         const data = res;
         setAllLanding(data.data.items[0].fields.sections);
       } catch (error) {
