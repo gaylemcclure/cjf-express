@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const client = require("../../client");
+const path = require("path");
 
 //Contentful API call to get header data
 router.get("/", async (req, res) => {

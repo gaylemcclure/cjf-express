@@ -15,8 +15,8 @@
 
 // module.exports = sequelize;
 
-const { connect, connection } = require("mongoose");
+const mongoose = require("mongoose");
 
-connect("mongodb+srv://perfectstormdesign:lTYzCkpiaBxMOxIo@cluster0.ambbp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+mongoose.connect(process.env.ATLAS_URI);
 
-module.exports = connection;
+module.exports = mongoose.connection;
