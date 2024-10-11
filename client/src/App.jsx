@@ -103,21 +103,15 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      {/* <ColorModeContext.Provider value={colorMode}> */}
       <HeaderProvider>
         <LandingProvider>
-          {/* <ThemeProvider theme={theme}> */}
           <div className="flex-column justify-flex-start min-100-vh">
             <Header />
-            <div className="container">
-              <Outlet />
-            </div>
+            <Outlet />
             <Footer />
           </div>
-          {/* </ThemeProvider> */}
         </LandingProvider>
       </HeaderProvider>
-      {/* </ColorModeContext.Provider> */}
     </ApolloProvider>
   );
 }

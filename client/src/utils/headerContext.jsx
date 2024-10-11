@@ -26,7 +26,6 @@ export const HeaderProvider = ({ children }) => {
         const res = await axios.get("/api/header", {
           headers: "application/json",
         });
-        console.log(res);
         const data = res.data.items[0].fields;
         setLogo(data.logo.fields.file.url);
         setNavLinks(data.navigationElements);
