@@ -5,10 +5,15 @@ import LandingPage from "./pages/landingPage.jsx";
 import VolunteerPage from "./pages/volunteerPage.jsx";
 import BandApplications from "./pages/bandApplications.jsx";
 import SupportPage from "./pages/supportPage.jsx";
+import AboutPage from "./pages/aboutPage.jsx";
+import HistoryPage from "./pages/historyPage.jsx";
+
 import GeneralPage from "./pages/generalPage.jsx";
 import ContactPage from "./pages/contactPage.jsx";
 import ErrorPage from "./pages/errorPage.jsx";
 import App from "./App.jsx";
+import DonatePage from "./pages/donatePage.jsx";
+import MembershipPage from "./pages/membershipPage.jsx";
 
 // Define the accessible routes, and which components respond to which URL
 const router = createBrowserRouter([
@@ -23,7 +28,7 @@ const router = createBrowserRouter([
       },
       {
         path: "volunteer",
-        element: <GeneralPage />,
+        element: <VolunteerPage />,
       },
       {
         path: "band-applications",
@@ -35,19 +40,23 @@ const router = createBrowserRouter([
       },
       {
         path: "about-cjf",
-        element: <GeneralPage />,
+        element: <AboutPage />,
       },
       {
         path: "history",
-        element: <GeneralPage />,
+        element: <HistoryPage />,
       },
       {
         path: "support",
-        element: <GeneralPage />,
+        element: <SupportPage />,
       },
       {
         path: "membership",
-        element: <GeneralPage />,
+        element: <MembershipPage />,
+      },
+      {
+        path: "donate",
+        element: <DonatePage />,
       },
     ],
   },

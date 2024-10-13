@@ -1,19 +1,16 @@
 import * as Button from "../buttons";
 import SingleTextSection from "./singleTextSection";
 
-const PageTextSection = ({
-  heading,
-  subtitle,
-  buttonText,
-  buttonLink,
-  textId,
-  showCtaButton,
-}) => {
-  console.log(showCtaButton);
+const PageTextSection = ({ heading, subtitle, buttonText, buttonLink, textId, showCtaButton }) => {
+  const currentPage = window.location.pathname.slice(1);
+  const year = new Date();
+  const currYear = year.getFullYear();
+  const yearText = currYear - 2014;
+
   return (
     <>
       <div className="band-wrapper flex flex-col justify-center content-center max-w-screenMax ml-auto mr-auto">
-        <h2 className="mt-16 text-5xl font-extrabold leading-none tracking-tight text-black flex justify-center uppercase text-center">
+        <h2 className="pb-4 mt-16 text-5xl font-extrabold leading-none tracking-tight text-black flex justify-center uppercase text-center">
           {heading}
         </h2>
         <h3 className={` justify-center flex text-4xl`}>{subtitle}</h3>

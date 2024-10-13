@@ -5,36 +5,38 @@ import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import SingleTextSection from "./pageSections/singleTextSection";
 import Card from "react-bootstrap/Card";
 
+const PINK = "rgba(255, 192, 203, 0.6)";
+const BLUE = "rgba(0, 0, 255, 0.6)";
+
+function ContextAwareToggle({ children, eventKey, callback }) {
+  const { activeEventKey } = useContext(AccordionContext);
+
+  const decoratedOnClick = useAccordionButton(eventKey, () => callback && callback(eventKey));
+
+  const isCurrentEventKey = activeEventKey === eventKey;
+
+  return (
+    <button
+      type="button"
+      className="w-full border-none bg-accordionWhite items-start flex pl-0 pr-0 font-semibold text-2xl"
+      onClick={decoratedOnClick}
+    >
+      {children}
+      <span
+        className={
+          isCurrentEventKey
+            ? "material-symbols-outlined ml-auto transition duration-300 transform rotate-45 text-3xl font-normal text-blue"
+            : "material-symbols-outlined ml-auto transform rotate-0 transition duration-300 text-3xl font-normal text-yellowAlt"
+        }
+      >
+        add
+      </span>
+    </button>
+  );
+}
+
 const AccordionComponent = ({ heading, items }) => {
   let itemCount = 0;
-
-  function ContextAwareToggle({ children, eventKey, callback }) {
-    const { activeEventKey } = useContext(AccordionContext);
-    const decoratedOnClick = useAccordionButton(
-      eventKey,
-      () => callback && callback(eventKey)
-    );
-    const isCurrentEventKey = activeEventKey === eventKey;
-    return (
-      <button
-        type="button"
-        className="w-full border-none bg-gray items-start flex pl-0 pr-0 font-semibold text-2xl"
-        onClick={decoratedOnClick}
-      >
-        {children}
-        <span
-          className={
-            isCurrentEventKey
-              ? "material-symbols-outlined ml-auto transition duration-300 transform rotate-45 text-3xl font-normal text-blue"
-              : "material-symbols-outlined ml-auto transform rotate-0 transition duration-300 text-3xl font-normal text-yellowAlt"
-          }
-        >
-          add
-        </span>
-      </button>
-    );
-  }
-
   return (
     <div className="accordion pb-16">
       <h3 className="uppercase font-bold text-4xl pt-8 pb-4">{heading}</h3>
@@ -51,9 +53,7 @@ const AccordionComponent = ({ heading, items }) => {
               }
             >
               <Card.Header className="bg-gray border-b-0 pl-0 pr-0">
-                <ContextAwareToggle eventKey={item.sys.id}>
-                  {item.fields.title}
-                </ContextAwareToggle>
+                <ContextAwareToggle eventKey={item.sys.id}>{item.fields.title}</ContextAwareToggle>
               </Card.Header>
               <Accordion.Collapse eventKey={item.sys.id}>
                 <Card.Body>
@@ -67,5 +67,23 @@ const AccordionComponent = ({ heading, items }) => {
     </div>
   );
 };
+
+//
+
+//   function ContextAwareToggle({ children, eventKey, callback }) {
+//     const { activeEventKey } = useContext(AccordionContext);
+//     const decoratedOnClick = useAccordionButton(eventKey, () => callback && callback(eventKey));
+
+//     console.log(activeEventKey);
+//     const isCurrentEventKey = activeEventKey === eventKey;
+//     return (
+
+//     );
+//   }
+
+//   return (
+
+//   );
+// };
 
 export default AccordionComponent;

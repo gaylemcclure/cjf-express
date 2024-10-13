@@ -63,14 +63,8 @@ const BandApplications = () => {
 
               if (data.sys.contentType.sys.id === "referenceSection") {
                 return (
-                  <div
-                    className="max-w-screenMax mr-auto ml-auto w-full"
-                    key={i}
-                  >
-                    <AccordionComponent
-                      heading={data.fields.heading}
-                      items={data.fields.referenceItems}
-                    />
+                  <div className="max-w-screenMax pt-32 mr-auto ml-auto w-full" key={i}>
+                    <AccordionComponent heading={data.fields.heading} items={data.fields.referenceItems} />
                   </div>
                 );
               }

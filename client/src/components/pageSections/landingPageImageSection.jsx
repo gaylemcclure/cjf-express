@@ -7,18 +7,12 @@ const LandingPageImageSection = ({ data }) => {
 
   useEffect(() => {
     if (data) {
-      const arr = [
-        data.image1,
-        data.image2,
-        data.image3,
-        data.image4,
-        data.image5,
-        data.image6,
-        data.image7,
-      ];
+      const arr = [data.image1, data.image2, data.image3, data.image4, data.image5, data.image6, data.image7];
       setImageArr(arr);
     }
   }, [data]);
+
+  console.log(data);
 
   const ImageComponent = ({ source, alt, width, height, cName }) => {
     return <SingleImage src={source} alt={alt} className={cName} />;
@@ -33,28 +27,19 @@ const LandingPageImageSection = ({ data }) => {
             {imageArr.length !== 0 && (
               <>
                 {imageArr.map((img, i) => {
-                  return (
-                    <ImageComponent
-                      key={i}
-                      source={img.fields.file.url}
-                      alt={img.fields.file.filename}
-                      cName="image"
-                    />
-                  );
+                  return <ImageComponent key={i} source={img.fields.file.url} alt={img.fields.file.filename} cName="image" />;
                 })}
               </>
             )}
           </div>
         </ImageSection>
         <div className="band-wrapper flex flex-col justify-center content-center">
-          <h1 className="text-5xl font-extrabold leading-none tracking-tight text-black flex uppercase">
-            {data.headingText}
-          </h1>
+          <h1 className="text-5xl font-extrabold leading-none tracking-tight text-black flex uppercase">{data.headingText}</h1>
           <h3 className="mt-4 text-black text-2xl">{data.subText}</h3>
           <div className="button-container mt-8">
             <Button.LinkButton
               text={data.buttonText}
-              link="../support/volunteer"
+              link={data.buttonLink.fields.slug}
               classNme="std-button justify-center content-center bg-yellowAlt h-[4rem] hover:border-none hover:opacity-70"
               linkClass="text-black uppercase font-semibold flex hover:opacity-50 hover:text-black "
             />

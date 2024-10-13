@@ -445,7 +445,7 @@ const BandApplicationModal = () => {
     <>
       {questionData.length !== 0 && (
         <>
-          <ClickButton text="Apply now" click={handleShow} classNme="" />
+          <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4" />
 
           <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[38rem] pl-8 pr-8">
             <>

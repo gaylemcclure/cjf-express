@@ -1,42 +1,13 @@
-// import { useState, useEffect } from "react";
-// import { Outlet } from "react-router-dom";
 import { HeaderProvider } from "./utils/headerContext";
 import { LandingProvider } from "./utils/landingContext";
-// import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import AppRouter from "./router/appRouter";
-// import Header from "./components/header";
-// import Footer from "./components/footer";
 import "./App.css";
-// // import "./input.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-
-// const router = createBrowserRouter(AppRouter);
-
-// const App = () => {
-//   return (
-//     <HeaderProvider>
-//       <LandingProvider>
-//         <Header />
-//         {/* <Outlet /> */}
-//         <RouterProvider router={router} />
-//         <Footer />
-//       </LandingProvider>
-//     </HeaderProvider>
-//   );
-// };
-
-// export default App;
-
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-// import { OpenProvider } from "./utils/openContext";
 import { Outlet } from "react-router-dom";
-// import { UserProvider } from "../src/utils/contexts";
-// import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Header from "./components/header";
 import Footer from "./components/footer";
 import { useState, useMemo } from "react";
-// import { ColorModeContext } from "./utils/themeContext";
 
 // Construct main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -105,7 +76,7 @@ function App() {
     <ApolloProvider client={client}>
       <HeaderProvider>
         <LandingProvider>
-          <div className="flex-column justify-flex-start min-100-vh">
+          <div className="flex flex-col justify-flex-start min-full h-full">
             <Header />
             <Outlet />
             <Footer />

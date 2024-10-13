@@ -15,7 +15,7 @@ const Header = () => {
         </NavButton>
         <div className="dropdown-content">
           {data.childLinks.map((child) => (
-            <Link className="p-2" key={child.sys.id} to={`/${child.fields.slug}`}>
+            <Link className="p-2 text-white uppercase text-[17px]" key={child.sys.id} to={`/${child.fields.slug}`}>
               {child.fields.title}
             </Link>
           ))}
@@ -39,7 +39,7 @@ const Header = () => {
             return createParentLink(link.fields, link.sys.id);
           }
           return (
-            <Link key={link.sys.id} to={link.fields.slug}>
+            <Link className="p-[0.6em] text-white uppercase text-[17px] no-underline" key={link.sys.id} to={link.fields.slug}>
               {link.fields.title}
             </Link>
           );

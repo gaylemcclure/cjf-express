@@ -26,6 +26,7 @@
   --input-border-light: rgb(0 0 0 / 23%);
   --yellow: #e6af2e;
   --min-width: 1090px;
+  --lt-blue: #077eb7;
 }
 #root {
   background-color: #f2f2f2;
@@ -34,7 +35,7 @@
 a {
   font-weight: 500;
   color: #646cff;
-  text-decoration: inherit;
+  text-decoration: none;
 }
 a:hover {
   color: #e6af2e;
@@ -67,6 +68,7 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  text-decoration: none;
 }
 button:hover {
   border-color: #646cff;
@@ -74,6 +76,10 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+button > a {
+  text-decoration: none;
 }
 
 @media (prefers-color-scheme: light) {
@@ -120,4 +126,16 @@ select.form-select {
 }
 .instrument {
   padding-left: 2px;
+}
+
+blockquote > p {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  font-style: italic;
+  font-weight: 700;
+  padding: 3rem 3rem 1rem;
+  color: var(--lt-blue);
+  text-align: center;
+  font-size: 1.3rem;
 }

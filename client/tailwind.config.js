@@ -13,6 +13,7 @@ export default {
       gray: "#F2F2F2",
       ltGray: "#e5e5e9",
       success: "#198754",
+      accordionWhite: "#F8F8F8",
     },
     screens: {
       fold: "280px",

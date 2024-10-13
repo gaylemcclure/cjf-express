@@ -16,9 +16,7 @@ const LandingPage = () => {
       if (section.fields.media.fields.file.contentType === "video/mp4") {
         const url = section.fields.media.fields.file.url;
         return <HeroVideoSection url={url} key={section.sys.id} />;
-      } else if (
-        section.fields.media.fields.file.contentType === "image/jpeg"
-      ) {
+      } else if (section.fields.media.fields.file.contentType === "image/jpeg") {
         const url = section.fields.media.fields.file.url;
         return <HeroImageSection url={url} key={section.sys.id} />;
       }

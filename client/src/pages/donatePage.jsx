@@ -9,7 +9,7 @@ import SingleImageTextSection from "../components/pageSections/singleImageTextSe
 import SingleTextSection from "../components/pageSections/singleTextSection";
 import AccordionComponent from "../components/accordion";
 
-const VolunteerPage = () => {
+const DonatePage = () => {
   const [pageData, setPageData] = useState([]);
   const currentPage = window.location.pathname.slice(1);
 
@@ -99,4 +99,4 @@ const VolunteerPage = () => {
   );
 };
 
-export default VolunteerPage;
+export default DonatePage;

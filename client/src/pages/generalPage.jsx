@@ -34,8 +34,6 @@ const GeneralPage = () => {
     }
   }, []);
 
-  console.log(pageData);
-
   return (
     <>
       {pageData && (
@@ -55,13 +53,7 @@ const GeneralPage = () => {
               return <ButtonSection key={i} />;
             }
             if (section.sys.contentType.sys.id === "pageHeadingSection") {
-              return (
-                <PageHeadingSection
-                  heading={section.fields.heading}
-                  subtitle={section.fields.subtitle}
-                  key={i}
-                />
-              );
+              return <PageHeadingSection heading={section.fields.heading} subtitle={section.fields.subtitle} key={i} />;
             }
             if (section.sys.contentType.sys.id === "pageTextSection") {
               return (
