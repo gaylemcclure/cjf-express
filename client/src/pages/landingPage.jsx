@@ -40,7 +40,6 @@ const LandingPage = () => {
       );
     }
     if (contentType === "singleImageHeadlineSection") {
-      console.log(section);
       return (
         <SingleImageHeadlineSection
           key={section.sys.id}

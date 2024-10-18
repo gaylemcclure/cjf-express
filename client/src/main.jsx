@@ -14,6 +14,7 @@ import ErrorPage from "./pages/errorPage.jsx";
 import App from "./App.jsx";
 import DonatePage from "./pages/donatePage.jsx";
 import MembershipPage from "./pages/membershipPage.jsx";
+import SponsorPage from "./pages/sponsorPage.jsx";
 
 // Define the accessible routes, and which components respond to which URL
 const router = createBrowserRouter([
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         path: "donate",
         element: <DonatePage />,
+      },
+      {
+        path: "sponsors",
+        element: <SponsorPage />,
       },
     ],
   },

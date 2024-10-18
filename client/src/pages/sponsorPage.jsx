@@ -7,10 +7,9 @@ import PageTextSection from "../components/pageSections/pageTextSection";
 import SingleImageHeadlineSection from "../components/pageSections/singleImageHeadlineSection";
 import SingleImageTextSection from "../components/pageSections/singleImageTextSection";
 import SingleTextSection from "../components/pageSections/singleTextSection";
-import AccordionComponent from "../components/accordion";
-import axios from "axios";
+import SponsorSection from "../components/pageSections/sponsorSection";
 
-const VolunteerPage = () => {
+const SponsorPage = () => {
   const [pageData, setPageData] = useState([]);
   const currentPage = window.location.pathname.slice(1);
 
@@ -93,6 +92,10 @@ const VolunteerPage = () => {
                 </div>
               );
             }
+            if (section.sys.contentType.sys.id === "landingPageSponsorSection") {
+              const data = section.fields;
+              return <SponsorSection data={data} key={section.sys.id} />;
+            }
           })}
         </>
       )}
@@ -100,4 +103,4 @@ const VolunteerPage = () => {
   );
 };
 
-export default VolunteerPage;
+export default SponsorPage;

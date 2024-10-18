@@ -14,7 +14,7 @@ import styled from "styled-components";
 const BandApplicationModal = () => {
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
-  const [pages, setPages] = useState(12);
+  const [pages, setPages] = useState(1);
   //Button disabled bools
   const [applicationDisabled, setApplicationDisabled] = useState(true);
   const [detailsDisabled, setDetailsDisabled] = useState(true);
@@ -412,22 +412,28 @@ const BandApplicationModal = () => {
     });
   };
 
-  const handleSubmit = () => {
-    console.log(bandName);
-    console.log(bandStyle);
-    console.log(bandLink);
-    console.log(aboutBand);
-    console.log(leaderName);
-    console.log(leaderEmail);
-    console.log(leaderPhone);
-    console.log(numberMembers);
-    console.log(musicianArr);
-    console.log(availability);
-    console.log(firstFee);
-    console.log(secondFee);
-    console.log(bio);
-    console.log(websiteUrl);
-    console.log(upload);
+  const handleSubmit = async () => {
+    const userData = {
+      bandName: bandName,
+      leaderName: leaderName,
+      bandStyle: bandStyle,
+      firstFee: firstFee,
+      availability: availability,
+      websiteUrl: websiteUrl,
+      // otherInfo: "2025",
+      // "Year Playing": "2025",
+      leaderEmail: leaderEmail,
+      leaderPhone: leaderPhone,
+      secondFee: secondFee,
+      upload: upload,
+      bio: bio,
+    };
+    try {
+      const response = await axios.post("/api/airtable/band-application", userData);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // const TestSend = () => {
@@ -787,7 +793,7 @@ const BandApplicationModal = () => {
                                                 <InputGroup.Text>$</InputGroup.Text>
                                                 <Form.Control
                                                   aria-label="Amount (to the nearest dollar)"
-                                                  onChange={(e) => setFirstFee(e.target.value)}
+                                                  onChange={(e) => setFirstFee(Number(e.target.value))}
                                                   value={firstFee}
                                                 />
                                               </InputGroup>
@@ -803,7 +809,7 @@ const BandApplicationModal = () => {
                                                 <Form.Control
                                                   aria-label="Amount (to the nearest dollar)"
                                                   value={secondFee}
-                                                  onChange={(e) => setSecondFee(e.currentTarget.value)}
+                                                  onChange={(e) => setSecondFee(Number(e.currentTarget.value))}
                                                 />
                                               </InputGroup>
                                             </div>
@@ -863,7 +869,7 @@ const BandApplicationModal = () => {
                                         {q.fields.isInput && q.fields.inputType === "url" && (
                                           <Form.Group controlId="formFile" className="mb-3">
                                             <Form.Label>{q.fields.inputLabel}</Form.Label>
-                                            <Form.Control type="file" value={upload} onChange={(e) => console.log(e)} />
+                                            <Form.Control type="file" value={upload} onChange={(e) => setUpload(e.target.value)} />
                                           </Form.Group>
                                         )}
                                       </>

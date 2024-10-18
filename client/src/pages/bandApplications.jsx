@@ -10,6 +10,7 @@ import BandApplicationModal from "../components/applications/bandApplicationModa
 
 const BandApplications = () => {
   const [bandData, setBandData] = useState([]);
+  const [testData, setTestData] = useState("");
 
   useEffect(() => {
     const getData = async () => {
@@ -23,6 +24,36 @@ const BandApplications = () => {
     };
     getData();
   }, []);
+
+  // useEffect(() => {
+  // const postData = async (yearPlaying) => {
+  //   try {
+  //     // const something = await fetchDog();
+  //     // console.log(something);
+  //     const res = await axios.post("/api/airtable/band-application", {
+  //       yearPlaying: "2026",
+  //     });
+  //     // const data = res;
+  //     console.log(res);
+  //     setTestData(res);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // }, []);
+
+  const handleSubmit = async () => {
+    const userData = {
+      email: "email@email",
+      password: "password",
+    };
+    try {
+      const response = await axios.post("/api/airtable/band-application", userData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
