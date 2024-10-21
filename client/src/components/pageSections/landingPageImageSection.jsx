@@ -33,7 +33,7 @@ const LandingPageImageSection = ({ data }) => {
             )}
           </div>
         </ImageSection>
-        <div className="band-wrapper flex flex-col justify-center content-center">
+        <div className="band-wrapper flex flex-col justify-center content-center pr-16">
           <h1 className="text-5xl font-extrabold leading-none tracking-tight text-black flex uppercase">{data.headingText}</h1>
           <h3 className="mt-4 text-black text-2xl">{data.subText}</h3>
           <div className="button-container mt-8">

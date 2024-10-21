@@ -11,17 +11,17 @@ import AccordionComponent from "../components/accordion";
 // import { SendContact } from "../applications/serverData";
 import styled from "styled-components";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
-// import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
-// import { DELETE_USER, SEND_NEW_EMAIL, SEND_EXISTING_EMAIL } from "../../utils/mutations";
+import { useMutation, useQuery, useLazyQuery } from "@apollo/client";
+import { CONTACT_CONFIRMATION } from "../utils/mutations";
 
 const ContactPage = () => {
   const [pageData, setPageData] = useState([]);
   const currentPage = window.location.pathname.slice(1);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [text, setText] = useState("");
+  const [message, setMessage] = useState("");
   const [pages, setPages] = useState("start");
-  // const [sendNewUserEmail] = useMutation(SEND_NEW_EMAIL);
+  const [sendContactConfirmation] = useMutation(CONTACT_CONFIRMATION);
   // const [sendExistingUserEmail] = useMutation(SEND_EXISTING_EMAIL);
 
   // //Sends email to an existing user - who can add the project to their space
@@ -43,23 +43,20 @@ const ContactPage = () => {
   //     console.error(err);
   //   }
   // };
-  // //Sends email to an new user - who can sign up and see the project in their space
-  // const handleSendNewEmail = async () => {
-  //   try {
-  //     const { data } = await sendNewUserEmail({
-  //       variables: {
-  //         email: emailInput,
-  //         senderEmail: userData.email,
-  //         projectId: selectedProjectId,
-  //         projectName: selectedProjectName,
-  //         first: userData.first,
-  //         last: userData.last,
-  //       },
-  //     });
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
+  //Sends email to an new user - who can sign up and see the project in their space
+  const handleContactEmail = async () => {
+    try {
+      const { data } = await sendContactConfirmation({
+        variables: {
+          senderEmail: email,
+          senderName: name,
+          message: message,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // //Invite button - checks that both fields are populated, and queries if user is already registered
   // const handleInviteUser = async (e) => {
@@ -115,7 +112,11 @@ const ContactPage = () => {
   // };
 
   const submitForm = () => {
-    // SendContactEmail();
+    console.log(name);
+    console.log(email);
+
+    console.log(message);
+    handleContactEmail();
     setPages("submit");
   };
 
@@ -167,7 +168,7 @@ const ContactPage = () => {
                 <h2 className="uppercase mb-8">Contact our committee</h2>
                 <ContactInput placeholder="Name" onChange={(e) => setName(e.target.value)} required></ContactInput>
                 <ContactInput placeholder="Email" onChange={(e) => setEmail(e.target.value)} required></ContactInput>
-                <ContactText placeholder="Message" onChange={(e) => setText(e.target.value)} required></ContactText>
+                <ContactText placeholder="Message" onChange={(e) => setMessage(e.target.value)} required></ContactText>
 
                 {/* <Button
                     onClick={handleInviteUser}

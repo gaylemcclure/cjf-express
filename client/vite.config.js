@@ -19,6 +19,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      "/graphql": {
+        target: `http://localhost:5001`,
+        changeOrigin: true,
+        secure: false,
+      },
     },
   },
 });

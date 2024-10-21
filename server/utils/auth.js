@@ -18,6 +18,7 @@ module.exports = {
     }
 
     if (!token) {
+      console.log(req);
       return req;
     }
 

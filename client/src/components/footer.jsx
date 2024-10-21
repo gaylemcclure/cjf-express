@@ -63,7 +63,7 @@ const Footer = () => {
             {/* Contact section */}
             <div className="mb-4md:mb-0">
               <h2 className="text-lg font-bold uppercase text-white pb-4 mt-4">{footer.contactHeading}</h2>
-              <p className="text-xs text-white">{footer.emailText}</p>
+              <p className="text-xs text-white mb-1">{footer.emailText}</p>
               <p className="text-xs mb-4 text-white">{footer.phoneText} </p>
             </div>
           </div>
