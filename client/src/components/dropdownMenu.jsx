@@ -44,7 +44,7 @@ const DropdownMenu = ({ links, logo }) => {
   }
 
   return (
-    <div className="flex flex-col absolute top-4 right-3 z-10 dropdown-modal">
+    <div className="flex flex-col absolute top-4 right-3 z-10 dropdown-modal mobile">
       <button className="flex justify-end bg-transparent text-white text-3xl p-0" onClick={() => handleShow()}>
         <FiAlignJustify />
       </button>
