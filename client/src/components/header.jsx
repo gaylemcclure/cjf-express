@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useHeaderContext } from "../utils/headerContext";
 import { Link } from "react-router-dom";
+import DropdownMenu from "./dropdownMenu";
 
 const Header = () => {
   const { logo, links } = useHeaderContext();
@@ -45,6 +46,7 @@ const Header = () => {
           );
         })}
       </div>
+      <DropdownMenu logo={logo} links={links} />
     </Navbar>
   );
 };
@@ -52,7 +54,7 @@ const Header = () => {
 const Navbar = styled.nav`
   background-color: black;
   width: 100%;
-  height: 120px;
+  height: 95px;
 
   .navbar {
     overflow: hidden;
@@ -115,11 +117,24 @@ const Navbar = styled.nav`
   .links-wrapper {
     margin: auto 2rem auto auto;
   }
+
+  @media screen and (max-width: 800px) {
+    height: 70px;
+    .links-wrapper {
+      display: none;
+    }
+    .logo-wrapper {
+      margin: auto 1rem;
+    }
+  }
 `;
 
 const LogoImg = styled.img`
-  height: 100px;
+  height: 85px;
   border-radius: 4px;
+  @media screen and (max-width: 800px) {
+    height: 60px;
+  }
 `;
 
 const NavLink = styled.a`

@@ -12,8 +12,6 @@ const LandingPageImageSection = ({ data }) => {
     }
   }, [data]);
 
-  console.log(data);
-
   const ImageComponent = ({ source, alt, width, height, cName }) => {
     return <SingleImage src={source} alt={alt} className={cName} />;
   };
@@ -21,7 +19,7 @@ const LandingPageImageSection = ({ data }) => {
   return (
     <>
       {/* Browser view */}
-      <div className="hidden place-content-center tablet:flex bg-ltGray">
+      <div className="hidden place-content-center tablet:flex bg-ltGray bowser">
         <ImageSection>
           <div className="gallery">
             {imageArr.length !== 0 && (
@@ -46,22 +44,35 @@ const LandingPageImageSection = ({ data }) => {
           </div>
         </div>
       </div>
-      {/* Mobile view */}
 
-      {/* <div className="flex relative tablet:hidden">
-      <div className="main_bg_white flex flex-col justify-center content-center"></div>
-        <h1 className="m-8 mt-16 text-5xl font-extrabold leading-none tracking-tight text-black flex justify-center uppercase absolute z-5 text-center">
-        Volunteer at the Castlemaine Jazz Festival{" "}
-        </h1>
-        <h3 className="justify-center text-center w-full flex text-4xl absolute z-5 top-[24rem] m-8">Apply now to be a volunteer</h3>
-        <div className="button-container mb-16 absolute z-5 bottom-[-2rem]">
-          <Button.LinkButton
-            text="Apply Now"
-            link="../support/volunteer"
-            classNme="std-button m-4 justify-center content-center"
-          />
+      {/* Mobile view */}
+      <div className="flex flex-col relative mobile bg-ltGray bottom-20 pt-28">
+        <div className="main_bg_white flex flex-col justify-center content-center">
+          <ImageSection>
+            <div className="gallery">
+              {imageArr.length !== 0 && (
+                <>
+                  {imageArr.map((img, i) => {
+                    return <ImageComponent key={i} source={img.fields.file.url} alt={img.fields.file.filename} cName="image" />;
+                  })}
+                </>
+              )}
+            </div>
+          </ImageSection>
         </div>
-      </div> */}
+        <div className="p-8 mt-8 flex flex-col justify-center items-center">
+          <h1 className="text-4xl uppercase font-bold mt-8 text-center ">{data.headingText}</h1>
+          <h3 className="text-center">{data.subText}</h3>
+          <div className="button-container">
+            <Button.LinkButton
+              text={data.buttonText}
+              link={data.buttonLink.fields.slug}
+              classNme="std-button justify-center items-center bg-yellowAlt h-[4rem] hover:border-none hover:opacity-70 rounded"
+              linkClass="text-black uppercase font-semibold flex hover:opacity-50 hover:text-black justify-center items-center "
+            />
+          </div>
+        </div>
+      </div>
     </>
   );
 };
@@ -72,7 +83,7 @@ const SingleImage = styled.img`
 `;
 
 const ImageSection = styled.div`
-  width: 60%;
+  width: 50%;
 
   .gallery {
     --s: 200px; /* control the size */
@@ -119,6 +130,20 @@ const ImageSection = styled.div`
   .gallery > img:nth-child(5),
   .gallery > img:nth-child(6) {
     --_y: calc(50% + 0.5 * var(--g));
+  }
+
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    .gallery {
+      --s: 79px; /* control the size */
+      --g: 10px; /* control the gap */
+      display: grid;
+      margin: calc(var(--s) + var(--g));
+      justify-content: center;
+    }
+    .gallery > img {
+      width: 150px;
+    }
   }
 `;
 

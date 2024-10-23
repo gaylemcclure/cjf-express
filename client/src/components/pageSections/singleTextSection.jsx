@@ -39,6 +39,7 @@ const SingleTextSection = ({ textId }) => {
       .getEntry(textId)
       .then((entry) => {
         const rawRichTextField = entry.fields.pageText;
+        console.log(rawRichTextField);
         return rawRichTextField;
       })
       .then((text) => {
@@ -57,9 +58,9 @@ const SingleTextSection = ({ textId }) => {
           setText(pText);
         }
 
-        const content = article.fields.content;
+        // const content = article.fields.content;
 
-        return documentToReactComponents(content, renderOptions);
+        // return documentToReactComponents(content, renderOptions);
 
         //Write to HTML
       })
@@ -73,7 +74,7 @@ const SingleTextSection = ({ textId }) => {
   }, [textId]);
 
   return (
-    <div className="single-text max-w-screenMax">
+    <div className="single-text max-w-screenMax pl-6 pr-6 lg:pr-0 lg:pl-0">
       {block}
       {text}
     </div>

@@ -12,6 +12,12 @@ const BandApplications = () => {
   const [bandData, setBandData] = useState([]);
   const [testData, setTestData] = useState("");
 
+  //Fill in the application
+  //Application connects to Airtable
+  //Data saved in Bands
+  //Musicans saved in Musician table
+  //Thank you email sent to band
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -58,7 +64,7 @@ const BandApplications = () => {
   return (
     <>
       {/* Browser view */}
-      <div className="hidden place-content-center flex-col tablet:flex bg-gray">
+      <div className="place-content-center flex-col flex bg-gray">
         {bandData !== 0 && (
           <>
             {/*Page banner heading */}

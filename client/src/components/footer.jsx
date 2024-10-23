@@ -81,59 +81,74 @@ const Footer = () => {
 
       {/* Mobile footer - TBD redo above with media query & absolute position */}
       <div className="mobile relative">
-        <div className="absolute top-0 left-0 w-[100%] overflow-hidden">
-          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <div className="absolute top-0 left-0 w-[100%] overflow-hidden bg-black">
+          {/* Curvy footer top */}
+          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="bg-black">
             <path
               d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,
-              250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,
-              3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+                250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,
+                3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
               className="relative block h-[600px] fill-white"
             ></path>
           </svg>
-          <div className={` `}>
-            <div className={`flex flex-row align-center w-full`}>
-              <div className={` flex flex-col w-full`}>
-                <label className="text-white">{footer.signupText}</label>
+          <div className="grid_parent">
+            {/* Signup section */}
+            <div className="flex flex-row align-center w-full pb-4">
+              <div className="flex flex-col w-full">
+                <label className="font-bold text-lg uppercase text-white pb-2 mt-4 text-center">{footer.signupText}</label>
                 <div className="flex flex-row w-full">
-                  <input type="email" className={` w-9/12`} />
-                  <button type="submit" className={`font-extrabold bg-yellow w-3/12`}>
+                  <input type="email" placeholder="Email address" className="mail_input w-9/12" />
+                  <button type="submit" className="mail_button font-extrabold w-3/12 text-white pt-[5px] pb-[5px]">
                     {footer.signupButton}
                   </button>
                 </div>
               </div>
             </div>
-
-            <div className="flex justify-center mb-4 mt-8 md:mb-0 md:mt-0">
-              {/* <h2 className="text-[22px] font-semibold text-pink-500 py-2 uppercase">Contact</h2>
-          <p className="text-[16px] my-4">Email: info@castlemainejazzfestival.com.au</p>
-          <p className="text-[16px] my-4">Phone: +61 407309753 </p> */}
-              <div className="flex space-x-8">
-                <a
-                  className="text-white hover:text-yellow-500 transform hover:scale-150 
-                  transition-all duration-150 ease-in-out "
-                  href="https://www.facebook.com/castlemainejazzfestival/"
-                  target="_blank"
-                >
-                  <FaFacebook className={``} />
-                </a>
-                <a
-                  className="text-white hover:text-pink-500 transform hover:scale-150
-                   transition-all duration-150 ease-in-out"
-                  href="https://www.instagram.com/castlemainejazzfestival/?hl=en"
-                  target="_blank"
-                >
-                  <FaInstagram className={``} />
-                </a>
+            {/* Social media section */}
+            <div className="flex flex-row justify-between">
+              <div className="mb-4 ">
+                <h2 className="text-lg font-bold uppercase text-white mt-4 text-center">FOLLOW US</h2>
+                <div className="flex space-x-4 text-white justify-center">
+                  <a
+                    className="text-white hover:text-yellow-500 transform hover:scale-150 
+                    transition-all duration-150 ease-in-out "
+                    href="https://www.facebook.com/castlemainejazzfestival/"
+                    target="_blank"
+                  >
+                    <FaFacebook className="social_icon" />
+                  </a>
+                  <a
+                    className="text-white hover:text-yellow-500 transform hover:scale-150
+                     transition-all duration-150 ease-in-out"
+                    href="https://www.instagram.com/castlemainejazzfestival/?hl=en"
+                    target="_blank"
+                  >
+                    <FaInstagram className="social_icon" />
+                  </a>
+                </div>
+              </div>
+              {/* Contact section */}
+              <div className="">
+                <h2 className="text-lg font-bold uppercase text-white text-center mt-4">{footer.contactHeading}</h2>
+                <p className="text-xs text-white mb-1 text-center">{footer.emailText}</p>
+                <p className="text-xs text-white text-center mb-0">{footer.phoneText} </p>
               </div>
             </div>
-
-            <div className="flex flex-col mt-3">
-              <p className="text-center text-sm">{footer.acknowledgementText}</p>
+            {/* Acknowledgement section */}
+            <div className="flex flex-col">
+              <h5 className="uppercase text-lg font-bold text-white mt-4 text-center">Castlemaine Jazz Festival</h5>
+              <p className="text-white text-xs">{footer.acknowledgementText}</p>
             </div>
           </div>
-          <div className="mt-8 flex flex-col content-center align-center mb-4">
-            <p className="flex self-center text-sm">© Castlemaine Jazz Festival {year}.</p>
-            <p className="flex self-center text-sm">{footer.abnText}</p>
+
+          {/* CJF info & ABN */}
+          <div className="flex flex-col">
+            <div className="w-full h-[0.5px] bg-yellowAlt mt-3"></div>
+            <div className=" flex flex-col pl-4 pr-4 pt-2 justify-center items-center">
+              <p className="text-xs text-white mb-0 pb-0">{footer.abnText}</p>
+              <p className="flex text-xs text-white mb-0 pb-0">© {year} Castlemaine Jazz Festival, Victoria, Australia.</p>
+              <p className="flex text-xs text-white mt-0 pb-0">All rights reserved.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -172,6 +187,10 @@ const FooterSection = styled.footer`
     height: 50px;
   }
 
+  .mail_input::placeholder {
+    color: black;
+  }
+
   .mail_button {
     height: 50px;
     border-radius: 24px;
@@ -204,7 +223,7 @@ const FooterSection = styled.footer`
     .grid_parent {
       display: flex;
       flex-direction: column;
-      margin: 0 2rem 3rem;
+      margin: 0 2rem 0;
     }
     .browser {
       display: none;

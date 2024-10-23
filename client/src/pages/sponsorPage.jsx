@@ -57,14 +57,16 @@ const SponsorPage = () => {
             }
             if (section.sys.contentType.sys.id === "pageTextSection") {
               return (
-                <PageTextSection
-                  heading={section.fields.heading}
-                  subtitle={section.fields.subtitle}
-                  textId={section.sys.id}
-                  buttonText={section.fields.buttonText}
-                  buttonLink={section.fields.buttonLink}
-                  showCtaButton={section.fields.showCtaButton}
-                />
+                <div className="mb-16">
+                  <PageTextSection
+                    heading={section.fields.heading}
+                    subtitle={section.fields.subtitle}
+                    textId={section.sys.id}
+                    buttonText={section.fields.buttonText}
+                    buttonLink={section.fields.buttonLink}
+                    showCtaButton={section.fields.showCtaButton}
+                  />
+                </div>
               );
             }
             /*Headline image section */

@@ -23,7 +23,7 @@ const BandApplicationModal = () => {
   const [datesDisabled, setdatesDisabled] = useState(true);
   const [availabilityDisabled, setAvailabilityDisabled] = useState(true);
   const [feesDisabled, setFeesDisabled] = useState(true);
-  const [marketingeDisabled, setMarketingDisabled] = useState(true);
+  const [marketingDisabled, setMarketingDisabled] = useState(true);
   //Band Details
   const [bandName, setBandName] = useState("");
   const [bandStyle, setBandStyle] = useState("");
@@ -413,6 +413,7 @@ const BandApplicationModal = () => {
   };
 
   const handleSubmit = async () => {
+    setMarketingDisabled(true);
     const userData = {
       bandName: bandName,
       leaderName: leaderName,
@@ -430,7 +431,9 @@ const BandApplicationModal = () => {
     };
     try {
       const response = await axios.post("/api/airtable/band-application", userData);
-      console.log(response);
+      if (response.status === 200) {
+        handlePageForward();
+      }
     } catch (error) {
       console.log(error);
     }
@@ -466,25 +469,31 @@ const BandApplicationModal = () => {
                         <>
                           <Modal.Body>
                             <div>{documentToReactComponents(question.fields.preQuestionText)}</div>
-                            <ModalWrapper>
-                              <Form.Group className="mb-3 pt-8">
-                                {/* <Form.Control size="lg"> */}
-                                <Form.Check
-                                  required
-                                  label={question.fields.checkboxLabel}
-                                  feedback="You must agree before continuing."
-                                  feedbackType="invalid"
-                                  onChange={(e) => setApplicationDisabled(!applicationDisabled)}
-                                />
-                                {/* </Form.Control> */}
-                              </Form.Group>
-                            </ModalWrapper>
+                            {question.fields.title !== "Thank you" && (
+                              <ModalWrapper>
+                                <Form.Group className="mb-3 pt-8">
+                                  {/* <Form.Control size="lg"> */}
+                                  <Form.Check
+                                    className="flex items-center"
+                                    required
+                                    label={question.fields.checkboxLabel}
+                                    feedback="You must agree before continuing."
+                                    feedbackType="invalid"
+                                    onChange={(e) => setApplicationDisabled(!applicationDisabled)}
+                                  />
+                                  {/* </Form.Control> */}
+                                </Form.Group>
+                              </ModalWrapper>
+                            )}
                           </Modal.Body>
 
                           <Modal.Footer>
-                            <Button disabled={applicationDisabled} onClick={handlePreQPage}>
-                              Next
-                            </Button>
+                            {question.fields.title !== "Thank you" && (
+                              <Button disabled={applicationDisabled} onClick={handlePreQPage}>
+                                Next
+                              </Button>
+                            )}
+                            {question.fields.title === "Thank you" && <Button onClick={handleClose}>Close</Button>}
                           </Modal.Footer>
                         </>
                       )}
@@ -882,7 +891,7 @@ const BandApplicationModal = () => {
                                     <Button variant="secondary" onClick={handlePageBack}>
                                       Back
                                     </Button>
-                                    <Button type="submit" disabled={marketingeDisabled} onClick={handleSubmit}>
+                                    <Button type="submit" disabled={marketingDisabled} onClick={handleSubmit}>
                                       Submit
                                     </Button>
                                   </Modal.Footer>
@@ -909,10 +918,10 @@ const ModalWrapper = styled.div`
   .form-check-input {
     height: 22px;
     width: 22px;
-    margin-right: 1rem;
   }
   .form-check-label {
     font-weight: 600;
+    padding-left: 1rem;
   }
 `;
 export default BandApplicationModal;

@@ -5,9 +5,6 @@ import { useAccordionButton } from "react-bootstrap/AccordionButton";
 import SingleTextSection from "./pageSections/singleTextSection";
 import Card from "react-bootstrap/Card";
 
-const PINK = "rgba(255, 192, 203, 0.6)";
-const BLUE = "rgba(0, 0, 255, 0.6)";
-
 function ContextAwareToggle({ children, eventKey, callback }) {
   const { activeEventKey } = useContext(AccordionContext);
 
@@ -38,8 +35,8 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 const AccordionComponent = ({ heading, items }) => {
   let itemCount = 0;
   return (
-    <div className="accordion pb-16">
-      <h3 className="uppercase font-bold text-4xl pt-8 pb-4">{heading}</h3>
+    <div className="accordion pb-16 pr-4 pl-4">
+      <h3 className="uppercase font-bold text-4xl pt-8 pb-4 pl-6">{heading}</h3>
       <Accordion>
         {items.map((item, i) => {
           itemCount++;
@@ -67,23 +64,5 @@ const AccordionComponent = ({ heading, items }) => {
     </div>
   );
 };
-
-//
-
-//   function ContextAwareToggle({ children, eventKey, callback }) {
-//     const { activeEventKey } = useContext(AccordionContext);
-//     const decoratedOnClick = useAccordionButton(eventKey, () => callback && callback(eventKey));
-
-//     console.log(activeEventKey);
-//     const isCurrentEventKey = activeEventKey === eventKey;
-//     return (
-
-//     );
-//   }
-
-//   return (
-
-//   );
-// };
 
 export default AccordionComponent;
