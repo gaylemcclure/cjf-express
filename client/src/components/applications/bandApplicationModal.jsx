@@ -14,7 +14,7 @@ import styled from "styled-components";
 const BandApplicationModal = () => {
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
-  const [pages, setPages] = useState(7);
+  const [pages, setPages] = useState(1);
   //Button disabled bools
   const [applicationDisabled, setApplicationDisabled] = useState(true);
   const [detailsDisabled, setDetailsDisabled] = useState(true);
@@ -425,6 +425,29 @@ const BandApplicationModal = () => {
     });
   };
 
+  // const uploadImage = async () => {
+  //   const file = upload.target.files[0].name
+  //   const uploadName = file.split('.')[0]
+  //   const userData = {
+  //     imageName: uploadName,
+  //     description: "",
+  //     contentType: upload.target.files[0].type,
+  //     fileName: file,
+  //     upload: upload.target.value,
+  //   };
+  //   try {
+  //     const response = await axios.post("/api/page/band-image", userData);
+  //     if (response.status === 200) {
+  //       handlePageForward();
+  //     } else {
+  //       setPages(14);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+
+  // }
+
   const handleSubmit = async () => {
     setMarketingDisabled(true);
     const userData = {
@@ -475,10 +498,10 @@ const BandApplicationModal = () => {
 
           <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[38rem] pl-8 pr-8">
             <>
-              {questionData[0].fields.referenceItems.map((question) => {
+              {questionData[0].fields.referenceItems.map((question, i) => {
                 if (question.fields.pageNumber === pages) {
                   return (
-                    <>
+                    <div key={i}>
                       <Modal.Header closeButton>
                         <Modal.Title>{question.fields.title}</Modal.Title>
                       </Modal.Header>
@@ -521,8 +544,8 @@ const BandApplicationModal = () => {
                             {question.fields.title === "Band Application: Band Details" && (
                               <>
                                 <Modal.Body>
-                                  {question.fields.referenceItems.map((q) => (
-                                    <>
+                                  {question.fields.referenceItems.map((q, i) => (
+                                    <div key={i}>
                                       {q.fields.isInput && q.fields.inputType === "text" && (
                                         <Form.Group md="6" className="mb-8" id={q.fields.inputLabel}>
                                           <Form.Label>
@@ -554,8 +577,10 @@ const BandApplicationModal = () => {
                                             <option value="" className="opacity-30">
                                               Select ...
                                             </option>
-                                            {q.fields.dropdownOptions.map((opts) => (
-                                              <option value={opts}>{opts}</option>
+                                            {q.fields.dropdownOptions.map((opts, i) => (
+                                              <option value={opts} key={i}>
+                                                {opts}
+                                              </option>
                                             ))}
                                           </Form.Select>
                                           <Form.Control.Feedback type="invalid">Please select a band style</Form.Control.Feedback>
@@ -598,7 +623,7 @@ const BandApplicationModal = () => {
                                           </Form.Control.Feedback> */}
                                         </Form.Group>
                                       )}
-                                    </>
+                                    </div>
                                   ))}
                                 </Modal.Body>
                                 <Modal.Footer>
@@ -932,7 +957,7 @@ const BandApplicationModal = () => {
                                             <Form.Label>
                                               {q.fields.inputLabel} <span className="text-red">*</span>
                                             </Form.Label>
-                                            <Form.Control type="file" value={upload} onChange={(e) => console.log(e)} />
+                                            <Form.Control type="file" onChange={(e) => setUpload(e)} />
                                           </Form.Group>
                                         )}
                                       </>
@@ -955,7 +980,7 @@ const BandApplicationModal = () => {
                           </>
                         )}
                       </>
-                    </>
+                    </div>
                   );
                 }
               })}

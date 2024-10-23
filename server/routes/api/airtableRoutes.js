@@ -4,7 +4,33 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base("appIBA
 
 router.post("/band-application", async (req, res) => {
   const band = req.body;
+  const musicianArr = [];
   try {
+    base("Musicians")
+      .select({
+        // Selecting the first 3 records in All People:
+        view: band.yearPlaying,
+        fields: ["Name", "Record ID", "Band"],
+      })
+      .eachPage(
+        function page(records, fetchNextPage) {
+          records.forEach(function (record) {
+            musicianArr.push({
+              name: record.get("Name"),
+              id: record.get("Record ID"),
+              existingBand: record.get("Band"),
+            });
+          });
+          fetchNextPage();
+        },
+        function done(err) {
+          if (err) {
+            console.error(err);
+            return;
+          }
+        }
+      );
+
     base("Bands").create(
       [
         {
@@ -33,34 +59,90 @@ router.post("/band-application", async (req, res) => {
         }
         res.json(records);
         band.musicians.map((bnd) => {
-          base("Musicians").create(
-            [
-              {
-                fields: {
-                  Name: bnd.musician,
-                  Instrument: bnd.instrument,
-                  Band: [records[0].id],
-                  "Year Playing": band.yearPlaying,
+          const musicianFilter = musicianArr.filter((muso) => {
+            return muso.name === bnd.musician;
+          });
+          if (musicianFilter.length === 1) {
+            musicianFilter.map((mus) => {
+              base("Musicians").update(
+                [
+                  {
+                    id: mus.id,
+                    fields: {
+                      Band: [mus.existingBand[0], records[0].id],
+                    },
+                  },
+                ],
+                function (err, records) {
+                  if (err) {
+                    console.error(err);
+                    return;
+                  }
+                }
+              );
+            });
+            //If existing, add band record ID to linked band link array
+          } else if (musicianFilter.length === 2) {
+            musicianFilter.map((mus) => {
+              base("Musicians").update(
+                [
+                  {
+                    id: mus.id,
+                    fields: {
+                      Band: [mus.existingBand[0], mus.existingBand[1], records[0].id],
+                    },
+                  },
+                ],
+                function (err, records) {
+                  if (err) {
+                    console.error(err);
+                    return;
+                  }
+                }
+              );
+            });
+          } else if (musicianFilter.length === 3) {
+            musicianFilter.map((mus) => {
+              base("Musicians").update(
+                [
+                  {
+                    id: mus.id,
+                    fields: {
+                      Band: [mus.existingBand[0], mus.existingBand[1], mus.existingBand[2], records[0].id],
+                    },
+                  },
+                ],
+                function (err, records) {
+                  if (err) {
+                    console.error(err);
+                    return;
+                  }
+                }
+              );
+            });
+          } else {
+            base("Musicians").create(
+              [
+                {
+                  fields: {
+                    Name: bnd.musician,
+                    Instrument: bnd.instrument,
+                    Band: [records[0].id],
+                    "Year Playing": band.yearPlaying,
+                  },
                 },
-              },
-            ],
-            function (err, records) {
-              if (err) {
-                console.error(err);
-                return;
+              ],
+              function (err, records) {
+                if (err) {
+                  console.error(err);
+                  return;
+                }
               }
-            }
-          );
+            );
+          }
         });
-        //Once get successful band record, go to musicians table
-        //Map through each band member
-        //Check if already existing in db for current year (check process re: bands - maybe not playing in same bands every year)
-        //If existing, add band record ID to linked band link array
-        //If not, add band record ID to linked band list
 
         //Fix link for upload
-        //About and bio fields
-        //Year playing
       }
     );
   } catch (error) {

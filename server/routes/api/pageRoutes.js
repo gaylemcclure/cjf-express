@@ -67,4 +67,37 @@ router.get("/band-application-questions", async (req, res) => {
   }
 });
 
+// router.get("/band-image", async (req, res) => {
+//   try {
+//   client
+//     .getSpace(process.env.SPACE_ID)
+//     .then((space) => space.getEnvironment("master-2024-08-15"))
+//     .then((environment) =>
+//       environment.createAsset({
+//         fields: {
+//           title: {
+//             "en-US": "Playsam Streamliner",
+//           },
+//           description: {
+//             "en-US": "Streamliner description",
+//           },
+//           file: {
+//             "en-US": {
+//               contentType: "image/jpeg",
+//               fileName: "example.jpeg",
+//               upload: "https://example.com/example.jpg",
+//             },
+//           },
+//         },
+//       })
+//     )
+//     .then((asset) => asset.processForAllLocales())
+//     .then((asset) => console.log(asset))
+//     .catch(console.error);
+
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
 module.exports = router;

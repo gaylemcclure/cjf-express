@@ -66,12 +66,13 @@ const DropdownMenu = ({ links, logo }) => {
                       </Card.Header>
                       <Accordion.Collapse eventKey={link.sys.id}>
                         <Card.Body className="flex flex-col">
-                          {link.fields.childLinks.map((child) => {
+                          {link.fields.childLinks.map((child, i) => {
                             return (
                               <Link
                                 to={child.fields.slug}
                                 onClick={() => setShow(false)}
                                 className="p-3 no-underline text-2xl uppercase flex flex-row items-center text-yellowAlt"
+                                key={i}
                               >
                                 <SlArrowRight className="pl-2 mr-3" />
                                 {child.fields.title}
