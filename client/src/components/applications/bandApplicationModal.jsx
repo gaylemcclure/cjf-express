@@ -14,7 +14,7 @@ import styled from "styled-components";
 const BandApplicationModal = () => {
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
-  const [pages, setPages] = useState(1);
+  const [pages, setPages] = useState(7);
   //Button disabled bools
   const [applicationDisabled, setApplicationDisabled] = useState(true);
   const [detailsDisabled, setDetailsDisabled] = useState(true);
@@ -442,6 +442,7 @@ const BandApplicationModal = () => {
       upload: upload,
       bio: bio,
       bandLink: bandLink,
+      musicians: musicianArr,
     };
     try {
       const response = await axios.post("/api/airtable/band-application", userData);
@@ -470,7 +471,7 @@ const BandApplicationModal = () => {
     <>
       {questionData.length !== 0 && (
         <>
-          <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4" />
+          <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 flex items-center" />
 
           <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[38rem] pl-8 pr-8">
             <>
@@ -524,7 +525,9 @@ const BandApplicationModal = () => {
                                     <>
                                       {q.fields.isInput && q.fields.inputType === "text" && (
                                         <Form.Group md="6" className="mb-8" id={q.fields.inputLabel}>
-                                          <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                          <Form.Label>
+                                            {q.fields.inputLabel} <span className="text-red">*</span>
+                                          </Form.Label>
                                           <Form.Control
                                             type="text"
                                             placeholder="A Band Name"
@@ -537,7 +540,9 @@ const BandApplicationModal = () => {
                                       )}
                                       {q.fields.isInput && q.fields.inputType === "dropdown" && (
                                         <Form.Group className="mb-8" id={q.fields.inputLabel}>
-                                          <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                          <Form.Label>
+                                            {q.fields.inputLabel} <span className="text-red">*</span>
+                                          </Form.Label>
                                           <Form.Select
                                             aria-label="band style"
                                             value={bandStyle}
@@ -558,7 +563,9 @@ const BandApplicationModal = () => {
                                       )}
                                       {q.fields.isInput && q.fields.inputType === "url" && (
                                         <Form.Group className="mb-8" id={q.fields.inputLabel}>
-                                          <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                          <Form.Label>
+                                            {q.fields.inputLabel} <span className="text-red">*</span>
+                                          </Form.Label>
                                           <Form.Control
                                             type="url"
                                             value={bandLink}
@@ -573,7 +580,9 @@ const BandApplicationModal = () => {
                                       )}
                                       {q.fields.isInput && q.fields.inputType === "Large text area" && (
                                         <Form.Group className="mb-8" id={q.fields.inputLabel}>
-                                          <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                          <Form.Label>
+                                            {q.fields.inputLabel} <span className="text-red">*</span>
+                                          </Form.Label>
                                           <Form.Control
                                             as="textarea"
                                             rows={3}
@@ -607,7 +616,9 @@ const BandApplicationModal = () => {
                                       <>
                                         {q.fields.isInput && q.fields.inputType === "text" && (
                                           <Form.Group md="6" className="mb-8" id={q.fields.inputLabel}>
-                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Label>
+                                              {q.fields.inputLabel} <span className="text-red">*</span>
+                                            </Form.Label>
                                             <Form.Control
                                               type="text"
                                               placeholder="Jane Doe"
@@ -620,7 +631,9 @@ const BandApplicationModal = () => {
                                         )}
                                         {q.fields.isInput && q.fields.inputType === "email" && (
                                           <Form.Group md="6" className="mb-8" id={q.fields.inputLabel}>
-                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Label>
+                                              {q.fields.inputLabel} <span className="text-red">*</span>
+                                            </Form.Label>
                                             <Form.Control
                                               type="email"
                                               placeholder="j.doe@email.com"
@@ -633,7 +646,9 @@ const BandApplicationModal = () => {
                                         )}
                                         {q.fields.isInput && q.fields.inputType === "tel" && (
                                           <Form.Group className="mb-8" id={q.fields.inputLabel}>
-                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Label>
+                                              {q.fields.inputLabel} <span className="text-red">*</span>
+                                            </Form.Label>
                                             <Form.Control
                                               type="tel"
                                               value={leaderPhone}
@@ -667,7 +682,9 @@ const BandApplicationModal = () => {
                                       <>
                                         {q.fields.isInput && q.fields.inputType === "number" && (
                                           <Form.Group md="6" className="mb-8" id={q.fields.inputLabel}>
-                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Label>
+                                              {q.fields.inputLabel} <span className="text-red">*</span>
+                                            </Form.Label>
                                             <InputGroup className="mb-3">
                                               <Form.Control
                                                 placeholder="1"
@@ -700,7 +717,9 @@ const BandApplicationModal = () => {
                                                       id={`member-group-${mem}`}
                                                       className={mem === 1 ? "member mb-2" : "member mb-2 hidden"}
                                                     >
-                                                      <Form.Label>Member {mem}'s full name</Form.Label>
+                                                      <Form.Label>
+                                                        Member {mem}'s full name <span className="text-red">*</span>
+                                                      </Form.Label>
                                                       <Form.Control
                                                         type="text"
                                                         placeholder="Jane Doe"
@@ -718,7 +737,9 @@ const BandApplicationModal = () => {
                                                       id={`inst-group-${mem}`}
                                                       className={mem === 1 ? "instrument mb-6" : "instrument mb-6 hidden"}
                                                     >
-                                                      <Form.Label>Member {mem}'s Instrument</Form.Label>
+                                                      <Form.Label>
+                                                        Member {mem}'s Instrument <span className="text-red">*</span>
+                                                      </Form.Label>
                                                       <InputGroup className="mb-3">
                                                         <Form.Select
                                                           aria-label="band style"
@@ -782,7 +803,9 @@ const BandApplicationModal = () => {
                               {question.fields.title === "Band Application: Availability" && (
                                 <>
                                   <Modal.Body>
-                                    <h3 className="font-bold text-lg pb-8">{question.fields.subtitle}</h3>
+                                    <h3 className="font-bold text-lg pb-8">
+                                      {question.fields.subtitle} <span className="text-red">*</span>
+                                    </h3>
                                     {question.fields.referenceItems.map((q) => (
                                       <>
                                         {q.fields.isInput && q.fields.inputType === "Multi select" && (
@@ -818,7 +841,9 @@ const BandApplicationModal = () => {
                                         <>
                                           {q.fields.title === "First fee" && (
                                             <div>
-                                              <label className="block text-sm font-medium leading-6 text-gray-900">{q.fields.inputLabel}</label>
+                                              <label className="block text-sm font-medium leading-6 text-gray-900">
+                                                {q.fields.inputLabel} <span className="text-red">*</span>
+                                              </label>
                                               <InputGroup className="mb-3">
                                                 <InputGroup.Text>$</InputGroup.Text>
                                                 <Form.Control
@@ -833,7 +858,9 @@ const BandApplicationModal = () => {
                                         <>
                                           {q.fields.title === "Second fee" && (
                                             <div>
-                                              <label className="block text-sm font-medium leading-6 text-gray-900">{q.fields.inputLabel}</label>
+                                              <label className="block text-sm font-medium leading-6 text-gray-900">
+                                                {q.fields.inputLabel} <span className="text-red">*</span>
+                                              </label>
                                               <InputGroup className="mb-3">
                                                 <InputGroup.Text>$</InputGroup.Text>
                                                 <Form.Control
@@ -870,7 +897,9 @@ const BandApplicationModal = () => {
                                       <>
                                         {q.fields.isInput && q.fields.inputType === "Large text area" && (
                                           <Form.Group className="mb-3" controlId={q.fields.inputLabel}>
-                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Label>
+                                              {q.fields.inputLabel} <span className="text-red">*</span>
+                                            </Form.Label>
                                             <Form.Control
                                               as="textarea"
                                               rows={3}
@@ -885,7 +914,9 @@ const BandApplicationModal = () => {
                                         )}
                                         {q.fields.isInput && q.fields.inputType === "url" && (
                                           <Form.Group md="6" controlId={q.fields.inputLabel}>
-                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
+                                            <Form.Label>
+                                              {q.fields.inputLabel} <span className="text-red">*</span>
+                                            </Form.Label>
                                             <Form.Control
                                               type="text"
                                               value={websiteUrl}
@@ -896,10 +927,12 @@ const BandApplicationModal = () => {
                                             <Form.Control.Feedback type="invalid">Please provide a band website.</Form.Control.Feedback>
                                           </Form.Group>
                                         )}
-                                        {q.fields.isInput && q.fields.inputType === "url" && (
+                                        {q.fields.isInput && q.fields.inputType === "File upload" && (
                                           <Form.Group controlId="formFile" className="mb-3">
-                                            <Form.Label>{q.fields.inputLabel}</Form.Label>
-                                            <Form.Control type="file" value={upload} onChange={(e) => setUpload(e.target.value)} />
+                                            <Form.Label>
+                                              {q.fields.inputLabel} <span className="text-red">*</span>
+                                            </Form.Label>
+                                            <Form.Control type="file" value={upload} onChange={(e) => console.log(e)} />
                                           </Form.Group>
                                         )}
                                       </>
@@ -912,7 +945,7 @@ const BandApplicationModal = () => {
                                     <Button variant="secondary" onClick={handlePageBack}>
                                       Back
                                     </Button>
-                                    <Button type="submit" disabled={marketingDisabled} onClick={handleSubmit}>
+                                    <Button type="submit" disabled={false} onClick={handleSubmit}>
                                       Submit
                                     </Button>
                                   </Modal.Footer>
