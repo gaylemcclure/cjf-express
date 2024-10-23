@@ -39,7 +39,6 @@ const SingleTextSection = ({ textId }) => {
       .getEntry(textId)
       .then((entry) => {
         const rawRichTextField = entry.fields.pageText;
-        console.log(rawRichTextField);
         return rawRichTextField;
       })
       .then((text) => {

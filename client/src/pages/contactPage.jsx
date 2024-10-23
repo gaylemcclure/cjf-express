@@ -112,10 +112,6 @@ const ContactPage = () => {
   // };
 
   const submitForm = () => {
-    console.log(name);
-    console.log(email);
-
-    console.log(message);
     handleContactEmail();
     setPages("submit");
   };

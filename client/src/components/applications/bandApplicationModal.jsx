@@ -24,6 +24,7 @@ const BandApplicationModal = () => {
   const [availabilityDisabled, setAvailabilityDisabled] = useState(true);
   const [feesDisabled, setFeesDisabled] = useState(true);
   const [marketingDisabled, setMarketingDisabled] = useState(true);
+  const [memberNumberDisabled, setMemberNumberDisabled] = useState(false);
   //Band Details
   const [bandName, setBandName] = useState("");
   const [bandStyle, setBandStyle] = useState("");
@@ -49,6 +50,7 @@ const BandApplicationModal = () => {
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [bio, setBio] = useState("");
   const [upload, setUpload] = useState("");
+  const [playingYear, setPlayingYear] = useState("");
 
   //Unused
   const [allBandData, setAllBandData] = useState();
@@ -63,6 +65,21 @@ const BandApplicationModal = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const todayDate = new Date();
+  const thisYear = todayDate.getFullYear();
+  const thisMonth = todayDate.getMonth();
+
+  useEffect(() => {
+    if (thisMonth === 0) {
+      const stringYear = thisYear.toString();
+      setPlayingYear(stringYear);
+    } else {
+      const year = thisYear + 1;
+      const stringYear = year.toString();
+      setPlayingYear(stringYear);
+    }
+  }, [thisYear]);
 
   //Get data from Contentful
   useEffect(() => {
@@ -308,6 +325,7 @@ const BandApplicationModal = () => {
 
   //Create number of required fields for member input
   const createNumberMembers = (number) => {
+    setMemberNumberDisabled(true);
     const numberArr = [];
     for (let i = 0; i < number; i++) {
       numberArr.push(i + 1);
@@ -339,7 +357,6 @@ const BandApplicationModal = () => {
       const nextMem = document.getElementById(`member-group-${nextRow}`);
       const nextInst = document.getElementById(`inst-group-${nextRow}`);
       if (nextMem) {
-        console.log(nextMem);
         nextMem.classList.remove("hidden");
         nextInst.classList.remove("hidden");
       }
@@ -350,22 +367,18 @@ const BandApplicationModal = () => {
             return m;
           } else {
             if (musicians.id === mem && instrument.id === mem) {
-              console.log("no change");
               return m;
             } else if (musicians.id !== mem && instrument.id === mem) {
-              console.log("change musician only");
               return {
                 ...m,
                 musician: musicians.muso,
               };
             } else if (musicians.id === mem && instrument.id !== mem) {
-              console.log("change instrument only");
               return {
                 ...m,
                 instrument: instrument.inst,
               };
             } else if (musicians.id !== mem && instrument.id !== mem) {
-              console.log("change musician & instrument");
               return {
                 ...m,
                 musician: musicians.muso,
@@ -421,18 +434,21 @@ const BandApplicationModal = () => {
       firstFee: firstFee,
       availability: availability,
       websiteUrl: websiteUrl,
-      // otherInfo: "2025",
-      // "Year Playing": "2025",
+      otherInfo: aboutBand,
+      yearPlaying: playingYear,
       leaderEmail: leaderEmail,
       leaderPhone: leaderPhone,
       secondFee: secondFee,
       upload: upload,
       bio: bio,
+      bandLink: bandLink,
     };
     try {
       const response = await axios.post("/api/airtable/band-application", userData);
       if (response.status === 200) {
         handlePageForward();
+      } else {
+        setPages(14);
       }
     } catch (error) {
       console.log(error);
@@ -660,8 +676,13 @@ const BandApplicationModal = () => {
                                                 type="number"
                                                 onChange={(e) => setNumberMembers(e.target.value)}
                                               />
-                                              <Button variant="dark" id="number-members" onClick={() => createNumberMembers(numberMembers)}>
-                                                Confirm
+                                              <Button
+                                                variant="dark"
+                                                id="number-members"
+                                                disabled={memberNumberDisabled}
+                                                onClick={() => createNumberMembers(numberMembers)}
+                                              >
+                                                {memberNumberDisabled ? "Confirmed" : "Confirm"}
                                               </Button>
                                             </InputGroup>
                                           </Form.Group>
