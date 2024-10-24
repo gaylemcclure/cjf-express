@@ -31,7 +31,7 @@ router.post("/image-upload-ctf", async (req, res) => {
               "en-US": {
                 contentType: "image/png",
                 fileName: "image.cjf_logo_120px.png",
-                upload: "http://localhost:5001/uploads/image.cjf_logo_120px.png",
+                upload: "http://localhost:3001/uploads/image.cjf_logo_120px.png",
               },
             },
           },
