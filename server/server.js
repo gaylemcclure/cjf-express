@@ -41,7 +41,7 @@ const startApolloServer = async () => {
 
   const imgconfig = multer.diskStorage({
     destination: (req, file, callback) => {
-      callback(null, "../client/public/poop");
+      callback(null, "../client/dist/uploads");
     },
     filename: (req, file, callback) => {
       callback(null, `image.${file.originalname}`);
@@ -59,12 +59,12 @@ const startApolloServer = async () => {
     res.send(file);
   });
 
-  app.use("/uploads", express.static(path.join(__dirname, "../client/public/uploads")));
+  app.use("/uploads", express.static(path.join(__dirname, "../client/dist/uploads")));
 
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
 
-    app.use("/uploads", express.static(path.join(__dirname, "../client/public/uploads")));
+    app.use("/uploads", express.static(path.join(__dirname, "../client/dist/uploads")));
 
     app.get("*", (req, res) => {
       res.sendFile(path.join(__dirname, "../client/dist/index.html"));
