@@ -436,7 +436,7 @@ const BandApplicationModal = () => {
 
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     try {
-      const data = await axios.post("/api/image-upload", formData, config);
+      const data = await axios.post(process.env.IMAGE_POST, formData, config);
       setUploadedFileURL(`${process.env.BACKEND_URL}/${data.data.path}`);
     } catch (err) {
       console.log(err);
