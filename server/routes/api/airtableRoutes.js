@@ -4,6 +4,7 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base("appIBA
 
 router.post("/band-application", async (req, res) => {
   const band = req.body;
+  console.log(band.upload);
   const musicianArr = [];
   try {
     base("Musicians")
@@ -46,12 +47,12 @@ router.post("/band-application", async (req, res) => {
             Band_Leader_Email: band.leaderEmail,
             Band_Leader_Phone: band.leaderPhone,
             "Second Fee": band.secondFee,
-            // Image_Link: band.upload,
+            Image_Link: band.upload,
             Bio: band.bio,
             "Music Link": band.bandLink,
             Marketing_image: [
               {
-                url: band.upload,
+                url: `${band.upload}`,
               },
             ],
           },
@@ -63,6 +64,7 @@ router.post("/band-application", async (req, res) => {
           return;
         }
         res.json(records);
+        console.log(records);
         band.musicians.map((bnd) => {
           const musicianFilter = musicianArr.filter((muso) => {
             return muso.name === bnd.musician;

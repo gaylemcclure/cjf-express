@@ -10,11 +10,12 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import styled from "styled-components";
+import Spinner from "react-bootstrap/Spinner";
 
 const BandApplicationModal = () => {
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
-  const [pages, setPages] = useState(1);
+  const [pages, setPages] = useState(12);
   //Button disabled bools
   const [applicationDisabled, setApplicationDisabled] = useState(true);
   const [detailsDisabled, setDetailsDisabled] = useState(true);
@@ -49,8 +50,9 @@ const BandApplicationModal = () => {
   //Marketing details
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [bio, setBio] = useState("");
-  const [upload, setUpload] = useState("");
+  const [upload, setUpload] = useState(null);
   const [playingYear, setPlayingYear] = useState("");
+  const [uploadedFileURL, setUploadedFileURL] = useState(null);
 
   //Unused
   const [allBandData, setAllBandData] = useState();
@@ -425,57 +427,72 @@ const BandApplicationModal = () => {
     });
   };
 
-  // const uploadImage = async () => {
-  //   const file = upload.target.files[0].name
-  //   const uploadName = file.split('.')[0]
-  //   const userData = {
-  //     imageName: uploadName,
-  //     description: "",
-  //     contentType: upload.target.files[0].type,
-  //     fileName: file,
-  //     upload: upload.target.value,
-  //   };
-  //   try {
-  //     const response = await axios.post("/api/page/band-image", userData);
-  //     if (response.status === 200) {
-  //       handlePageForward();
-  //     } else {
-  //       setPages(14);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
+  const handleImageUpload = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("image", upload);
+    formData.append("bio", bio);
+    formData.append("website", websiteUrl);
 
-  // }
-
-  const handleSubmit = async () => {
-    setMarketingDisabled(true);
-    const userData = {
-      bandName: bandName,
-      leaderName: leaderName,
-      bandStyle: bandStyle,
-      firstFee: firstFee,
-      availability: availability,
-      websiteUrl: websiteUrl,
-      otherInfo: aboutBand,
-      yearPlaying: playingYear,
-      leaderEmail: leaderEmail,
-      leaderPhone: leaderPhone,
-      secondFee: secondFee,
-      upload: upload,
-      bio: bio,
-      bandLink: bandLink,
-      musicians: musicianArr,
-    };
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
     try {
-      const response = await axios.post("/api/airtable/band-application", userData);
-      if (response.status === 200) {
-        handlePageForward();
-      } else {
-        setPages(14);
+      const data = await axios.post("/api/image-upload", formData, config);
+      setUploadedFileURL(`${process.env.BACKEND_URL}/${data.data.path}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    handleImageUpload(e);
+    const userData = {
+      imageFile: upload,
+      bandName: "bandName",
+    };
+    if (uploadedFileURL !== null) {
+      try {
+        const response = await axios.post("/api/contentful/image-upload-ctf", uploadedFileURL, {
+          headers: {
+            "Content-Type": "application/vnd.contentful.management.v1+json",
+          },
+        });
+        if (response.status === 200) {
+          handlePageForward();
+        } else {
+          setPages(14);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
+
+      //   setMarketingDisabled(true);
+      //   const userData = {
+      //     bandName: bandName,
+      //     leaderName: leaderName,
+      //     bandStyle: bandStyle,
+      //     firstFee: firstFee,
+      //     availability: availability,
+      //     websiteUrl: websiteUrl,
+      //     otherInfo: aboutBand,
+      //     yearPlaying: playingYear,
+      //     leaderEmail: leaderEmail,
+      //     leaderPhone: leaderPhone,
+      //     secondFee: secondFee,
+      //     upload: uploadedFileURL,
+      //     bio: bio,
+      //     bandLink: bandLink,
+      //     musicians: musicianArr,
+      //   };
+      //   try {
+      //     const response = await axios.post("/api/airtable/band-application", userData);
+      //     if (response.status === 200) {
+      //       handlePageForward();
+      //     } else {
+      //       setPages(14);
+      //     }
+      //   } catch (error) {
+      //     console.log(error);
+      //   }
     }
   };
 
@@ -497,6 +514,9 @@ const BandApplicationModal = () => {
           <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 flex items-center" />
 
           <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[38rem] pl-8 pr-8">
+            {/* <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner> */}
             <>
               {questionData[0].fields.referenceItems.map((question, i) => {
                 if (question.fields.pageNumber === pages) {
@@ -916,7 +936,12 @@ const BandApplicationModal = () => {
                             </>
                             <>
                               {question.fields.title === "Band Application: Marketing" && (
-                                <>
+                                <Form
+                                  onSubmit={handleSubmit}
+                                  action="/image-upload"
+                                  encType={"multipart/form-data"}
+                                  className="container d-flex justify-content-center"
+                                >
                                   <Modal.Body>
                                     {question.fields.referenceItems.map((q) => (
                                       <>
@@ -957,7 +982,7 @@ const BandApplicationModal = () => {
                                             <Form.Label>
                                               {q.fields.inputLabel} <span className="text-red">*</span>
                                             </Form.Label>
-                                            <Form.Control type="file" onChange={(e) => setUpload(e.target.value)} />
+                                            <Form.Control type="file" name="image" onChange={(e) => setUpload(e.target.files[0])} />
                                           </Form.Group>
                                         )}
                                       </>
@@ -970,11 +995,14 @@ const BandApplicationModal = () => {
                                     <Button variant="secondary" onClick={handlePageBack}>
                                       Back
                                     </Button>
-                                    <Button type="submit" disabled={false} onClick={handleSubmit}>
+                                    {/* <Button type="submit" disabled={false} onClick={handleSubmit}>
+                                      Submit
+                                    </Button> */}
+                                    <Button type="submit" variant="primary">
                                       Submit
                                     </Button>
                                   </Modal.Footer>
-                                </>
+                                </Form>
                               )}
                             </>
                           </>
