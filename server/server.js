@@ -60,8 +60,8 @@ const startApolloServer = async () => {
     }
     res.send(file);
   });
-  console.log(__dirname);
-  app.use("/uploads", express.static(path.join(__dirname, "/client/public/uploads")));
+
+  app.use("/uploads", express.static(path.join(__dirname, "../client/public/uploads")));
 
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
