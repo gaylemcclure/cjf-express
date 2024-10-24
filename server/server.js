@@ -42,7 +42,7 @@ const startApolloServer = async () => {
 
   const imgconfig = multer.diskStorage({
     destination: (req, file, callback) => {
-      callback(null, require.main.path + "/" + " public/uploads/");
+      callback(null, require.main.path + "/uploads/");
     },
     filename: (req, file, callback) => {
       callback(null, `image.${file.originalname}`);
