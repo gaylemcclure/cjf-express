@@ -16,7 +16,7 @@ router.use("/contentful", contentfulRoutes);
 // let upload = multer({ dest: "uploads/" });
 const imgconfig = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "var/data");
+    callback(null, "uploads");
   },
   filename: (req, file, callback) => {
     callback(null, `image.${file.originalname}`);
