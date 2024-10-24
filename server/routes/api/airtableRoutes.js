@@ -46,9 +46,14 @@ router.post("/band-application", async (req, res) => {
             Band_Leader_Email: band.leaderEmail,
             Band_Leader_Phone: band.leaderPhone,
             "Second Fee": band.secondFee,
-            Image_Link: band.upload,
+            // Image_Link: band.upload,
             Bio: band.bio,
             "Music Link": band.bandLink,
+            Marketing_image: [
+              {
+                url: band.upload,
+              },
+            ],
           },
         },
       ],

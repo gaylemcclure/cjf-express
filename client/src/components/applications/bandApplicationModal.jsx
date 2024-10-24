@@ -957,7 +957,7 @@ const BandApplicationModal = () => {
                                             <Form.Label>
                                               {q.fields.inputLabel} <span className="text-red">*</span>
                                             </Form.Label>
-                                            <Form.Control type="file" onChange={(e) => setUpload(e)} />
+                                            <Form.Control type="file" onChange={(e) => setUpload(e.target.value)} />
                                           </Form.Group>
                                         )}
                                       </>
