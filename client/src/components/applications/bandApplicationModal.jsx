@@ -436,7 +436,8 @@ const BandApplicationModal = () => {
 
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     try {
-      const data = await axios.post(process.env.IMAGE_POST, formData, config);
+      const data = await axios.post("/imageupload", formData, config);
+      console.log(data);
       setUploadedFileURL(`${process.env.BACKEND_URL}/${data.data.path}`);
     } catch (err) {
       console.log(err);
@@ -450,21 +451,20 @@ const BandApplicationModal = () => {
       bandName: "bandName",
     };
     if (uploadedFileURL !== null) {
-      try {
-        const response = await axios.post("/api/contentful/image-upload-ctf", uploadedFileURL, {
-          headers: {
-            "Content-Type": "application/vnd.contentful.management.v1+json",
-          },
-        });
-        if (response.status === 200) {
-          handlePageForward();
-        } else {
-          setPages(14);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-
+      // try {
+      //   const response = await axios.post("/api/contentful/image-upload-ctf", uploadedFileURL, {
+      //     headers: {
+      //       "Content-Type": "application/vnd.contentful.management.v1+json",
+      //     },
+      //   });
+      //   if (response.status === 200) {
+      //     handlePageForward();
+      //   } else {
+      //     setPages(14);
+      //   }
+      // } catch (error) {
+      //   console.log(error);
+      // }
       //   setMarketingDisabled(true);
       //   const userData = {
       //     bandName: bandName,

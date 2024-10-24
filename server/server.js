@@ -4,6 +4,8 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const routes = require("./routes/api/index");
+const postRoutes = require("./routes/postRoutes/index");
+const multer = require("multer");
 
 const { ApolloServer } = require("@apollo/server");
 const { expressMiddleware } = require("@apollo/server/express4");
@@ -36,15 +38,34 @@ const startApolloServer = async () => {
       context: authMiddleware,
     })
   );
+
+  const imgconfig = multer.diskStorage({
+    destination: (req, file, callback) => {
+      callback(null, "uploads");
+    },
+    filename: (req, file, callback) => {
+      callback(null, `image.${file.originalname}`);
+    },
+  });
+
+  let upload = multer({ storage: imgconfig });
+  app.post("/imageupload", upload.single("image"), function (req, res, next) {
+    const file = req.file;
+    if (!file) {
+      const error = new Error("No File");
+      error.httpStatusCode = 400;
+      return next(error);
+    }
+    res.send(file);
+  });
+
+  app.use("/uploads", express.static(path.join(__dirname, "../client/public")));
   app.use("/uploads", express.static("./uploads"));
-  // app.use(function (req, res, next) {
-  //   res.header("Access-Control-Allow-Origin", "http://localhost:5001"); // update to match the domain you will make the request from
-  //   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  //   next();
-  // });
 
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
+
+    app.use("/uploads", express.static(path.join(__dirname, "../client/public")));
 
     app.get("*", (req, res) => {
       res.sendFile(path.join(__dirname, "../client/dist/index.html"));
