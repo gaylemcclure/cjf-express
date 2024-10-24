@@ -15,7 +15,7 @@ import Spinner from "react-bootstrap/Spinner";
 const BandApplicationModal = () => {
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
-  const [pages, setPages] = useState(12);
+  const [pages, setPages] = useState(1);
   //Button disabled bools
   const [applicationDisabled, setApplicationDisabled] = useState(true);
   const [detailsDisabled, setDetailsDisabled] = useState(true);
@@ -437,62 +437,43 @@ const BandApplicationModal = () => {
     const config = { headers: { "Content-Type": "multipart/form-data" } };
     try {
       const data = await axios.post("/imageupload", formData, config);
-      console.log(data);
-      setUploadedFileURL(`${process.env.BACKEND_URL}/${data.data.path}`);
+      setUploadedFileURL(`${process.env.CLIENT_URL}/uploads/${data.data.filename}`);
     } catch (err) {
       console.log(err);
     }
   };
 
   const handleSubmit = async (e) => {
-    handleImageUpload(e);
-    const userData = {
-      imageFile: upload,
-      bandName: "bandName",
-    };
+    await handleImageUpload(e);
     if (uploadedFileURL !== null) {
-      // try {
-      //   const response = await axios.post("/api/contentful/image-upload-ctf", uploadedFileURL, {
-      //     headers: {
-      //       "Content-Type": "application/vnd.contentful.management.v1+json",
-      //     },
-      //   });
-      //   if (response.status === 200) {
-      //     handlePageForward();
-      //   } else {
-      //     setPages(14);
-      //   }
-      // } catch (error) {
-      //   console.log(error);
-      // }
-      //   setMarketingDisabled(true);
-      //   const userData = {
-      //     bandName: bandName,
-      //     leaderName: leaderName,
-      //     bandStyle: bandStyle,
-      //     firstFee: firstFee,
-      //     availability: availability,
-      //     websiteUrl: websiteUrl,
-      //     otherInfo: aboutBand,
-      //     yearPlaying: playingYear,
-      //     leaderEmail: leaderEmail,
-      //     leaderPhone: leaderPhone,
-      //     secondFee: secondFee,
-      //     upload: uploadedFileURL,
-      //     bio: bio,
-      //     bandLink: bandLink,
-      //     musicians: musicianArr,
-      //   };
-      //   try {
-      //     const response = await axios.post("/api/airtable/band-application", userData);
-      //     if (response.status === 200) {
-      //       handlePageForward();
-      //     } else {
-      //       setPages(14);
-      //     }
-      //   } catch (error) {
-      //     console.log(error);
-      //   }
+      setMarketingDisabled(true);
+      const userData = {
+        bandName: bandName,
+        leaderName: leaderName,
+        bandStyle: bandStyle,
+        firstFee: firstFee,
+        availability: availability,
+        websiteUrl: websiteUrl,
+        otherInfo: aboutBand,
+        yearPlaying: playingYear,
+        leaderEmail: leaderEmail,
+        leaderPhone: leaderPhone,
+        secondFee: secondFee,
+        upload: uploadedFileURL,
+        bio: bio,
+        bandLink: bandLink,
+        musicians: musicianArr,
+      };
+      try {
+        const response = await axios.post("/api/airtable/band-application", userData);
+        if (response.status === 200) {
+          handlePageForward();
+        } else {
+          setPages(14);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
