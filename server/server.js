@@ -6,6 +6,7 @@ const path = require("path");
 const routes = require("./routes/api/index");
 const postRoutes = require("./routes/postRoutes/index");
 const multer = require("multer");
+const process = require("process");
 
 const { ApolloServer } = require("@apollo/server");
 const { expressMiddleware } = require("@apollo/server/express4");
@@ -41,6 +42,8 @@ const startApolloServer = async () => {
 
   const imgconfig = multer.diskStorage({
     destination: (req, file, callback) => {
+      console.log(process.cwd());
+
       callback(null, "../client/public");
     },
     filename: (req, file, callback) => {
@@ -48,8 +51,11 @@ const startApolloServer = async () => {
     },
   });
 
+  console.log(process.cwd());
+
   let upload = multer({ storage: imgconfig });
   app.post("/imageupload", upload.single("image"), function (req, res, next) {
+    console.log(process.cwd());
     const file = req.file;
     if (!file) {
       const error = new Error("No File");
