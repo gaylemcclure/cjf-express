@@ -15,7 +15,7 @@ import Spinner from "react-bootstrap/Spinner";
 const BandApplicationModal = () => {
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
-  const [pages, setPages] = useState(1);
+  const [pages, setPages] = useState(12);
   //Button disabled bools
   const [applicationDisabled, setApplicationDisabled] = useState(true);
   const [detailsDisabled, setDetailsDisabled] = useState(true);
@@ -502,7 +502,7 @@ const BandApplicationModal = () => {
               {questionData[0].fields.referenceItems.map((question, i) => {
                 if (question.fields.pageNumber === pages) {
                   return (
-                    <div key={i} className="flex flex-col h-screen">
+                    <div key={i} className="flex flex-col h-[85vh]">
                       <Modal.Header closeButton>
                         <Modal.Title>{question.fields.title}</Modal.Title>
                       </Modal.Header>
@@ -921,7 +921,7 @@ const BandApplicationModal = () => {
                                   onSubmit={handleSubmit}
                                   action="/image-upload"
                                   encType={"multipart/form-data"}
-                                  className="container d-flex justify-content-center"
+                                  className="container flex justify-content-center flex-col h-full"
                                 >
                                   <Modal.Body>
                                     {question.fields.referenceItems.map((q) => (
