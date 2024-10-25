@@ -6,6 +6,11 @@ const pageRoutes = require("./pageRoutes");
 const airtableRoutes = require("./airtableRoutes");
 const client = require("../../client");
 const contentfulRoutes = require("./contentfulRoutes");
+const MailerLite = require("@mailerlite/mailerlite-nodejs").default;
+
+const mailerlite = new MailerLite({
+  api_key: process.env.MAILERLITE_KEY,
+});
 
 router.use("/header", headerRoute);
 router.use("/landingPage", landingRoute);
@@ -37,6 +42,22 @@ router.post("/image-upload", upload.single("image"), (req, res, next) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+});
+
+router.post("/add-subscriber", async (req, res) => {
+  const params = {
+    email: req.body.email,
+  };
+
+  mailerlite.subscribers
+    .createOrUpdate(params)
+    .then((response) => {
+      console.log(response);
+      return res.send(response);
+    })
+    .catch((error) => {
+      if (error.response) console.log(error.response.data);
+    });
 });
 
 module.exports = router;

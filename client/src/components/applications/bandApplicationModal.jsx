@@ -502,7 +502,7 @@ const BandApplicationModal = () => {
               {questionData[0].fields.referenceItems.map((question, i) => {
                 if (question.fields.pageNumber === pages) {
                   return (
-                    <div key={i}>
+                    <div key={i} className="flex flex-col h-screen">
                       <Modal.Header closeButton>
                         <Modal.Title>{question.fields.title}</Modal.Title>
                       </Modal.Header>

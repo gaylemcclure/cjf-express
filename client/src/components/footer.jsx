@@ -1,11 +1,30 @@
 import { FaInstagram, FaFacebook } from "react-icons/fa";
 import styled from "styled-components";
 import { useHeaderContext } from "../utils/headerContext";
+import { useState } from "react";
+import axios from "axios";
 
 const Footer = () => {
   const { footer } = useHeaderContext();
   const { logo } = useHeaderContext();
   const year = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const handleAddSubscriber = async () => {
+    const emailParams = {
+      email: email,
+    };
+    try {
+      const response = await axios.post("/api/add-subscriber", emailParams);
+      console.log(response);
+      if (response.status === 200 || response.status === 201) {
+        setIsSubscribed(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <FooterSection>
@@ -31,9 +50,9 @@ const Footer = () => {
               <div className="flex flex-col w-full">
                 <label className="font-bold text-lg uppercase text-white pb-4 mt-4">{footer.signupText}</label>
                 <div className="flex flex-row w-full">
-                  <input type="email" placeholder="Email address" className="mail_input w-9/12" />
-                  <button type="submit" className="mail_button font-extrabold w-3/12 text-white">
-                    {footer.signupButton}
+                  <input type="email" placeholder="Email address" onChange={(e) => setEmail(e.target.value)} className="mail_input w-9/12" />
+                  <button type="submit" onClick={handleAddSubscriber} className="mail_button font-extrabold w-3/12 text-white">
+                    {isSubscribed ? "Subscribed" : footer.signupButton}
                   </button>
                 </div>
               </div>

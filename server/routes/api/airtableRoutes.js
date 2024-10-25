@@ -64,7 +64,6 @@ router.post("/band-application", async (req, res) => {
           return;
         }
         res.json(records);
-        console.log(records);
         band.musicians.map((bnd) => {
           const musicianFilter = musicianArr.filter((muso) => {
             return muso.name === bnd.musician;
