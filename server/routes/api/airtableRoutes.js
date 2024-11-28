@@ -4,7 +4,6 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base("appIBA
 
 router.post("/band-application", async (req, res) => {
   const band = req.body;
-  console.log(band.upload);
   const musicianArr = [];
   try {
     base("Musicians")

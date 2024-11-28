@@ -7,6 +7,7 @@ const routes = require("./routes/api/index");
 const postRoutes = require("./routes/postRoutes/index");
 const multer = require("multer");
 const process = require("process");
+const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
 
 const { ApolloServer } = require("@apollo/server");
 const { expressMiddleware } = require("@apollo/server/express4");
@@ -72,6 +73,19 @@ const startApolloServer = async () => {
       res.sendFile(path.join(__dirname, "../client/dist/index.html"));
     });
   }
+
+  // const paymentIntent = await stripe.paymentIntents.create({
+  //   amount: 200,
+  //   currency: "aud",
+  //   automatic_payment_methods: {
+  //     enabled: true,
+  //   },
+  // });
+
+  // app.get("/secret", async (req, res) => {
+  //   const intent = paymentIntent;
+  //   res.json({ client_secret: intent.client_secret });
+  // });
 
   db.once("open", () => {
     app.listen(PORT, () => {

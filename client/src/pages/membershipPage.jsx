@@ -8,6 +8,7 @@ import SingleImageHeadlineSection from "../components/pageSections/singleImageHe
 import SingleImageTextSection from "../components/pageSections/singleImageTextSection";
 import SingleTextSection from "../components/pageSections/singleTextSection";
 import AccordionComponent from "../components/accordion";
+import MembershipModal from "../components/applications/membershipModal";
 
 const MembershipPage = () => {
   const [pageData, setPageData] = useState([]);
@@ -17,6 +18,7 @@ const MembershipPage = () => {
     space: "b10z0f9dnsdt",
     accessToken: "bYqdQnmfDAq3pW7IRc34GawRTXvvxSUcRiB6pUSpCTg",
   });
+
   useEffect(() => {
     try {
       client
@@ -37,7 +39,7 @@ const MembershipPage = () => {
   return (
     <>
       {pageData && (
-        <>
+        <div className="place-content-center flex-col flex bg-gray">
           {pageData.map((section, i) => {
             if (section.sys.contentType.sys.id === "bannerHeading") {
               return (
@@ -50,7 +52,7 @@ const MembershipPage = () => {
               );
             }
             if (section.sys.contentType.sys.id === "buttonSection") {
-              return <ButtonSection key={i} />;
+              return <MembershipModal key={i} />;
             }
             if (section.sys.contentType.sys.id === "pageHeadingSection") {
               return <PageHeadingSection heading={section.fields.heading} subtitle={section.fields.subtitle} key={i} />;
@@ -58,6 +60,7 @@ const MembershipPage = () => {
             if (section.sys.contentType.sys.id === "pageTextSection") {
               return (
                 <PageTextSection
+                  key={i}
                   heading={section.fields.heading}
                   subtitle={section.fields.subtitle}
                   textId={section.sys.id}
@@ -93,7 +96,7 @@ const MembershipPage = () => {
               );
             }
           })}
-        </>
+        </div>
       )}
     </>
   );

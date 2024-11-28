@@ -443,6 +443,8 @@ const BandApplicationModal = () => {
     }
   };
 
+  console.log(marketingDisabled);
+
   const handleSubmit = async (e) => {
     await handleImageUpload(e);
     if (uploadedFileURL !== null) {
@@ -979,7 +981,7 @@ const BandApplicationModal = () => {
                                     {/* <Button type="submit" disabled={false} onClick={handleSubmit}>
                                       Submit
                                     </Button> */}
-                                    <Button type="submit" variant="primary">
+                                    <Button type="submit" variant="primary" disabled={marketingDisabled}>
                                       Submit
                                     </Button>
                                   </Modal.Footer>

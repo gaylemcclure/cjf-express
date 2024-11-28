@@ -7,6 +7,7 @@ const airtableRoutes = require("./airtableRoutes");
 const client = require("../../client");
 const contentfulRoutes = require("./contentfulRoutes");
 const MailerLite = require("@mailerlite/mailerlite-nodejs").default;
+const stripeRoutes = require("./stripeRoutes");
 
 const mailerlite = new MailerLite({
   api_key: process.env.MAILERLITE_KEY,
@@ -17,6 +18,7 @@ router.use("/landingPage", landingRoute);
 router.use("/page", pageRoutes);
 router.use("/airtable", airtableRoutes);
 router.use("/contentful", contentfulRoutes);
+router.use("/stripe", stripeRoutes);
 
 // let upload = multer({ dest: "uploads/" });
 const imgconfig = multer.diskStorage({
