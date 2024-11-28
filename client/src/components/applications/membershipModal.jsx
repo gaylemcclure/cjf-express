@@ -36,7 +36,7 @@ const getKey = async () => {
   return options;
 };
 
-const stripeOptions = await getKey();
+const stripeOptions = getKey();
 
 const MembershipModal = () => {
   const [showSuccess, setShowSuccess] = useState(false);
