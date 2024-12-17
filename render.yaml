@@ -4,7 +4,7 @@ services:
   name: cjf-express
   runtime: node
   repo: https://github.com/gaylemcclure/cjf-express
-  plan: starter
+  plan: free
   envVars:
   - key: PAYMENT_CONFIG
     sync: false
@@ -53,9 +53,5 @@ services:
   region: singapore
   buildCommand: npm install && npm run build
   startCommand: node server/server.js
-  disk:
-    name: disk
-    mountPath: /var/data
-    sizeGB: 5
   autoDeploy: false
 version: "1"

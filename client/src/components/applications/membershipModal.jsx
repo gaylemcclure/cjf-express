@@ -72,7 +72,7 @@ const MembershipModal = () => {
       date: todayDate,
     };
     try {
-      const response = await axios.post("/api/airtable/band-application", userData);
+      const response = await axios.post("/api/airtable/", userData);
       if (response.status === 200) {
         handlePageForward();
       } else {
