@@ -140,10 +140,10 @@ const BandApplicationModal = () => {
 
   //Disable marketing questions button
   useEffect(() => {
-    if (bio !== "" && websiteUrl !== "" && upload !== null) {
+    if (bio !== "" && websiteUrl !== "" && uploadedFileURL !== null) {
       setMarketingDisabled(false);
     }
-  }, [bio, websiteUrl, upload]);
+  }, [bio, websiteUrl, uploadedFileURL]);
 
   //----- INPUT VERIFICATION CHECKS -------
   //Detail input verifications
@@ -450,7 +450,6 @@ const BandApplicationModal = () => {
   const handleSubmit = async (e) => {
     setShowSpinner(true);
     if (uploadedFileURL !== null) {
-      setMarketingDisabled(true);
       const userData = {
         bandName: bandName,
         leaderName: leaderName,
@@ -970,7 +969,7 @@ const BandApplicationModal = () => {
                                             </Form.Label>
                                             <Form.Control type="file" name="image" onChange={(e) => setUpload(e.target.files[0])} />
                                             {upload !== null && <Button onClick={handleImageUpload}>Upload</Button>}
-                                            {setUploadedFileURL !== null && <img src={uploadedFileURL} />}
+                                            {setUploadedFileURL !== null && <img className="h-[120px]" src={uploadedFileURL} />}
                                           </Form.Group>
                                         )}
                                       </>
