@@ -49,17 +49,17 @@ const BandApplications = () => {
 
   // }, []);
 
-  const handleSubmit = async () => {
-    const userData = {
-      email: "email@email",
-      password: "password",
-    };
-    try {
-      const response = await axios.post("/api/airtable/band-application", userData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleSubmit = async () => {
+  //   const userData = {
+  //     email: "email@email",
+  //     password: "password",
+  //   };
+  //   try {
+  //     const response = await axios.post("/api/airtable/band-application", userData);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <>

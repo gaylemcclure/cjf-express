@@ -15,7 +15,7 @@ import Spinner from "react-bootstrap/Spinner";
 const BandApplicationModal = () => {
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
-  const [pages, setPages] = useState(1);
+  const [pages, setPages] = useState(12);
   //Button disabled bools
   const [applicationDisabled, setApplicationDisabled] = useState(true);
   const [detailsDisabled, setDetailsDisabled] = useState(true);
@@ -448,6 +448,7 @@ const BandApplicationModal = () => {
   };
 
   const handleSubmit = async (e) => {
+    e.preventDefault();
     setShowSpinner(true);
     if (uploadedFileURL !== null) {
       const userData = {
@@ -470,7 +471,7 @@ const BandApplicationModal = () => {
       try {
         const response = await axios.post("/api/airtable/band-application", userData);
         if (response.status === 200) {
-          handlePageForward();
+          setPages(13);
         } else {
           setPages(14);
         }
@@ -985,7 +986,7 @@ const BandApplicationModal = () => {
                                     {/* <Button type="submit" disabled={false} onClick={handleSubmit}>
                                       Submit
                                     </Button> */}
-                                    <Button type="submit" variant="primary" disabled={marketingDisabled}>
+                                    <Button type="submit" variant="primary" disabled={false}>
                                       Submit
                                     </Button>
                                   </Modal.Footer>
