@@ -987,7 +987,7 @@ const BandApplicationModal = () => {
                                     {/* <Button type="submit" disabled={false} onClick={handleSubmit}>
                                       Submit
                                     </Button> */}
-                                    <Button type="submit" variant="primary" disabled={false}>
+                                    <Button type="submit" variant="primary" disabled={marketingDisabled}>
                                       Submit
                                     </Button>
                                   </Modal.Footer>
