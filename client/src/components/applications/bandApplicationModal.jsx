@@ -471,6 +471,7 @@ const BandApplicationModal = () => {
       try {
         const response = await axios.post("/api/airtable/band-application", userData);
         if (response.status === 200) {
+          setShowSpinner(false);
           setPages(13);
         } else {
           setPages(14);
@@ -964,7 +965,7 @@ const BandApplicationModal = () => {
                                           </Form.Group>
                                         )}
                                         {q.fields.isInput && q.fields.inputType === "File upload" && (
-                                          <Form.Group controlId="formFile" className="mb-3">
+                                          <Form.Group controlId="formFile" className="mb-3 mt-3">
                                             <Form.Label>
                                               {q.fields.inputLabel} <span className="text-red">*</span>
                                             </Form.Label>
