@@ -53,6 +53,7 @@ const BandApplicationModal = () => {
   const [upload, setUpload] = useState(null);
   const [playingYear, setPlayingYear] = useState("");
   const [uploadedFileURL, setUploadedFileURL] = useState(null);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   //Unused
   const [allBandData, setAllBandData] = useState();
@@ -123,7 +124,6 @@ const BandApplicationModal = () => {
 
   //Disable availability questions button
   useEffect(() => {
-    console.log(availability.length);
     if (availability.length > 0) {
       setAvailabilityDisabled(false);
     } else if (availability.length === 0) {
@@ -144,8 +144,6 @@ const BandApplicationModal = () => {
       setMarketingDisabled(false);
     }
   }, [bio, websiteUrl, upload]);
-
-  console.log(upload);
 
   //----- INPUT VERIFICATION CHECKS -------
   //Detail input verifications
@@ -444,14 +442,13 @@ const BandApplicationModal = () => {
     try {
       const data = await axios.post("/imageupload", formData, config);
       setUploadedFileURL(`${process.env.CLIENT_URL}/uploads/${data.data.filename}`);
-      console.log(uploadedFileURL);
     } catch (err) {
       console.log(err);
     }
   };
 
   const handleSubmit = async (e) => {
-    // await handleImageUpload(e);
+    setShowSpinner(true);
     if (uploadedFileURL !== null) {
       setMarketingDisabled(true);
       const userData = {
@@ -502,9 +499,12 @@ const BandApplicationModal = () => {
           <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 flex items-center" />
 
           <Modal show={show} onHide={handleClose} size="lg" contentClassName=" pl-8 pr-8">
-            {/* <Spinner animation="border" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </Spinner> */}
+            {showSpinner && (
+              <Spinner animation="border" role="status" className="absolute top-2/4 left-2/4 z-10">
+                <span className="visually-hidden absolute top-2/4 left-2/4">Loading...</span>
+              </Spinner>
+            )}
+            {showSpinner && <p className="absolute top-[56%] left-[47%] z-10">Submitting...</p>}
             <>
               {questionData[0].fields.referenceItems.map((question, i) => {
                 if (question.fields.pageNumber === pages) {
@@ -945,8 +945,6 @@ const BandApplicationModal = () => {
                                               placeholder="Band bio used for marketing..."
                                               onChange={(e) => setBio(e.target.value)}
                                               required
-                                              // feedback="You must agree before submitting."
-                                              // feedbackType="invalid"
                                             />
                                           </Form.Group>
                                         )}
@@ -962,7 +960,7 @@ const BandApplicationModal = () => {
                                               required
                                               onChange={(e) => setWebsiteUrl(e.target.value)}
                                             />
-                                            <Form.Control.Feedback type="invalid">Please provide a band website.</Form.Control.Feedback>
+                                            {/* <Form.Control.Feedback type="invalid">Please provide a band website.</Form.Control.Feedback> */}
                                           </Form.Group>
                                         )}
                                         {q.fields.isInput && q.fields.inputType === "File upload" && (
@@ -972,6 +970,7 @@ const BandApplicationModal = () => {
                                             </Form.Label>
                                             <Form.Control type="file" name="image" onChange={(e) => setUpload(e.target.files[0])} />
                                             {upload !== null && <Button onClick={handleImageUpload}>Upload</Button>}
+                                            {setUploadedFileURL !== null && <img src={uploadedFileURL} />}
                                           </Form.Group>
                                         )}
                                       </>
