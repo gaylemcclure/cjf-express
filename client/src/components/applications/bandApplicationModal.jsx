@@ -925,7 +925,7 @@ const BandApplicationModal = () => {
                               {question.fields.title === "Band Application: Marketing" && (
                                 <Form
                                   onSubmit={handleSubmit}
-                                  action="/image-upload"
+                                  // action="/image-upload"
                                   encType={"multipart/form-data"}
                                   className="container flex justify-content-center flex-col h-full"
                                 >
