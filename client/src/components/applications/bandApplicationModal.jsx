@@ -444,6 +444,7 @@ const BandApplicationModal = () => {
     try {
       const data = await axios.post("/imageupload", formData, config);
       setUploadedFileURL(`${process.env.CLIENT_URL}/uploads/${data.data.filename}`);
+      console.log(uploadedFileURL);
     } catch (err) {
       console.log(err);
     }
@@ -970,7 +971,7 @@ const BandApplicationModal = () => {
                                               {q.fields.inputLabel} <span className="text-red">*</span>
                                             </Form.Label>
                                             <Form.Control type="file" name="image" onChange={(e) => setUpload(e.target.files[0])} />
-                                            {upload !== null && <button onClick={handleImageUpload}>Upload</button>}
+                                            {upload !== null && <Button onClick={handleImageUpload}>Upload</Button>}
                                           </Form.Group>
                                         )}
                                       </>
