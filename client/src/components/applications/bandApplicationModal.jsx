@@ -15,7 +15,7 @@ import Spinner from "react-bootstrap/Spinner";
 const BandApplicationModal = () => {
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
-  const [pages, setPages] = useState(1);
+  const [pages, setPages] = useState(12);
   //Button disabled bools
   const [applicationDisabled, setApplicationDisabled] = useState(true);
   const [detailsDisabled, setDetailsDisabled] = useState(true);
@@ -100,10 +100,10 @@ const BandApplicationModal = () => {
   //----- DISABLE CHECKS -------
   //Disable details questions button
   useEffect(() => {
-    if (bandName !== "" && bandStyle !== "" && bandLink !== "") {
+    if (bandName !== "" && bandStyle !== "" && bandLink !== "" && aboutBand !== "") {
       setDetailsDisabled(false);
     }
-  }, [bandName, bandStyle, bandLink]);
+  }, [bandName, bandStyle, bandLink, aboutBand]);
 
   //Disable contact questions button
   useEffect(() => {
@@ -123,8 +123,11 @@ const BandApplicationModal = () => {
 
   //Disable availability questions button
   useEffect(() => {
+    console.log(availability.length);
     if (availability.length > 0) {
       setAvailabilityDisabled(false);
+    } else if (availability.length === 0) {
+      setAvailabilityDisabled(true);
     }
   }, [availability]);
 
@@ -137,10 +140,12 @@ const BandApplicationModal = () => {
 
   //Disable marketing questions button
   useEffect(() => {
-    if (bio !== "" && websiteUrl !== "" && upload !== "") {
+    if (bio !== "" && websiteUrl !== "" && upload !== null) {
       setMarketingDisabled(false);
     }
   }, [bio, websiteUrl, upload]);
+
+  console.log(upload);
 
   //----- INPUT VERIFICATION CHECKS -------
   //Detail input verifications
@@ -415,6 +420,7 @@ const BandApplicationModal = () => {
       if (prevAvailability.length === 0) {
         return [opts];
       }
+
       // Check if the data already exists in the array
       const index = prevAvailability.indexOf(opts);
       if (index !== -1) {
@@ -443,10 +449,8 @@ const BandApplicationModal = () => {
     }
   };
 
-  console.log(marketingDisabled);
-
   const handleSubmit = async (e) => {
-    await handleImageUpload(e);
+    // await handleImageUpload(e);
     if (uploadedFileURL !== null) {
       setMarketingDisabled(true);
       const userData = {
@@ -496,7 +500,7 @@ const BandApplicationModal = () => {
         <>
           <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 flex items-center" />
 
-          <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[38rem] pl-8 pr-8">
+          <Modal show={show} onHide={handleClose} size="lg" contentClassName=" pl-8 pr-8">
             {/* <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
             </Spinner> */}
@@ -504,7 +508,7 @@ const BandApplicationModal = () => {
               {questionData[0].fields.referenceItems.map((question, i) => {
                 if (question.fields.pageNumber === pages) {
                   return (
-                    <div key={i} className="flex flex-col h-[85vh]">
+                    <div key={i} className="flex flex-col">
                       <Modal.Header closeButton>
                         <Modal.Title>{question.fields.title}</Modal.Title>
                       </Modal.Header>
@@ -929,7 +933,7 @@ const BandApplicationModal = () => {
                                     {question.fields.referenceItems.map((q) => (
                                       <>
                                         {q.fields.isInput && q.fields.inputType === "Large text area" && (
-                                          <Form.Group className="mb-3" controlId={q.fields.inputLabel}>
+                                          <Form.Group className="mb-3 mt-3" controlId={q.fields.inputLabel}>
                                             <Form.Label>
                                               {q.fields.inputLabel} <span className="text-red">*</span>
                                             </Form.Label>
@@ -966,6 +970,7 @@ const BandApplicationModal = () => {
                                               {q.fields.inputLabel} <span className="text-red">*</span>
                                             </Form.Label>
                                             <Form.Control type="file" name="image" onChange={(e) => setUpload(e.target.files[0])} />
+                                            {upload !== null && <button onClick={handleImageUpload}>Upload</button>}
                                           </Form.Group>
                                         )}
                                       </>
