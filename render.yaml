@@ -1,0 +1,64 @@
+# Exported from Render on 2024-12-17T06:55:18Z
+services:
+- type: web
+  name: cjf-express
+  runtime: node
+  repo: https://github.com/gaylemcclure/cjf-express
+  plan: starter
+  envVars:
+  - key: PAYMENT_CONFIG
+    sync: false
+  - key: STRIPE_TEST_KEY
+    sync: false
+  - key: STRIPE_TEST_PUBLISHABLE
+    sync: false
+  - key: STRIPE_KEY
+    sync: false
+  - key: STRIPE_PUBLISHABLE
+    sync: false
+  - key: MAILERLITE_KEY
+    sync: false
+  - key: CLIENT_URL
+    sync: false
+  - key: WEBSITE_REFRESH_TOKEN
+    sync: false
+  - key: VITE_SERVER_PORT
+    sync: false
+  - key: VITE_CLIENT_PORT
+    sync: false
+  - key: SPACE_ID
+    sync: false
+  - key: SMTP_EMAIL
+    sync: false
+  - key: PORT
+    sync: false
+  - key: NODE_ENV
+    sync: false
+  - key: CONTENTFUL_API
+    sync: false
+  - key: CMA_TOKEN
+    sync: false
+  - key: CLIENT_SECRET
+    sync: false
+  - key: ATLAS_URI
+    sync: false
+  - key: IMAGE_POST
+    sync: false
+  - key: BACKEND_URL
+    sync: false
+  - key: CLIENT_ID
+    sync: false
+  - key: AIRTABLE_API_KEY
+    sync: false
+  region: singapore
+  buildCommand: npm install && npm run build
+  startCommand: node server/server.js
+  domains:
+  - castlemainejazzfestival.com.au
+  - www.castlemainejazzfestival.com.au
+  disk:
+    name: disk
+    mountPath: /var/data
+    sizeGB: 5
+  autoDeploy: false
+version: "1"
