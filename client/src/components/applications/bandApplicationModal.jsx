@@ -15,7 +15,7 @@ import Spinner from "react-bootstrap/Spinner";
 const BandApplicationModal = () => {
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
-  const [pages, setPages] = useState(12);
+  const [pages, setPages] = useState(1);
   //Button disabled bools
   const [applicationDisabled, setApplicationDisabled] = useState(true);
   const [detailsDisabled, setDetailsDisabled] = useState(true);
@@ -141,13 +141,10 @@ const BandApplicationModal = () => {
 
   //Disable marketing questions button
   useEffect(() => {
-
     if (bio !== "" && websiteUrl !== "" && uploadedFileURL !== null) {
-
       setMarketingDisabled(false);
     }
   }, [bio, websiteUrl, uploadedFileURL]);
-
 
   //----- INPUT VERIFICATION CHECKS -------
   //Detail input verifications
@@ -452,7 +449,6 @@ const BandApplicationModal = () => {
   };
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
     setShowSpinner(true);
     if (uploadedFileURL !== null) {
@@ -979,9 +975,6 @@ const BandApplicationModal = () => {
 
                                             {upload !== null && <Button onClick={handleImageUpload}>Upload</Button>}
                                             {setUploadedFileURL !== null && <img className="h-[120px]" src={uploadedFileURL} />}
-
-
-
                                           </Form.Group>
                                         )}
                                       </>
