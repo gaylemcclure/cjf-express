@@ -53,9 +53,6 @@ services:
   region: singapore
   buildCommand: npm install && npm run build
   startCommand: node server/server.js
-  domains:
-  - castlemainejazzfestival.com.au
-  - www.castlemainejazzfestival.com.au
   disk:
     name: disk
     mountPath: /var/data
