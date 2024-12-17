@@ -15,7 +15,7 @@ import Spinner from "react-bootstrap/Spinner";
 const BandApplicationModal = () => {
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
-  const [pages, setPages] = useState(1);
+  const [pages, setPages] = useState(12);
   //Button disabled bools
   const [applicationDisabled, setApplicationDisabled] = useState(true);
   const [detailsDisabled, setDetailsDisabled] = useState(true);
@@ -124,6 +124,7 @@ const BandApplicationModal = () => {
 
   //Disable availability questions button
   useEffect(() => {
+    console.log(availability.length);
     if (availability.length > 0) {
       setAvailabilityDisabled(false);
     } else if (availability.length === 0) {
@@ -140,10 +141,13 @@ const BandApplicationModal = () => {
 
   //Disable marketing questions button
   useEffect(() => {
+
     if (bio !== "" && websiteUrl !== "" && uploadedFileURL !== null) {
+
       setMarketingDisabled(false);
     }
   }, [bio, websiteUrl, uploadedFileURL]);
+
 
   //----- INPUT VERIFICATION CHECKS -------
   //Detail input verifications
@@ -448,6 +452,7 @@ const BandApplicationModal = () => {
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
     setShowSpinner(true);
     if (uploadedFileURL !== null) {
@@ -506,6 +511,7 @@ const BandApplicationModal = () => {
               </Spinner>
             )}
             {showSpinner && <p className="absolute top-[56%] left-[47%] z-10">Submitting...</p>}
+
             <>
               {questionData[0].fields.referenceItems.map((question, i) => {
                 if (question.fields.pageNumber === pages) {
@@ -970,8 +976,12 @@ const BandApplicationModal = () => {
                                               {q.fields.inputLabel} <span className="text-red">*</span>
                                             </Form.Label>
                                             <Form.Control type="file" name="image" onChange={(e) => setUpload(e.target.files[0])} />
+
                                             {upload !== null && <Button onClick={handleImageUpload}>Upload</Button>}
                                             {setUploadedFileURL !== null && <img className="h-[120px]" src={uploadedFileURL} />}
+
+
+
                                           </Form.Group>
                                         )}
                                       </>
