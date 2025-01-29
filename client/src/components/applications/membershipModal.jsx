@@ -36,7 +36,7 @@ const getKey = async () => {
   return options;
 };
 
-const stripeOptions = getKey();
+const stripeOptions = await getKey();
 
 const MembershipModal = () => {
   const [showSuccess, setShowSuccess] = useState(false);
@@ -82,6 +82,8 @@ const MembershipModal = () => {
       console.log(error);
     }
   };
+
+  console.log(stripeOptions);
 
   const getIntentStatus = async () => {
     const response = await fetch(`/api/stripe/payment-status`);
