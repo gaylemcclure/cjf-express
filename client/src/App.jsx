@@ -1,5 +1,6 @@
 import { HeaderProvider } from "./utils/headerContext";
 import { LandingProvider } from "./utils/landingContext";
+import { StripeProvider } from "./utils/stripeContext";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from "@apollo/client";
@@ -76,11 +77,13 @@ function App() {
     <ApolloProvider client={client}>
       <HeaderProvider>
         <LandingProvider>
-          <div className="flex flex-col justify-flex-start min-full h-full">
-            <Header />
-            <Outlet />
-            <Footer />
-          </div>
+          <StripeProvider>
+            <div className="flex flex-col justify-flex-start min-full h-full">
+              <Header />
+              <Outlet />
+              <Footer />
+            </div>
+          </StripeProvider>
         </LandingProvider>
       </HeaderProvider>
     </ApolloProvider>
