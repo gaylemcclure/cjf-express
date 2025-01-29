@@ -15,30 +15,13 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkoutForm";
 import PaymentStatus from "./paymentStatus";
+import { useStripeContext } from "../../utils/stripeContext";
 
 const stripePromise = loadStripe(process.env.STRIPE_TEST_PUBLISHABLE);
 
-const getKey = async () => {
-  const response = await fetch("/api/stripe");
-  const { client_secret: clientSecret, payment_intent: paymentIntent } = await response.json();
-  // Render the form using the clientSecret
-
-  const options = {
-    // passing the client secret obtained in step 3
-    clientSecret: clientSecret,
-
-    // Fully customizable with appearance API.
-    appearance: {
-      /*...*/
-    },
-  };
-
-  return options;
-};
-
-const stripeOptions = getKey();
-
 const MembershipModal = () => {
+  const { stripe } = useStripeContext();
+
   const [showSuccess, setShowSuccess] = useState(false);
   const [show, setShow] = useState(false);
   const [questionData, setQuestionData] = useState([]);
@@ -83,8 +66,6 @@ const MembershipModal = () => {
     }
   };
 
-  console.log(stripeOptions);
-
   const getIntentStatus = async () => {
     const response = await fetch(`/api/stripe/payment-status`);
     const data = await response.json();
@@ -98,11 +79,11 @@ const MembershipModal = () => {
 
   return (
     <>
-      <Elements stripe={stripePromise} options={stripeOptions}>
+      <Elements stripe={stripePromise} options={stripe}>
         <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 flex items-center" />
 
         <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[55rem] pl-8 pr-8">
-          <CheckoutForm id={stripeOptions.clientSecret} />
+          <CheckoutForm id={stripe.clientSecret} />
         </Modal>
         {showSuccess && <PaymentStatus />}
       </Elements>

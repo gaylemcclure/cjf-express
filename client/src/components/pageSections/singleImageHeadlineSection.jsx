@@ -29,7 +29,7 @@ const SingleImageHeadlineSection = ({ url, filename, heading, subtext, textId, b
         )}
         {imageside === "Right" && (
           <div className="hidden place-content-center tablet:flex bg-gray">
-            <div className="band-wrapper flex flex-col justify-center content-center w-[60%] m-4 pl-12">
+            <div className="band-wrapper flex flex-col justify-center content-center w-[60%] m-4 pl-12 pr-12">
               <h1 className="text-5xl font-extrabold leading-none tracking-tight text-black flex uppercase">{heading}</h1>
               <p className="pt-4">{subtext}</p>
               {isButton && (
