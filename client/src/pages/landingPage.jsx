@@ -51,6 +51,7 @@ const LandingPage = () => {
           buttonText={section.fields.buttonText}
           buttonLink={section.fields.buttonLink}
           imageside={section.fields.imageside}
+          isButton={section.fields.hasButton}
         />
       );
     }

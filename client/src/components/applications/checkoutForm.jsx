@@ -34,32 +34,32 @@ const CheckoutForm = ({ id }) => {
     const name = `${firstName} ${lastName}`;
 
     //Function to create a new customer
-    const createCustomer = async () => {
-      const customerData = {
-        name: name,
-        email: email,
-      };
-      try {
-        const response = await axios.post("/api/stripe/create-customer", customerData);
-        if (response.status === 200) {
-          const newCustomer = response.data.client_id;
-          return newCustomer;
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    // const createCustomer = async () => {
+    //   const customerData = {
+    //     name: name,
+    //     email: email,
+    //   };
+    //   try {
+    //     const response = await axios.post("/api/stripe/create-customer", customerData);
+    //     if (response.status === 200) {
+    //       const newCustomer = response.data.client_id;
+    //       return newCustomer;
+    //     }
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
 
-    const updateIntent = async (data) => {
-      const pi = id.substring(0, id.indexOf("_secret"));
-      const customerData = {
-        customerId: data,
-        pi: pi,
-      };
-      const res = await axios.post("/api/stripe/update", customerData);
-      const updateCustomer = res.data;
-      return updateCustomer;
-    };
+    // const updateIntent = async (data) => {
+    //   const pi = id.substring(0, id.indexOf("_secret"));
+    //   const customerData = {
+    //     customerId: data,
+    //     pi: pi,
+    //   };
+    //   const res = await axios.post("/api/stripe/update", customerData);
+    //   const updateCustomer = res.data;
+    //   return updateCustomer;
+    // };
 
     //Function to search for existing customer
     const searchCustomers = async () => {
@@ -79,6 +79,7 @@ const CheckoutForm = ({ id }) => {
     };
 
     const stripeOptions = await searchCustomers();
+    console.log(stripeOptions);
 
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
@@ -86,13 +87,13 @@ const CheckoutForm = ({ id }) => {
       return;
     }
 
-    const { error } = await stripe.confirmPayment({
-      //`Elements` instance that was used to create the Payment Element
-      elements,
-      confirmParams: {
-        return_url: "http://localhost:5173/membership",
-      },
-    });
+    // const { error } = await stripe.confirmPayment({
+    //   //`Elements` instance that was used to create the Payment Element
+    //   elements,
+    //   confirmParams: {
+    //     return_url: "http://localhost:5173/membership",
+    //   },
+    // });
 
     if (error) {
       // This point will only be reached if there is an immediate error when
@@ -117,50 +118,72 @@ const CheckoutForm = ({ id }) => {
             <form onSubmit={handleSubmit}>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Label>First name</Form.Label>
-                  <Form.Control placeholder="First name" type="text" required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                  <Form.Label>
+                    First name <span className="text-red">*</span>
+                  </Form.Label>
+                  <Form.Control type="text" required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                 </Form.Group>
                 <Form.Group as={Col} controlId="formGrid">
-                  <Form.Label>Last name</Form.Label>
-                  <Form.Control placeholder="Last name" type="text" required value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                  <Form.Label>
+                    Last name <span className="text-red">*</span>
+                  </Form.Label>
+                  <Form.Control type="text" required value={lastName} onChange={(e) => setLastName(e.target.value)} />
                 </Form.Group>
               </Row>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" value={email} required onChange={(e) => setEmail(e.target.value)} />
+                  <Form.Label>
+                    Email <span className="text-red">*</span>
+                  </Form.Label>
+                  <Form.Control type="email" value={email} required onChange={(e) => setEmail(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Label>Phone</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Label>
+                    Phone <span className="text-red">*</span>
+                  </Form.Label>
+                  <Form.Control type="phone" />
                 </Form.Group>
               </Row>
               <Form.Group className="mb-3" controlId="formGridAddress1">
-                <Form.Label>Address</Form.Label>
-                <Form.Control placeholder="1234 Main St" />
+                <Form.Label>
+                  Address <span className="text-red">*</span>
+                </Form.Label>
+                <Form.Control type="text" />
               </Form.Group>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridCity">
-                  <Form.Label>City</Form.Label>
-                  <Form.Control />
+                  <Form.Label>
+                    City <span className="text-red">*</span>
+                  </Form.Label>
+                  <Form.Control type="text" />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridState">
-                  <Form.Label>State</Form.Label>
-                  <Form.Select defaultValue="Choose...">
-                    <option>Choose...</option>
-                    <option>...</option>
+                  <Form.Label>
+                    State <span className="text-red">*</span>
+                  </Form.Label>
+                  <Form.Select defaultValue="VIC">
+                    <option>VIC</option>
+                    <option>ACT</option>
+                    <option>NSW</option>
+                    <option>NT</option>
+                    <option>QLD</option>
+                    <option>SA</option>
+                    <option>TAS</option>
+                    <option>WA</option>
                   </Form.Select>
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridZip">
-                  <Form.Label>Zip</Form.Label>
-                  <Form.Control />
+                  <Form.Label>
+                    Postcode <span className="text-red">*</span>
+                  </Form.Label>
+                  <Form.Control type="text" />
                 </Form.Group>
               </Row>
               <Form.Group className="mb-3 mt-12" id="formGridCheckbox">
-                <Form.Check type="checkbox" label=" I agree to become a member of the Castlemaine Jazz Festival Inc" />
+                <Form.Check type="checkbox" label=" I agree to become a member of the Castlemaine Jazz Festival Inc *" />
               </Form.Group>
               <PaymentElement />
               <button disabled={!stripe}>Submit</button>
