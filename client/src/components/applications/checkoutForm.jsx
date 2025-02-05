@@ -40,7 +40,6 @@ const CheckoutForm = ({ id }) => {
       city: city,
       postcode: postcode,
       paid: true,
-      date: new Date(),
     };
     try {
       const response = await axios.post("/api/airtable/new-member", userData);
@@ -69,7 +68,7 @@ const CheckoutForm = ({ id }) => {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `http://localhost:5173/member-success?email=${email}&name=${firstName}`,
+        return_url: `${process.env.CLIENT_URL}/member-success?email=${email}&name=${firstName}`,
         receipt_email: email,
       },
     });
@@ -127,21 +126,21 @@ const CheckoutForm = ({ id }) => {
                   <Form.Label>
                     Phone <span className="text-red">*</span>
                   </Form.Label>
-                  <Form.Control type="phone" />
+                  <Form.Control type="phone" value={phone} required onChange={(e) => setPhone(e.target.value)} />
                 </Form.Group>
               </Row>
               <Form.Group className="mb-3" controlId="formGridAddress1">
                 <Form.Label>
                   Address <span className="text-red">*</span>
                 </Form.Label>
-                <Form.Control type="text" />
+                <Form.Control type="text" value={address} required onChange={(e) => setAddress(e.target.value)} />
               </Form.Group>
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridCity">
                   <Form.Label>
                     City <span className="text-red">*</span>
                   </Form.Label>
-                  <Form.Control type="text" />
+                  <Form.Control type="text" value={city} required onChange={(e) => setCity(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridState">
@@ -164,11 +163,11 @@ const CheckoutForm = ({ id }) => {
                   <Form.Label>
                     Postcode <span className="text-red">*</span>
                   </Form.Label>
-                  <Form.Control type="text" />
+                  <Form.Control type="text" value={postcode} required onChange={(e) => setPostcode(e.target.value)} />
                 </Form.Group>
               </Row>
               <Form.Group className="mb-3 mt-12" id="formGridCheckbox">
-                <Form.Check type="checkbox" label=" I agree to become a member of the Castlemaine Jazz Festival Inc *" />
+                <Form.Check type="checkbox" label=" I agree to become a member of the Castlemaine Jazz Festival Inc and pay $20 membership fee *" />
               </Form.Group>
               {/* <PaymentElement />
               <button disabled={!stripe} type="submit">Submit</button>

@@ -19,13 +19,13 @@ import SponsorPage from "./pages/sponsorPage.jsx";
 import MemberSuccess from "./pages/memberSuccess.jsx";
 import { loadStripe } from "@stripe/stripe-js";
 
-const stripePromise = loadStripe(process.env.STRIPE_TEST_PUBLISHABLE);
+const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE);
 
 const appearance = {
-  theme: 'stripe',
+  theme: "stripe",
 };
 // Enable the skeleton loader UI for optimal loading.
-const loader = 'auto';
+const loader = "auto";
 
 // Define the accessible routes, and which components respond to which URL
 const router = createBrowserRouter([
@@ -76,8 +76,11 @@ const router = createBrowserRouter([
       },
       {
         path: "member-success",
-        element: <Elements options={{ appearance, loader}} stripe={stripePromise}>
-        <MemberSuccess /></Elements>,
+        element: (
+          <Elements options={{ appearance, loader }} stripe={stripePromise}>
+            <MemberSuccess />
+          </Elements>
+        ),
       },
     ],
   },

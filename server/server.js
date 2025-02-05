@@ -7,7 +7,7 @@ const routes = require("./routes/api/index");
 const postRoutes = require("./routes/postRoutes/index");
 const multer = require("multer");
 const process = require("process");
-const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 const { ApolloServer } = require("@apollo/server");
 const { expressMiddleware } = require("@apollo/server/express4");
@@ -73,7 +73,6 @@ const startApolloServer = async () => {
       res.sendFile(path.join(__dirname, "../client/dist/index.html"));
     });
   }
-
 
   db.once("open", () => {
     app.listen(PORT, () => {

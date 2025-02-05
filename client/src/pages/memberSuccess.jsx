@@ -159,6 +159,12 @@ const MemberSuccess = () => {
     if (status === "succeeded") {
       handleContactEmail();
       handleAdminEmail();
+      const delayInMilliseconds = 15000; //1 second
+
+      setTimeout(function () {
+        //your code to be executed after 1 second
+        window.location.replace(window.location.origin);
+      }, delayInMilliseconds);
     }
   }, [status]);
 

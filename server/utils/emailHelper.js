@@ -44,7 +44,6 @@ module.exports = {
         const mailOptions = {
           from: "CJF Website Contact Form<website@castlemainejazzfestival.com.au>",
           to: "committee@castlemainejazzfestival.com.au",
-          // to: "gaylekdennison@gmail.com",
           subject: emailSub,
           html: htmlToSend,
           replyTo: senderEmail,
@@ -157,8 +156,7 @@ module.exports = {
         const htmlToSend = template(replacements);
         const mailOptions = {
           from: "CJF Website Member Form<website@castlemainejazzfestival.com.au>",
-          // to: "committee@castlemainejazzfestival.com.au",
-          to: "gaylekdennison@gmail.com",
+          to: "committee@castlemainejazzfestival.com.au",
           subject: emailSub,
           html: htmlToSend,
           replyTo: senderEmail,
