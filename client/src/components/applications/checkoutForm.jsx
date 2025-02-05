@@ -167,7 +167,7 @@ const CheckoutForm = ({ id }) => {
                 </Form.Group>
               </Row>
               <Form.Group className="mb-3 mt-12" id="formGridCheckbox">
-                <Form.Check type="checkbox" label=" I agree to become a member of the Castlemaine Jazz Festival Inc *" />
+                <Form.Check type="checkbox" label=" I agree to become a member of the Castlemaine Jazz Festival Inc and pay $20 membership fee *" />
               </Form.Group>
               {/* <PaymentElement />
               <button disabled={!stripe} type="submit">Submit</button>
