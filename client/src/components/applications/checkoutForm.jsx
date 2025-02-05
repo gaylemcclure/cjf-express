@@ -68,7 +68,7 @@ const CheckoutForm = ({ id }) => {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `http://localhost:5173/member-success?email=${email}&name=${firstName}`,
+        return_url: `${process.env.CLIENT_URL}/member-success?email=${email}&name=${firstName}`,
         receipt_email: email,
       },
     });
