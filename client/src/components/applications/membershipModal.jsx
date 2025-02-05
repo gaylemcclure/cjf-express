@@ -16,13 +16,9 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkoutForm";
 import PaymentStatus from "./paymentStatus";
 import { useStripeContext } from "../../utils/stripeContext";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-const stripePromise = loadStripe(process.env.STRIPE_TEST_PUBLISHABLE);
+const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE);
 
 const MembershipModal = () => {
   const { stripe } = useStripeContext();
@@ -61,10 +57,10 @@ const MembershipModal = () => {
   }, []);
 
   const appearance = {
-    theme: 'stripe',
+    theme: "stripe",
   };
   // Enable the skeleton loader UI for optimal loading.
-  const loader = 'auto';
+  const loader = "auto";
 
   const handleSubmitData = async (e) => {
     const userData = {
@@ -101,23 +97,21 @@ const MembershipModal = () => {
 
   getIntentStatus;
 
-  
-
   return (
     <>
       <div className="App">
-      <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 flex items-center" />
+        <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 flex items-center" />
 
         {clientSecret && (
-          <Elements options={{clientSecret, appearance, loader}} stripe={stripePromise}>
-          <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[55rem] pl-8 pr-8">
-            <CheckoutForm  />
+          <Elements options={{ clientSecret, appearance, loader }} stripe={stripePromise}>
+            <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[55rem] pl-8 pr-8">
+              <CheckoutForm />
             </Modal>
-
           </Elements>
         )}
       </div>
-\    </>
+      \{" "}
+    </>
   );
 };
 

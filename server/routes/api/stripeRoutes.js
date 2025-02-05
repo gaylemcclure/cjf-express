@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const client = require("../../client");
-const stripe = require("stripe")(process.env.STRIPE_TEST_KEY);
+const stripe = require("stripe")(process.env.STRIPE_KEY);
 
 const getPaymentIntent = async () => {
   return await stripe.paymentIntents.create({
