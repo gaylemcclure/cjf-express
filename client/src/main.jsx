@@ -1,6 +1,7 @@
 import "./index.css";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Elements } from "@stripe/react-stripe-js";
 import LandingPage from "./pages/landingPage.jsx";
 import VolunteerPage from "./pages/volunteerPage.jsx";
 import BandApplications from "./pages/bandApplications.jsx";
@@ -16,6 +17,15 @@ import DonatePage from "./pages/donatePage.jsx";
 import MembershipPage from "./pages/membershipPage.jsx";
 import SponsorPage from "./pages/sponsorPage.jsx";
 import MemberSuccess from "./pages/memberSuccess.jsx";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe(process.env.STRIPE_TEST_PUBLISHABLE);
+
+const appearance = {
+  theme: 'stripe',
+};
+// Enable the skeleton loader UI for optimal loading.
+const loader = 'auto';
 
 // Define the accessible routes, and which components respond to which URL
 const router = createBrowserRouter([
@@ -66,7 +76,8 @@ const router = createBrowserRouter([
       },
       {
         path: "member-success",
-        element: <MemberSuccess />,
+        element: <Elements options={{ appearance, loader}} stripe={stripePromise}>
+        <MemberSuccess /></Elements>,
       },
     ],
   },

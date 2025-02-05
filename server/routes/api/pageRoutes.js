@@ -67,6 +67,23 @@ router.get("/band-application-questions", async (req, res) => {
   }
 });
 
+router.get("/member-email", async (req, res) => {
+  try {
+    client
+      .getEntries({
+        content_type: "emailTemplate",
+        "fields.templateName[match]": "Membership Email to member",
+        include: 4,
+      })
+      .then((entry) => {
+        res.json(entry);
+      })
+      .catch((err) => console.log(err));
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // router.get("/band-image", async (req, res) => {
 //   try {
 //   client

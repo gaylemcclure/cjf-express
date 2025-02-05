@@ -16,11 +16,18 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "./checkoutForm";
 import PaymentStatus from "./paymentStatus";
 import { useStripeContext } from "../../utils/stripeContext";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from 'react-router-dom';
 
 const stripePromise = loadStripe(process.env.STRIPE_TEST_PUBLISHABLE);
 
 const MembershipModal = () => {
   const { stripe } = useStripeContext();
+
+  const [clientSecret, setClientSecret] = useState("");
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [show, setShow] = useState(false);
@@ -41,6 +48,23 @@ const MembershipModal = () => {
   const todayDate = new Date();
   const thisYear = todayDate.getFullYear();
   const thisMonth = todayDate.getMonth();
+
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    fetch("/api/stripe/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: [{ id: "cjf-membership", amount: 200 }] }),
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  }, []);
+
+  const appearance = {
+    theme: 'stripe',
+  };
+  // Enable the skeleton loader UI for optimal loading.
+  const loader = 'auto';
 
   const handleSubmitData = async (e) => {
     const userData = {
@@ -77,17 +101,23 @@ const MembershipModal = () => {
 
   getIntentStatus;
 
+  
+
   return (
     <>
-      <Elements stripe={stripePromise} options={stripe}>
-        <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 flex items-center" />
+      <div className="App">
+      <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 flex items-center" />
 
-        <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[55rem] pl-8 pr-8">
-          <CheckoutForm id={stripe.clientSecret} />
-        </Modal>
-        {showSuccess && <PaymentStatus />}
-      </Elements>
-    </>
+        {clientSecret && (
+          <Elements options={{clientSecret, appearance, loader}} stripe={stripePromise}>
+          <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[55rem] pl-8 pr-8">
+            <CheckoutForm  />
+            </Modal>
+
+          </Elements>
+        )}
+      </div>
+\    </>
   );
 };
 

@@ -7,10 +7,37 @@ export const CONTACT_CONFIRMATION = gql`
     }
   }
 `;
-// export const CONTACT_NOTIFICATION = gql`
-//   mutation sendContactNotification($email: String!, $senderEmail: String, $projectId: ID, $projectName: String, $first: String, $last: String) {
-//     sendContactNotification(email: $email, senderEmail: $senderEmail, projectId: $projectId, projectName: $projectName, first: $first, last: $last) {
-//       responseMsg
-//     }
-//   }
-// `;
+
+export const MEMBER_CONFIRMATION = gql`
+  mutation sendMembershipConfirmationMember(
+    $senderEmail: String
+    $senderName: String
+    $firstParagraph: String
+    $from: String
+    $fromName: String
+    $signoff: String
+    $subjectLine: String
+    $year: Int
+  ) {
+    sendMembershipConfirmationMember(
+      senderEmail: $senderEmail
+      senderName: $senderName
+      firstParagraph: $firstParagraph
+      from: $from
+      fromName: $fromName
+      signoff: $signoff
+      subjectLine: $subjectLine
+      year: $year
+    ) {
+      responseMsg
+    }
+  }
+`;
+
+export const MEMBER_CONFIRMATION_CJF = gql`
+  mutation sendMembershipConfirmationCJF($senderEmail: String, $senderName: String, $year: Int) {
+    sendMembershipConfirmationCJF(senderEmail: $senderEmail, senderName: $senderName, year: $year) {
+      responseMsg
+    }
+  }
+`;

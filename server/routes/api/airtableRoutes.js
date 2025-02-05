@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Airtable = require("airtable");
 const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base("appIBABROx6vy2Cgy");
+const memberBase = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base("appmxEzSc4n92hbA5");
 
 router.post("/band-application", async (req, res) => {
   const band = req.body;
@@ -155,4 +156,36 @@ router.post("/band-application", async (req, res) => {
   }
 });
 
+router.post("/new-member", async (req, res) => {
+  const member = req.body;
+  const memberArr = [];
+  try {
+    memberBase("Members").create(
+      [
+        {
+          fields: {
+            "First Name": member.firstName,
+            "Last Name": member.lastName,
+            Email: member.email,
+            "Phone Number": member.phone,
+            Address: member.address,
+            City: member.city,
+            Postcode: member.postcode,
+            "Join Date": member.date,
+            Paid: member.paid,
+          },
+        },
+      ],
+      function (err, records) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        res.json(records);
+      }
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 module.exports = router;

@@ -74,18 +74,6 @@ const startApolloServer = async () => {
     });
   }
 
-  // const paymentIntent = await stripe.paymentIntents.create({
-  //   amount: 200,
-  //   currency: "aud",
-  //   automatic_payment_methods: {
-  //     enabled: true,
-  //   },
-  // });
-
-  // app.get("/secret", async (req, res) => {
-  //   const intent = paymentIntent;
-  //   res.json({ client_secret: intent.client_secret });
-  // });
 
   db.once("open", () => {
     app.listen(PORT, () => {

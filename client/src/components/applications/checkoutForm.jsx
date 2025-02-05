@@ -27,84 +27,69 @@ const CheckoutForm = ({ id }) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleSubmit = async (event) => {
-    //Stop page from refreshing
-    event.preventDefault();
+  const [message, setMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-    const name = `${firstName} ${lastName}`;
-
-    //Function to create a new customer
-    // const createCustomer = async () => {
-    //   const customerData = {
-    //     name: name,
-    //     email: email,
-    //   };
-    //   try {
-    //     const response = await axios.post("/api/stripe/create-customer", customerData);
-    //     if (response.status === 200) {
-    //       const newCustomer = response.data.client_id;
-    //       return newCustomer;
-    //     }
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-
-    // const updateIntent = async (data) => {
-    //   const pi = id.substring(0, id.indexOf("_secret"));
-    //   const customerData = {
-    //     customerId: data,
-    //     pi: pi,
-    //   };
-    //   const res = await axios.post("/api/stripe/update", customerData);
-    //   const updateCustomer = res.data;
-    //   return updateCustomer;
-    // };
-
-    //Function to search for existing customer
-    const searchCustomers = async () => {
-      const response = await fetch(`/api/stripe/search/users/${name}/emails/${email}`);
-      const data = await response.json();
-
-      if (data.length === 0) {
-        //create customer
-        const clientId = await createCustomer();
-        if (clientId) {
-          await updateIntent(clientId);
-        }
-      } else {
-        //get customer ID and update payment intent
-        await updateIntent(data[0].id);
-      }
+  const handleAirtable = async (e) => {
+    const userData = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phone: phone,
+      address: address,
+      city: city,
+      postcode: postcode,
+      paid: true,
+      date: new Date(),
     };
+    try {
+      const response = await axios.post("/api/airtable/new-member", userData);
+      if (response.status === 200) {
+        console.log("success");
+      } else {
+        console.log("nope");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    const stripeOptions = await searchCustomers();
-    console.log(stripeOptions);
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    handleAirtable();
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       return;
     }
 
-    // const { error } = await stripe.confirmPayment({
-    //   //`Elements` instance that was used to create the Payment Element
-    //   elements,
-    //   confirmParams: {
-    //     return_url: "http://localhost:5173/membership",
-    //   },
-    // });
+    setIsLoading(true);
 
-    if (error) {
-      // This point will only be reached if there is an immediate error when
-      // confirming the payment. Show error to your customer (for example, payment
-      // details incomplete)
-      setErrorMessage(error.message);
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        // Make sure to change this to your payment completion page
+        return_url: `http://localhost:5173/member-success?email=${email}&name=${firstName}`,
+        receipt_email: email,
+      },
+    });
+
+    // This point will only be reached if there is an immediate error when
+    // confirming the payment. Otherwise, your customer will be redirected to
+    // your `return_url`. For some payment methods like iDEAL, your customer will
+    // be redirected to an intermediate site first to authorize the payment, then
+    // redirected to the `return_url`.
+    if (error.type === "card_error" || error.type === "validation_error") {
+      setMessage(error.message);
     } else {
-      // Your customer will be redirected to your `return_url`. For some payment
-      // methods like iDEAL, your customer will be redirected to an intermediate
-      // site first to authorize the payment, then redirected to the `return_url`.
+      setMessage("An unexpected error occurred.");
     }
+
+    setIsLoading(false);
+  };
+
+  const paymentElementOptions = {
+    layout: "accordion",
   };
 
   return (
@@ -185,19 +170,22 @@ const CheckoutForm = ({ id }) => {
               <Form.Group className="mb-3 mt-12" id="formGridCheckbox">
                 <Form.Check type="checkbox" label=" I agree to become a member of the Castlemaine Jazz Festival Inc *" />
               </Form.Group>
-              <PaymentElement />
-              <button disabled={!stripe}>Submit</button>
-              {/* Show error message to your customers */}
-              {errorMessage && <div>{errorMessage}</div>}{" "}
+              {/* <PaymentElement />
+              <button disabled={!stripe} type="submit">Submit</button>
+              {/* Show error message to your customers 
+              {errorMessage && <div>{errorMessage}</div>}{" "} */}
+
+              <PaymentElement id="payment-element" options={paymentElementOptions} />
+              <button disabled={isLoading || !stripe || !elements} id="submit">
+                <span id="button-text">{isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}</span>
+              </button>
+              {/* Show any error or success messages */}
+              {message && <div id="payment-message">{message}</div>}
             </form>
           </ModalWrapper>
         </Modal.Body>
 
-        <Modal.Footer>
-          <Button disabled={applicationDisabled} onClick={handleSubmit}>
-            Submit
-          </Button>
-        </Modal.Footer>
+        <Modal.Footer></Modal.Footer>
       </div>
     </>
   );
