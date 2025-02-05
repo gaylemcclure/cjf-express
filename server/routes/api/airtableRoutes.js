@@ -171,7 +171,6 @@ router.post("/new-member", async (req, res) => {
             Address: member.address,
             City: member.city,
             Postcode: member.postcode,
-            "Join Date": member.date,
             Paid: member.paid,
           },
         },
