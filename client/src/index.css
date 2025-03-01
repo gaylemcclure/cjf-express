@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: Inter, Helvetica, Arial, sans-serif;
+  font-family: "Inter", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -36,6 +36,7 @@ a {
   font-weight: 500;
   color: #646cff;
   text-decoration: none;
+  font-family: Inter, sans-serif;
 }
 a:hover {
   color: #e6af2e;
@@ -47,15 +48,17 @@ body {
   /* place-items: center;
   min-width: 320px; */
   min-height: 100vh;
-  font-family: Inter, Helvetica, Arial, sans-serif;
+  font-family: "Inter", sans-serif !important;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+  font-family: "Inter", sans-serif;
 }
 p {
   padding: 0.25rem 0;
+  font-family: "Inter", sans-serif;
 }
 
 button {
@@ -69,6 +72,7 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
   text-decoration: none;
+  font-family: "Inter", sans-serif;
 }
 button:hover {
   border-color: #646cff;

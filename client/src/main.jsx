@@ -18,6 +18,7 @@ import MembershipPage from "./pages/membershipPage.jsx";
 import SponsorPage from "./pages/sponsorPage.jsx";
 import MemberSuccess from "./pages/memberSuccess.jsx";
 import { loadStripe } from "@stripe/stripe-js";
+import FestivalPage from "./pages/festivalPage.jsx";
 
 const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE);
 
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
             <MemberSuccess />
           </Elements>
         ),
+      },
+      {
+        path: "festival-info",
+        element: <FestivalPage />,
       },
     ],
   },
