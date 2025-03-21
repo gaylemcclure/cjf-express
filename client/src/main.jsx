@@ -19,6 +19,8 @@ import SponsorPage from "./pages/sponsorPage.jsx";
 import MemberSuccess from "./pages/memberSuccess.jsx";
 import { loadStripe } from "@stripe/stripe-js";
 import FestivalPage from "./pages/festivalPage.jsx";
+import BandPage from "./pages/bandPage.jsx";
+import IndividualBandPage from "./pages/individualBandPage.jsx";
 
 const stripePromise = loadStripe(process.env.STRIPE_PUBLISHABLE);
 
@@ -74,6 +76,14 @@ const router = createBrowserRouter([
       {
         path: "sponsors",
         element: <SponsorPage />,
+      },
+      {
+        path: "band",
+        element: <BandPage />,
+      },
+      {
+        path: "band/*",
+        element: <IndividualBandPage />,
       },
       {
         path: "member-success",
