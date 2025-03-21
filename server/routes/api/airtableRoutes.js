@@ -187,4 +187,21 @@ router.post("/new-member", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+router.get("/get-bands", async (req, res) => {
+  try {
+    base("Bands")
+      .select({
+        maxRecords: 50,
+        view: "2025 Shortlist",
+      })
+      .eachPage(function page(records, fetchNextPage) {
+        records.forEach(function (record) {
+          console.log("Retrieved", record.get("Band Name"));
+        });
+      });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 module.exports = router;
