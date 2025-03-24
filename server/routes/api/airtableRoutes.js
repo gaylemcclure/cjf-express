@@ -190,16 +190,21 @@ router.post("/new-member", async (req, res) => {
 
 router.get("/get-bands", async (req, res) => {
   try {
-    base("Bands")
+    const bands = base("Bands")
       .select({
-        maxRecords: 50,
+        maxRecords: 60,
         view: "2025 Shortlist",
+        fields: ["Band Name", "Jazz_Style", "Musicians", "Scheduled Playing Times", "Music Link", "Other_Info", "Band_Website", "Bio", "Image_Link"],
       })
       .eachPage(function page(records, fetchNextPage) {
-        records.forEach(function (record) {
-          console.log("Retrieved", record.get("Band Name"));
-        });
+        res.json(records);
       });
+    // .eachPage(function page(records, fetchNextPage) {
+    //   records.forEach(function (record) {
+    //     const rec = record.get(recordId);
+    //     console.log(rec);
+    //   });
+    // });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
