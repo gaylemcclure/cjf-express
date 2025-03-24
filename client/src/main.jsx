@@ -82,7 +82,7 @@ const router = createBrowserRouter([
         element: <BandPage />,
       },
       {
-        path: "band/*",
+        path: "bands/*",
         element: <IndividualBandPage />,
       },
       {

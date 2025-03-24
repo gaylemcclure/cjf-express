@@ -19,7 +19,7 @@ const LandingPage = () => {
       if (section.fields.overlay === true) {
         if (section.fields.media.fields.file.contentType === "video/mp4") {
           const url = section.fields.media.fields.file.url;
-          console.log(section);
+
           return (
             <HeroVideoSectionOverlay
               url={url}
@@ -32,7 +32,17 @@ const LandingPage = () => {
           );
         } else if (section.fields.media.fields.file.contentType === "image/jpeg") {
           const url = section.fields.media.fields.file.url;
-          return <HeroImageSection url={url} key={section.sys.id} />;
+          return (
+            <HeroImageSection
+              url={url}
+              key={section.sys.id}
+              overlay={section.fields.overlay}
+              overlayText={section.fields.overlayText}
+              hasButton={section.fields.hasButton}
+              buttonText={section.fields.buttonText}
+              buttonLink={section.fields.buttonLink}
+            />
+          );
         }
       } else {
         if (section.fields.media.fields.file.contentType === "video/mp4") {
