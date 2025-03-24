@@ -8,8 +8,8 @@ const HeroImageSection = ({ url, overlay, overlayText, hasButton, buttonText, bu
     if (overlay) {
       return (
         <div className="h-screen bg-black">
-          <div className="absolute top-[25%] left-[30%] w-[40%] z-10 flex flex-col items-center">
-            <h1 className="text-white  text-[80px] text-center mb-8">{overlayText}</h1>
+          <div className="absolute z-10 flex flex-col items-center top-[23%] w-[90%] left-[5%] md:left-[10%] md:w-[80%] lg:w-[60%] lg:left-[20%] xl:w-[40%] xl:left-[30%]">
+            <h1 className="text-white  text-[3.25rem] text-center mb-8 sm:text-lg md:text-[5rem]">{overlayText}</h1>
             <a href={buttonLink} target="_blank" className="text-white">
               <button className="bg-yellowAlt rounded text-2xl uppercase border-none hover:bg-[#625f5f] hover:text-yellowAlt">{buttonText}</button>
             </a>
