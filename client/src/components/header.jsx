@@ -38,7 +38,7 @@ const Header = () => {
         </div>
       </div>
       {/* Links section */}
-      <div className="links-wrapper flex ml-auto space-x-2">
+      <div className="links-wrapper flex ml-auto space-x-2 ">
         {links.map((link, key) => {
           if (link.fields.isParentNav) {
             return createParentLink(link.fields, link.sys.id);

@@ -194,19 +194,53 @@ router.get("/get-bands", async (req, res) => {
       .select({
         maxRecords: 60,
         view: "2025 Shortlist",
-        fields: ["Band Name", "Jazz_Style", "Musicians", "Scheduled Playing Times", "Music Link", "Other_Info", "Band_Website", "Bio", "Image_Link"],
+        fields: [
+          "Band Name",
+          "Jazz_Style",
+          "Musicians",
+          "Scheduled Playing Times",
+          "Music Link",
+          "Other_Info",
+          "Band_Website",
+          "Bio",
+          "Image_Link",
+          "NameNoSpace",
+          "Schedule_Text",
+        ],
       })
       .eachPage(function page(records, fetchNextPage) {
         res.json(records);
       });
-    // .eachPage(function page(records, fetchNextPage) {
-    //   records.forEach(function (record) {
-    //     const rec = record.get(recordId);
-    //     console.log(rec);
-    //   });
-    // });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
+
+// router.get("/get-schedule", async (req, res) => {
+//   try {
+//     const bands = base("Bands")
+//       .select({
+//         maxRecords: 60,
+//         view: "2025 Shortlist",
+//         fields: [
+//           "Band Name",
+//           "Jazz_Style",
+//           "Musicians",
+//           "Scheduled Playing Times",
+//           "Music Link",
+//           "Other_Info",
+//           "Band_Website",
+//           "Bio",
+//           "Image_Link",
+//           "NameNoSpace",
+//           "Programmed_Shows",
+//         ],
+//       })
+//       .eachPage(function page(records, fetchNextPage) {
+//         res.json(records);
+//       });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 module.exports = router;
