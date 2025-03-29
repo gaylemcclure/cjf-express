@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import * as Button from "../buttons";
 import SingleTextSection from "./singleTextSection";
-const SingleImageHeadlineSection = ({ url, filename, heading, subtext, textId, buttonText, buttonLink, imageside, isButton }) => {
+const SingleImageHeadlineSection = ({ url, filename, heading, subtext, textId, buttonText, buttonLink, imageside, isButton, buttonUrl }) => {
   return (
     <>
       <div className="browser">
@@ -18,7 +18,7 @@ const SingleImageHeadlineSection = ({ url, filename, heading, subtext, textId, b
                 <div className="button-container mt-8">
                   <Button.LinkButton
                     text={buttonText}
-                    link={buttonLink.fields.slug}
+                    link={buttonLink ? buttonLink.fields.slug : buttonUrl}
                     classNme="std-button justify-center content-center bg-yellowAlt h-[4rem] hover:border-none hover:opacity-70"
                     linkClass="text-black uppercase font-semibold flex hover:opacity-50 hover:text-black "
                   />
@@ -36,7 +36,7 @@ const SingleImageHeadlineSection = ({ url, filename, heading, subtext, textId, b
                 <div className="button-container mt-8">
                   <Button.LinkButton
                     text={buttonText}
-                    link={buttonLink.fields.slug}
+                    link={buttonLink ? buttonLink.fields.slug : buttonUrl}
                     classNme="std-button justify-center content-center bg-yellowAlt h-[4rem] hover:border-none hover:opacity-70"
                     linkClass="text-black uppercase font-semibold flex hover:opacity-50 hover:text-black "
                   />
@@ -59,12 +59,12 @@ const SingleImageHeadlineSection = ({ url, filename, heading, subtext, textId, b
             <h1 className="text-4xl font-extrabold leading-none tracking-tight text-black flex uppercase ">{heading}</h1>
             <p className="pt-4">{subtext}</p>
             <div className="button-container">
-              <Button.LinkButton
+              {/* <Button.LinkButton
                 text={buttonText}
                 link={buttonLink.fields.slug}
                 classNme="std-button justify-center content-center bg-yellowAlt h-[4rem] hover:border-none hover:opacity-70 rounded"
                 linkClass="text-black uppercase font-semibold flex hover:opacity-50 hover:text-black justify-center items-center "
-              />
+              /> */}
             </div>
           </div>
         </div>

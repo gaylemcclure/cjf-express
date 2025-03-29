@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
 const HeroImageSection = ({ url, overlay, overlayText, hasButton, buttonText, buttonLink }) => {
-  console.log(url);
   const newUrl = `https:${url}`;
-  console.log(newUrl);
   const hasOverlay = () => {
     if (overlay) {
       return (
