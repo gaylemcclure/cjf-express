@@ -57,7 +57,7 @@ const VolunteerApplicationModal = () => {
       const stringYear = thisYear.toString();
       setPlayingYear(stringYear);
     } else {
-      const year = thisYear + 1;
+      const year = thisYear;
       const stringYear = year.toString();
       setPlayingYear(stringYear);
     }
@@ -246,9 +246,9 @@ const VolunteerApplicationModal = () => {
     <>
       {questionData.length !== 0 && (
         <>
-          <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 flex items-center" />
+          <ClickButton text="Apply now" click={handleShow} classNme="w-[20rem] mr-auto ml-auto mt-4 mb-8 flex items-center" />
 
-          <Modal show={show} onHide={handleClose} size="lg" contentClassName=" pl-8 pr-8">
+          <Modal show={show} onHide={handleClose} size="lg" contentClassName=" pl-3 pr-3 sm:pl-4 pr-4 md:pl-6 pr-6">
             {showSpinner && (
               <Spinner animation="border" role="status" className="absolute top-2/4 left-2/4 z-10">
                 <span className="visually-hidden absolute top-2/4 left-2/4">Loading...</span>
@@ -258,7 +258,6 @@ const VolunteerApplicationModal = () => {
 
             <>
               {questionData[0].fields.referenceItems.map((question, i) => {
-                console.log(question);
                 if (question.fields.pageNumber === pages) {
                   return (
                     <div key={i} className="flex flex-col">
@@ -269,7 +268,7 @@ const VolunteerApplicationModal = () => {
                         <>
                           <Modal.Body>
                             <div>{documentToReactComponents(question.fields.preQuestionText)}</div>
-                            {question.fields.title !== "Thank you" && (
+                            {question.fields.title !== "Volunteer thank you" && (
                               <ModalWrapper>
                                 <Form.Group className="mb-3 pt-8">
                                   {/* <Form.Control size="lg"> */}
@@ -288,12 +287,12 @@ const VolunteerApplicationModal = () => {
                           </Modal.Body>
 
                           <Modal.Footer>
-                            {question.fields.title !== "Thank you" && (
+                            {question.fields.title !== "Volunteer thank you" && (
                               <Button disabled={applicationDisabled} onClick={handlePreQPage}>
                                 Next
                               </Button>
                             )}
-                            {question.fields.title === "Thank you" && <Button onClick={handleClose}>Close</Button>}
+                            {question.fields.title === "Volunteer thank you" && <Button onClick={handleClose}>Close</Button>}
                           </Modal.Footer>
                         </>
                       )}
@@ -307,7 +306,7 @@ const VolunteerApplicationModal = () => {
                                   {question.fields.referenceItems.map((q, i) => (
                                     <div key={i}>
                                       {q.fields.isInput && q.fields.inputType === "text" && (
-                                        <Row className="mb-3">
+                                        <Row className="mb-3 flex-col sm:flex-row md:flex-row lg:flex-row xl:flex-row">
                                           <Form.Group as={Col} controlId="firstName" id={q.fields.inputLabel}>
                                             <Form.Label>
                                               {q.fields.inputLabel} <span className="text-red">*</span>
@@ -336,7 +335,7 @@ const VolunteerApplicationModal = () => {
                                       )}
 
                                       {q.fields.isInput && q.fields.inputType === "email" && (
-                                        <Row className="mb-3">
+                                        <Row className="mb-3 flex-col sm:flex-row md:flex-row lg:flex-row xl:flex-row">
                                           <Form.Group as={Col} controlId="email" className="" id={q.fields.inputLabel}>
                                             <Form.Label>
                                               {q.fields.inputLabel} <span className="text-red">*</span>
@@ -517,7 +516,7 @@ const VolunteerApplicationModal = () => {
                                           )}
 
                                           {q.fields.isInput && q.fields.title === "Contact Phone" && (
-                                            <Row className="mb-3">
+                                            <Row className="mb-3 flex-col sm:flex-row md:flex-row lg:flex-row xl:flex-row">
                                               <Form.Group as={Col} controlId="phone" id="phone">
                                                 <Form.Label>
                                                   Emergency Contact Phone <span className="text-red">*</span>
@@ -528,6 +527,7 @@ const VolunteerApplicationModal = () => {
                                                   placeholder="0444 444 444"
                                                   onChange={(e) => setECPhone(e.target.value)}
                                                   required
+                                                  className="mb-3"
                                                 />
                                                 <Form.Control.Feedback type="invalid">Please provide a valid phone number.</Form.Control.Feedback>
                                               </Form.Group>
@@ -552,9 +552,6 @@ const VolunteerApplicationModal = () => {
                                       ))}
                                     </Modal.Body>
                                     <Modal.Footer>
-                                      <Button variant="secondary" onClick={handleClose}>
-                                        Cancel
-                                      </Button>
                                       <Button variant="secondary" onClick={handlePageBack}>
                                         Back
                                       </Button>
