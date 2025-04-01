@@ -282,7 +282,9 @@ td {
   margin-top: 18%;
   z-index: 10;
 }
-
+label.form-label {
+  margin-bottom: 0.25rem;
+}
 @keyframes loading {
   0% {
     -webkit-transform: rotate(0deg);

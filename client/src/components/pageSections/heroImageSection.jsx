@@ -9,7 +9,10 @@ const HeroImageSection = ({ url, overlay, overlayText, hasButton, buttonText, bu
           <div className="absolute z-10 flex flex-col items-center top-[23%] w-[90%] left-[5%] md:left-[10%] md:w-[80%] lg:w-[60%] lg:left-[20%] xl:w-[40%] xl:left-[30%]">
             <h1 className="text-white  text-[3.25rem] text-center mb-8 sm:text-lg md:text-[5rem]">{overlayText}</h1>
             <a href={buttonLink} target="_blank" className="text-white">
-              <button className="bg-yellowAlt rounded text-2xl uppercase border-none hover:bg-[#625f5f] hover:text-yellowAlt">{buttonText}</button>
+              <button className="bg-yellowAlt text-2xl uppercase border-none hover:bg-[#625f5f] hover:text-yellowAlt">{buttonText}</button>
+            </a>
+            <a href="https://castlemainejazzfestival.com.au/festival-info" className="text-white">
+              <button className="bg-yellowAlt mt-8 text-2xl uppercase border-none hover:bg-[#625f5f] hover:text-yellowAlt">View schedule</button>
             </a>
           </div>
           <div className="hero-image h-screen bg-no-repeat bg-cover opacity-25" style={{ backgroundImage: `url(${newUrl})` }}></div>
