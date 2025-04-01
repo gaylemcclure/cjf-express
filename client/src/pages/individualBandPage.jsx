@@ -2,13 +2,18 @@ import styled from "styled-components";
 import { useLocation } from "react-router";
 import { useEffect, useState } from "react";
 import { FaPlay } from "react-icons/fa";
+import { FaAngleLeft } from "react-icons/fa";
 
 const IndividualBandPage = () => {
   const [schedule, setSchedule] = useState();
   const location = useLocation();
   const band = location.state.bandData;
+  const [bio, setBio] = useState();
 
-  console.log(band);
+  useEffect(() => {
+    const splitBio = band.Bio.split("/n");
+    setBio(splitBio);
+  }, [band]);
 
   useEffect(() => {
     const sortScheduleArray = () => {
@@ -64,24 +69,34 @@ const IndividualBandPage = () => {
           </button>
         </a>
       </div>
-      <div>
-        <p className="mt-8 max-w-[800px]">{band.Bio}</p>
-      </div>
+      <div>{bio && bio.map((b) => <p className="mt-8 max-w-[800px]">{b}</p>)}</div>
+      <a href="https://castlemainejazzfestival.com.au/band" className="flex flex-row no-underline">
+        <button className="flex flex-row items-center gap-1 text-black bg-yellowAlt mt-4">
+          <FaAngleLeft /> Bands
+        </button>
+      </a>
     </PageWrapper>
   );
 };
 
 const PageWrapper = styled.div`
-  margin: 4rem 8rem;
+  margin: 4rem 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media screen and (min-width: 500px) {
+    margin: 4rem 4rem;
+  }
+  @media screen and (min-width: 900px) {
+    margin: 4rem 8rem;
+  }
 `;
 
 const BandImg = styled.img`
   max-height: 500px;
-  max-width: 800px;
+  max-width: 100vw;
   object-fit: cover;
   border-radius: 8px 8px 0 0;
 `;
