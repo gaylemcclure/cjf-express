@@ -216,6 +216,45 @@ router.get("/get-bands", async (req, res) => {
   }
 });
 
+router.post("/volunteer-application", async (req, res) => {
+  const vol = req.body;
+
+  try {
+    base("Volunteers").create(
+      [
+        {
+          fields: {
+            Name: vol.name,
+            Address: vol.address,
+            Email: vol.email,
+            Phone: vol.phone,
+            "Emergency Contact Name": vol.ecName,
+            "Emergency Contact Phone": vol.ecPhone,
+            Age: vol.age,
+            Roles: vol.roles,
+            Year: vol.year,
+            Drivers_Licence: vol.licence,
+            RSA: vol.rsa,
+            Lifting: vol.lifting,
+            "Emergency Contact Relationship": vol.ecR,
+            "First Name": vol.firstName,
+            "Last Name": vol.lastName,
+          },
+        },
+      ],
+      function (err, records) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        res.json(records);
+      }
+    );
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // router.get("/get-schedule", async (req, res) => {
 //   try {
 //     const bands = base("Bands")
