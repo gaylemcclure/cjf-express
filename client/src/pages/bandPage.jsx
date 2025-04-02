@@ -12,6 +12,7 @@ const BandPage = () => {
     try {
       const response = await axios.get("/api/airtable/get-bands");
       if (response.status === 200) {
+        console.log(response.data);
         setBands(response.data);
       } else {
         console.log("error");
