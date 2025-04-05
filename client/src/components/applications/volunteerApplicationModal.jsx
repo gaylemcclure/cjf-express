@@ -163,6 +163,15 @@ const VolunteerApplicationModal = () => {
       blp.style.display = "none";
     }
 
+    if (lifting === "") {
+      setLifting(false);
+    }
+    if (dl === "") {
+      setDl(false);
+    }
+    if (rsa === "") {
+      setRsa(false);
+    }
     setPages(pages + 1);
   };
 
