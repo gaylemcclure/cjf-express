@@ -93,7 +93,7 @@ const CheckoutForm = ({ id }) => {
 
   return (
     <>
-      <div className="flex flex-col h-[85vh]">
+      <div className="flex flex-col h-[86vh]">
         <Modal.Header closeButton>
           <Modal.Title>Membership Form</Modal.Title>
         </Modal.Header>
