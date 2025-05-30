@@ -4,12 +4,12 @@ const ButtonSection = ({ text, link, title }) => {
 
   return (
     <div className="flex flex-row align-middle justify-center p-8 gap-4">
-      <a className="text-white" href="./src/assets/images/2025-landscape.jpg" download>
+      <a className="text-white" href="./uploads/2025-landscape.jpg" download>
         <button id="download-web" value="download" className="bg-ltBlue rounded-s">
           Download web schedule
         </button>
       </a>
-      <a className="text-white" href="./src/assets/images/2025-portrait.jpg" download>
+      <a className="text-white" href="./uploads/2025-portrait.jpg" download>
         <button id="download-mob" value="download" className="bg-ltBlue rounded-s">
           Download mobile schedule
         </button>
