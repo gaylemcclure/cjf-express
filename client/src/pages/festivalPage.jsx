@@ -51,9 +51,9 @@ const FestivalPage = () => {
                 />
               );
             }
+
             //Hero section (no overlay)
             if (section.sys.contentType.sys.id === "heroMedia" || section.sys.contentType.sys.id === "heroImage") {
-              console.log(section);
               if (section.fields.media.fields.file.contentType === "video/mp4") {
                 const url = section.fields.media.fields.file.url;
                 return <HeroVideoSection url={url} key={section.sys.id} />;
@@ -87,7 +87,8 @@ const FestivalPage = () => {
               }
             }
             if (section.sys.contentType.sys.id === "buttonSection") {
-              return <ButtonSection key={i} />;
+              console.log(section.fields);
+              return <ButtonSection key={i} text={section.fields.buttonText} link={section.fields.buttonLink} title={section.fields.title} />;
             }
             if (section.sys.contentType.sys.id === "pageHeadingSection") {
               return <PageHeadingSection heading={section.fields.heading} subtitle={section.fields.subtitle} key={i} />;

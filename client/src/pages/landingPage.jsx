@@ -77,7 +77,7 @@ const LandingPage = () => {
       return (
         <SingleImageHeadlineSection
           key={section.sys.id}
-          url={section.fields.image.fields.file.url}
+          url={section.fields.image.fields.file.url ? section.fields.image.fields.file.url : null}
           filename={section.fields.image.fields.file.filename}
           heading={section.fields.headingText}
           subtext={section.fields.subText}
