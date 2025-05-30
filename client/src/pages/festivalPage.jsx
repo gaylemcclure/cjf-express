@@ -87,7 +87,6 @@ const FestivalPage = () => {
               }
             }
             if (section.sys.contentType.sys.id === "buttonSection") {
-              console.log(section.fields);
               return <ButtonSection key={i} text={section.fields.buttonText} link={section.fields.buttonLink} title={section.fields.title} />;
             }
             if (section.sys.contentType.sys.id === "pageHeadingSection") {
