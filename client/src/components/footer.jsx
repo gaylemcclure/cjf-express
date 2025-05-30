@@ -17,9 +17,9 @@ const Footer = () => {
     };
     try {
       const response = await axios.post("/api/add-subscriber", emailParams);
-      console.log(response);
       if (response.status === 200 || response.status === 201) {
         setIsSubscribed(true);
+        setEmail("");
       }
     } catch (error) {
       console.log(error);
@@ -51,16 +51,24 @@ const Footer = () => {
                 <label className="font-bold text-lg uppercase text-white pb-4 mt-4">{footer.signupText}</label>
                 <div className="flex flex-row w-full">
                   <input type="email" placeholder="Email address" onChange={(e) => setEmail(e.target.value)} className="mail_input w-9/12" />
-                  <button type="submit" onClick={handleAddSubscriber} className="mail_button font-extrabold w-3/12 text-white">
-                    {isSubscribed ? "Subscribed" : footer.signupButton}
-                  </button>
+
+                  {isSubscribed && (
+                    <button type="submit" onClick={handleAddSubscriber} className="mail_button_subscribed font-extrabold w-3/12 text-white ">
+                      Subscribed
+                    </button>
+                  )}
+                  {!isSubscribed && (
+                    <button type="submit" onClick={handleAddSubscriber} className="mail_button font-extrabold w-3/12 text-white">
+                      {footer.signupButton}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
             {/* Social media section */}
             <div className="mb-4 ">
               <h2 className="text-lg font-bold uppercase text-white pb-4 mt-4">FOLLOW US</h2>
-              <div className="flex space-x-4 text-white">
+              <div className="flex space-x-4 text-white justify-center">
                 <a
                   className="text-white hover:text-yellow-500 transform hover:scale-150 
                     transition-all duration-150 ease-in-out "
@@ -116,10 +124,18 @@ const Footer = () => {
               <div className="flex flex-col w-full">
                 <label className="font-bold text-lg uppercase text-white pb-2 mt-4 text-center">{footer.signupText}</label>
                 <div className="flex flex-row w-full">
-                  <input type="email" placeholder="Email address" className="mail_input w-9/12" />
-                  <button type="submit" className="mail_button font-extrabold w-3/12 text-white pt-[5px] pb-[5px]">
-                    {footer.signupButton}
-                  </button>
+                  <input type="email" placeholder="Email address" onChange={(e) => setEmail(e.target.value)} className="mail_input w-9/12" />
+
+                  {isSubscribed && (
+                    <button type="submit" onClick={handleAddSubscriber} className="mail_button_subscribed font-extrabold w-3/12 text-white ">
+                      Subscribed
+                    </button>
+                  )}
+                  {!isSubscribed && (
+                    <button type="submit" onClick={handleAddSubscriber} className="mail_button font-extrabold w-3/12 text-white">
+                      {footer.signupButton}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -208,12 +224,18 @@ const FooterSection = styled.footer`
 
   .mail_input::placeholder {
     color: black;
+    padding-left: 15px;
   }
 
   .mail_button {
     height: 50px;
     border-radius: 24px;
     background-color: var(--yellow);
+  }
+  .mail_button_subscribed {
+    height: 50px;
+    border-radius: 24px;
+    background-color: var(--success);
   }
 
   .footer_text {

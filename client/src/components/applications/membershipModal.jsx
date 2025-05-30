@@ -104,7 +104,7 @@ const MembershipModal = () => {
 
         {clientSecret && (
           <Elements options={{ clientSecret, appearance, loader }} stripe={stripePromise}>
-            <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[55rem] pl-8 pr-8">
+            <Modal show={show} onHide={handleClose} size="lg" contentClassName="min-h-[60rem] pl-8 pr-8">
               <CheckoutForm />
             </Modal>
           </Elements>
