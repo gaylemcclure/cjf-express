@@ -161,3 +161,18 @@ blockquote > p {
     font-size: 1.1rem;
   }
 }
+
+.text-section {
+  max-width: 100% !important;
+}
+
+.text-section > p {
+  text-align: justify !important;
+  font-style: normal !important;
+  margin-bottom: 0 !important;
+}
+
+.text-section b {
+  padding: 5px 0;
+  display: block;
+}
