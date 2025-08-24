@@ -32,10 +32,10 @@ const Header = () => {
         <a href="/">
           <LogoImg src={logo} alt="logo" />
         </a>
-        <div className="pl-4 m-auto">
+        {/* <div className="pl-4 m-auto">
           <h1 className="text-white text-lg mb-0 leading-none">5th - 8th</h1>
           <h1 className="text-white text-lg leading-none">June 2025</h1>
-        </div>
+        </div> */}
       </div>
       {/* Links section */}
       <div className="links-wrapper flex ml-auto space-x-2 ">

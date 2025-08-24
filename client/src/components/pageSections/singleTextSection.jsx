@@ -73,7 +73,7 @@ const SingleTextSection = ({ textId }) => {
   }, [textId]);
 
   return (
-    <div className="single-text max-w-screenMax pl-6 pr-6 lg:pr-0 lg:pl-0">
+    <div className="single-text text-section max-w-screenMax lg:pr-0 lg:pl-0">
       {block}
       {text}
     </div>

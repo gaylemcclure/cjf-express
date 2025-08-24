@@ -60,16 +60,17 @@ const LandingPage = () => {
       return <LandingPageImageSection data={data} key={section.sys.id} />;
     }
     if (contentType === "singleImageTextSections") {
+      console.log(section);
       return (
         <SingleImageTextSection
           key={section.sys.id}
           url={section.fields.image.fields.file.url}
           filename={section.fields.image.fields.file.filename}
           heading={section.fields.headingText}
-          subtext={section.fields.subText}
+          text={section.fields.pageText}
           textId={section.sys.id}
-          buttonText={section.fields.buttonText}
-          buttonLink={section.fields.buttonLink}
+          // buttonText={section.fields.buttonText}
+          // buttonLink={section.fields.buttonLink}
         />
       );
     }
